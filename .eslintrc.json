@@ -52,7 +52,7 @@
         "alphabetize": { "order": "asc", "caseInsensitive": true },
         "pathGroups": [
           {
-            "pattern": "{react,react-dom/**,react-router-dom}",
+            "pattern": "{react,react-dom/**,react-router-dom,next/**}",
             "group": "builtin",
             "position": "before"
           },
@@ -102,7 +102,7 @@
             "position": "before"
           },
           {
-            "pattern": "../**",
+            "pattern": "{./**,../**}",
             "group": "internal",
             "position": "after"
           }

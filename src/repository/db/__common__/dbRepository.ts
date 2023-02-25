@@ -1,5 +1,5 @@
-import { DocumentData, QueryDocumentSnapshot, Timestamp } from 'firebase/firestore'
-import ShortUniqueId from 'short-unique-id'
+import { DocumentData, QueryDocumentSnapshot, Timestamp } from '@/libs/firebase'
+import { uid } from '@/libs/uniq-id'
 
 import { Entity } from '@/models/__common__/entity'
 
@@ -10,7 +10,7 @@ type DocumentValueType<T extends Entity> = ChangeTypeOfKeys<
 >
 
 export abstract class DBRepository<T extends Entity> {
-  uid = new ShortUniqueId({ length: 6 })
+  uid = uid
 
   protected docToObject(doc: QueryDocumentSnapshot<DocumentData>): T {
     const data = doc.data() as DocumentValueType<T>
@@ -34,8 +34,6 @@ export abstract class DBRepository<T extends Entity> {
       createdAt: obj.createdAt ? Timestamp.fromDate(obj.createdAt) : Timestamp.fromDate(new Date()),
       ...(isUpdating && { updatedAt: Timestamp.fromDate(new Date()) }),
     } as DocumentValueType<T>
-
-    console.log(data)
 
     return data
   }
