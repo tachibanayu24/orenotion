@@ -1,7 +1,10 @@
+import { getPages } from "@/repository/db/page.repository";
 import Link from "next/link";
 import { NestedPageTitle } from "./NestedPageTitle";
 
 export const Sidebar = () => {
+  getPages();
+
   return (
     <aside className="w-[240px] flex flex-col justify-between py-1 px-2 bg-slate-800 shadow-xl">
       <div>

@@ -3,6 +3,10 @@ module.exports = {
   purge: ["./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
+    // themingしたい
+    // z-index
+    // color theme
+    // font-theme
     extend: {
       animation: {
         fade: "fadeOut 3s ease-out",
