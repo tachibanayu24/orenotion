@@ -1,12 +1,24 @@
-import { db } from "@/config/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from '@/config/firebase'
+import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore'
 
-const q = query(collection(db, "pages"));
+const q = query(collection(db, 'pages'))
 
-export const getPages = async () => {
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-};
+export const fetchPages = async () => {
+  const snap = await getDocs(q)
+  return snap.docs.map((doc) => {
+    return { id: doc.id, metadata: doc.metadata, ...doc.data() }
+  })
+}
+
+export const fetchPageDetail = async (id: string) => {
+  console.log(id)
+  const ref = doc(db, 'pages', id)
+  const snap = await getDoc(ref)
+
+  if (!snap.exists()) {
+    // TODO: エラーインスタンス
+    throw new Error('ページが見つかりませんでした')
+  } else {
+    return snap.data()
+  }
+}

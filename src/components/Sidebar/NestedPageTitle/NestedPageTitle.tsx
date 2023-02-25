@@ -1,24 +1,22 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 type PageType = {
-  emoji?: string;
-  title: string;
-  url: string;
-};
+  id: string
+  emoji?: string
+  title: string
+}
 
 type Props = {
-  page: PageType;
-  childPages?: PageType[];
-};
+  page: PageType
+  childPages?: PageType[]
+}
 
-export const NestedPageTitle = ({ page, childPages }: Props) => {
+export const NestedPageTitle = ({ page }: Props) => {
+  // TODO: フルロードしてる
   return (
-    <Link
-      href={page.url}
-      className="block py-1 py-1 text-base font-bold rounded-lg hover:bg-slate-700"
-    >
+    <Link href={page.id} className="block p-1 text-base font-bold rounded-lg hover:bg-slate-700">
       <span className="mr-1">{page.emoji}</span>
       <span>{page.title}</span>
     </Link>
-  );
-};
+  )
+}
