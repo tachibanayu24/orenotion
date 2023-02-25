@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>orenotion</h1>
+        <h1 className="text-slate-900">俺のNotion</h1>
       </main>
     </>
   );
