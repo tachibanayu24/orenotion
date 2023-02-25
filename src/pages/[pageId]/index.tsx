@@ -1,7 +1,9 @@
-import { fetchPageDetail } from '@/repository/db/page.repository'
+import { useEffect } from 'react'
+
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+
+import { fetchPageDetail } from '@/repository/db/page.repository'
 
 type QueryType = {
   pageId: string

@@ -10,7 +10,7 @@
     "plugin:import/typescript",
     "prettier"
   ],
-  "plugins": ["react-hooks"],
+  "plugins": ["react-hooks", "import"],
   "env": {
     "es6": true,
     "node": true,
@@ -41,6 +41,75 @@
       { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
     ],
     "import/no-cycle": "error",
-    "import/no-duplicates": "error"
+    "import/no-duplicates": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "index",
+          "object",
+          "type"
+        ],
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["builtin", "object"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "pathGroups": [
+          {
+            "pattern": "{react,react-dom/**,react-router-dom}",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "{@/libs/**,@/libs}",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "{@/utils/**,@/utils}",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@/repository/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{@/hooks/**,@/hooks}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/components/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/layouts/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{@/config/**,@/config}",
+            "group": "index",
+            "position": "after"
+          },
+          {
+            "pattern": "{@/domains/**,@/domains}",
+            "group": "type",
+            "position": "before"
+          },
+          {
+            "pattern": "{@/constants/**,@/constants}",
+            "group": "type",
+            "position": "after"
+          }
+        ]
+      }
+    ]
   }
 }

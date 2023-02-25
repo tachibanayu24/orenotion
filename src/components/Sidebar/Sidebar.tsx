@@ -1,6 +1,9 @@
-import { fetchPages } from '@/repository/db/page.repository'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
+
+import Link from 'next/link'
+
+import { fetchPages } from '@/repository/db/page.repository'
+
 import { NestedPageTitle } from './NestedPageTitle'
 
 export const Sidebar = () => {

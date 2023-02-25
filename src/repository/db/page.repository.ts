@@ -1,5 +1,6 @@
-import { db } from '@/config/firebase'
 import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore'
+
+import { db } from '@/config/firebase'
 
 const q = query(collection(db, 'pages'))
 
