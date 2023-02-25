@@ -1,6 +1,6 @@
 import { ComponentProps, SyntheticEvent } from 'react'
 
-import { Icon } from '../Icon/Icon'
+import { Icon } from '../Icon'
 
 type Props = {
   onClick: () => void

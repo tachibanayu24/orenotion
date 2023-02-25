@@ -14,3 +14,5 @@ export type { DocumentData } from 'firebase/firestore'
 
 export { initializeApp } from 'firebase/app'
 export { getAnalytics } from 'firebase/analytics'
+
+export { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'

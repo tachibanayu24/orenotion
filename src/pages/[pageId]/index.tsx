@@ -14,10 +14,8 @@ export default function PageDetail() {
   const router = useRouter()
   const { pageId } = router.query as QueryType
 
-  console.log(pageId)
-
   useEffect(() => {
-    if (router.isReady) console.log(pageRepo.get(pageId))
+    if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
   }, [pageId, router])
 
   return (

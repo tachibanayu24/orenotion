@@ -1,16 +1,29 @@
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+
+import { signOut } from 'firebase/auth'
+
+import { auth } from '@/config/firebase'
 
 import { PageRepository } from '@/repository/db/page/page.repository'
 
+import { useCurrentUser } from '@/hooks'
+
 import { PageItem } from './PageItem'
-import { IconButton } from '../IconButton/IconButton'
+import { IconButton } from '../Icon/IconButton/IconButton'
+import { SignInForm } from '../SignInForm'
+import { Tooltip } from '../Tooltip'
 
 const pageRepo = new PageRepository()
 
 export const Sidebar = () => {
+  const router = useRouter()
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pages, setPages] = useState<any>()
+
+  const { currentUser } = useCurrentUser()
+  console.log(currentUser)
 
   const loadPages = async () => {
     await pageRepo.fetchAll().then((res) => setPages(res))
@@ -23,8 +36,6 @@ export const Sidebar = () => {
   useEffect(() => {
     loadPages()
   }, [])
-
-  console.log(pages)
 
   if (!pages) {
     return <p>Loading...</p>
@@ -47,9 +58,32 @@ export const Sidebar = () => {
           ))}
         </div>
 
-        <Link href="/signin" className="block bg-slate-700 text-xs text-center -my-1 -mx-2">
-          Admin Settings
-        </Link>
+        {currentUser?.isAdmin ? (
+          <Tooltip
+            position="top-right"
+            component={
+              <div className="w-60 flex flex-col gap-2 p-3">
+                <button
+                  onClick={() => {
+                    signOut(auth)
+                    router.reload()
+                  }}
+                  className={`p-1 rounded-full border border-sky-400 text-sm shadow-md font-bold text-sky-400`}
+                >
+                  ログアウト
+                </button>
+              </div>
+            }
+          >
+            <div className="block bg-red-800 text-xs text-center -my-1 -mx-2 font-bold">
+              Admin Mode
+            </div>
+          </Tooltip>
+        ) : (
+          <Tooltip position="top-right" component={<SignInForm />}>
+            <div className="block bg-slate-700 text-xs text-center -my-1 -mx-2">Admin Settings</div>
+          </Tooltip>
+        )}
       </aside>
     )
   }

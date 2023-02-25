@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { IconButton } from '@/components/IconButton/IconButton'
+import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 
 type PageType = {
   id: string

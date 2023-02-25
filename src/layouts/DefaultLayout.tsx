@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { Sidebar } from '@/components/Sidebar'
+import { Sidebar } from '@/components/uis/Sidebar'
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   return (

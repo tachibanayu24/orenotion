@@ -9,3 +9,12 @@
 declare type ChangeTypeOfKeys<T extends Record<string, any>, Keys extends keyof T, NewType> = {
   [key in keyof T]: key extends Keys ? NewType : T[key]
 }
+
+/**
+ * 一部のkeyをoptionalにします
+ * @example
+ * type User = { name: string, email: string, age: number }
+ * Optional<User, "name" | "age">
+ * // => { name?: string, email: string, age?: number }
+ */
+declare type OptionalByKey<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
