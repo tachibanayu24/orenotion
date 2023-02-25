@@ -13,6 +13,10 @@
     "lint:prettier:fix": "yarn lint:prettier --write"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/node": "^18.14.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "18.0.11",
@@ -20,6 +24,7 @@
     "next": "13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "short-unique-id": "^4.4.4",
     "swr": "^2.0.4",
     "typescript": "4.9.5"
   },

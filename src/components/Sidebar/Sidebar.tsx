@@ -4,7 +4,9 @@ import Link from 'next/link'
 
 import { PageRepository } from '@/repository/db/page/page.repository'
 
-import { NestedPageTitle } from './NestedPageTitle'
+import { IconButton } from '../IconButton/IconButton'
+
+import { PageItem } from './PageItem'
 
 const pageRepo = new PageRepository()
 
@@ -14,6 +16,10 @@ export const Sidebar = () => {
 
   const loadPages = async () => {
     await pageRepo.fetchAll().then((res) => setPages(res))
+  }
+
+  const addPage = async () => {
+    await pageRepo.add({ emoji: '🚀', title: '宇宙旅行', content: { hoge: 'hoge', fuga: 123 } })
   }
 
   useEffect(() => {
@@ -32,10 +38,14 @@ export const Sidebar = () => {
             <h1 className="text-lg text-center font-bold">俺のNotion</h1>
           </div>
 
-          <span className="text-xs bold">Pages</span>
+          <div className="flex justify-between items-center">
+            <span className="text-xs bold">Pages</span>
+            <IconButton icon="plus" size="sm" onClick={addPage} />
+          </div>
+
           {/* // TODO:  */}
           {pages.map((page: { id: string; emoji?: string | undefined; title: string }) => (
-            <NestedPageTitle key={page.id} page={page} />
+            <PageItem key={page.id} page={page} />
           ))}
         </div>
 
