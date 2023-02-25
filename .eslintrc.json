@@ -30,6 +30,7 @@
     }
   },
   "rules": {
+    "no-empty-function": ["error", { "allow": ["constructors"] }],
     "react/prop-types": "off",
     "react/display-name": "off",
     "react/jsx-uses-react": "off",
@@ -45,17 +46,9 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          ["parent", "sibling"],
-          "index",
-          "object",
-          "type"
-        ],
+        "groups": ["builtin", "external", "index", "type", "internal"],
         "newlines-between": "always",
-        "pathGroupsExcludedImportTypes": ["builtin", "object"],
+        "pathGroupsExcludedImportTypes": ["builtin"],
         "alphabetize": { "order": "asc", "caseInsensitive": true },
         "pathGroups": [
           {
@@ -71,6 +64,21 @@
           {
             "pattern": "{@/utils/**,@/utils}",
             "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "{@/config/**,@/config}",
+            "group": "index",
+            "position": "after"
+          },
+          {
+            "pattern": "{@/domains/**,@/domains}",
+            "group": "type",
+            "position": "before"
+          },
+          {
+            "pattern": "{@/constants/**,@/constants}",
+            "group": "type",
             "position": "after"
           },
           {
@@ -94,18 +102,8 @@
             "position": "before"
           },
           {
-            "pattern": "{@/config/**,@/config}",
-            "group": "index",
-            "position": "after"
-          },
-          {
-            "pattern": "{@/domains/**,@/domains}",
-            "group": "type",
-            "position": "before"
-          },
-          {
-            "pattern": "{@/constants/**,@/constants}",
-            "group": "type",
+            "pattern": "../**",
+            "group": "internal",
             "position": "after"
           }
         ]

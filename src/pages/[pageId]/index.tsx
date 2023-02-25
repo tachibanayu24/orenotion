@@ -3,11 +3,13 @@ import { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { fetchPageDetail } from '@/repository/db/page.repository'
+import { PageRepository } from '@/repository/db/page/page.repository'
 
 type QueryType = {
   pageId: string
 }
+
+const pageRepo = new PageRepository()
 
 export default function PageDetail() {
   const router = useRouter()
@@ -16,7 +18,7 @@ export default function PageDetail() {
   console.log(pageId)
 
   useEffect(() => {
-    if (router.isReady) console.log(fetchPageDetail(pageId))
+    if (router.isReady) console.log(pageRepo.get(pageId))
   }, [pageId, router])
 
   return (

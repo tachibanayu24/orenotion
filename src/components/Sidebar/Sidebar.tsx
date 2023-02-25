@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-import { fetchPages } from '@/repository/db/page.repository'
+import { PageRepository } from '@/repository/db/page/page.repository'
 
 import { NestedPageTitle } from './NestedPageTitle'
+
+const pageRepo = new PageRepository()
 
 export const Sidebar = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pages, setPages] = useState<any>()
 
   const loadPages = async () => {
-    await fetchPages().then((res) => setPages(res))
+    await pageRepo.fetchAll().then((res) => setPages(res))
   }
 
   useEffect(() => {
