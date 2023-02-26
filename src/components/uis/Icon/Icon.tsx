@@ -1,4 +1,4 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsis, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 const icons = {
   plus: faPlus,
+  elipsis: faEllipsis,
 } as const
 
 export const Icon = ({ icon, size }: Props) => {

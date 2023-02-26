@@ -3,14 +3,14 @@ import { ComponentProps, SyntheticEvent } from 'react'
 import { Icon } from '../Icon'
 
 type Props = {
-  onClick: () => void
+  onClick?: () => void
 } & Pick<ComponentProps<typeof Icon>, 'icon' | 'size'>
 
 export const IconButton = ({ icon, size, onClick }: Props) => {
   const handleClick = (e: SyntheticEvent) => {
     e.stopPropagation()
     e.preventDefault()
-    onClick()
+    onClick && onClick()
   }
 
   return (

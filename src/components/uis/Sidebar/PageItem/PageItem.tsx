@@ -3,6 +3,9 @@ import { useState } from 'react'
 
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 
+import { Menu } from '../../Menu'
+//
+
 type PageType = {
   id: string
   emoji?: string
@@ -16,6 +19,7 @@ type Props = {
 
 export const PageItem = ({ page }: Props) => {
   const [isHover, setIsHover] = useState(false)
+  const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
   // TODO: フルロードしてる
   return (
@@ -30,9 +34,23 @@ export const PageItem = ({ page }: Props) => {
         <span>{page.title}</span>
       </div>
 
-      {isHover && (
+      {(isHover || isOpenedMenu) && (
         <div className="flex items-center">
-          <IconButton icon="plus" size="sm" onClick={console.log} />
+          {/* <IconButton icon="plus" size="sm" onClick={console.log} /> */}
+          <Menu
+            options={[
+              { icon: 'plus', title: '削除', onClick: console.log },
+              { icon: 'plus', title: 'ページを複製', onClick: console.log },
+            ]}
+            position="bottom-right"
+            onOpen={() => setIsOpenedMenu(true)}
+            onClose={() => {
+              setIsHover(false)
+              setIsOpenedMenu(false)
+            }}
+          >
+            <IconButton icon="elipsis" size="sm" />
+          </Menu>
         </div>
       )}
     </Link>

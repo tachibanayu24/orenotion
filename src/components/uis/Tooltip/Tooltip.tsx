@@ -12,7 +12,7 @@ export const Tooltip = ({ component, children, position }: Props) => {
   return (
     <>
       <div
-        className="relative"
+        className="relativ"
         onMouseOver={() => setIsDisplay(true)}
         onMouseLeave={() =>
           setTimeout(() => {
@@ -23,7 +23,7 @@ export const Tooltip = ({ component, children, position }: Props) => {
         {children}
         {isDisplay && (
           <div
-            className={`${positionClasses[position]} bottom-10 absolute z-50 p-2 rounded-md shadow-lg bg-slate-600`}
+            className={`${positionClasses[position]} absolute z-50 p-2 rounded-md shadow-lg bg-slate-600`}
           >
             {component}
           </div>
@@ -34,5 +34,5 @@ export const Tooltip = ({ component, children, position }: Props) => {
 }
 
 const positionClasses = {
-  'top-right': 'bottom-3 left-4',
+  'top-right': 'bottom-2 left-2',
 }
