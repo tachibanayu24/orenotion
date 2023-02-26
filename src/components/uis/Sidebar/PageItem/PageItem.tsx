@@ -1,12 +1,11 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { PageRepository } from '@/repository/db/page/page.repository'
+import { usePage } from '@/hooks'
 
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 
 import { Menu } from '../../Menu'
-//
 
 type PageType = {
   id: string
@@ -17,22 +16,16 @@ type PageType = {
 type Props = {
   page: PageType
   childPages?: PageType[]
-  onDelete: () => Promise<void>
 }
 
-const pageRepo = new PageRepository()
+export const PageItem = ({ page }: Props) => {
+  const { deletePage } = usePage()
 
-export const PageItem = ({ page, onDelete }: Props) => {
   const [isHover, setIsHover] = useState(false)
   const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
   const handleCopyLink = (pageId: string) => {
     console.log('copy', pageId)
-  }
-
-  const handleDelete = async (pageId: string) => {
-    console.log('delete', pageId)
-    await pageRepo.delete(pageId).then(async () => await onDelete())
   }
 
   // TODO: フルロードしてる
@@ -66,7 +59,7 @@ export const PageItem = ({ page, onDelete }: Props) => {
                 type: 'default',
                 icon: 'trash',
                 title: '削除',
-                onClick: () => handleDelete(page.id),
+                onClick: () => deletePage(page.id),
                 isDanger: true,
               },
             ]}

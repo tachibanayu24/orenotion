@@ -19,6 +19,7 @@ type Props = {
 
 export const MenuItem = ({ option, onClose }: Props) => {
   const longPressHandlers = useLongPress(() => {
+    console.log('press')
     option.onClick()
     onClose()
   }, 1000 + 100) // アニメーションは1000msで終わるが100ms余裕をもたせる

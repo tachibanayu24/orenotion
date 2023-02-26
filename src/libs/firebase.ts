@@ -11,7 +11,7 @@ export {
   deleteDoc,
 } from 'firebase/firestore'
 
-export type { DocumentData } from 'firebase/firestore'
+export type { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
 
 export { initializeApp } from 'firebase/app'
 export { getAnalytics } from 'firebase/analytics'

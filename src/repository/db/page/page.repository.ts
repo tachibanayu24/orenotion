@@ -12,11 +12,17 @@ export class PageRepository extends DBRepository<Page> {
   private PATH = 'pages'
 
   fetchAll = async () => {
-    const q = query(collection(db, this.PATH))
-    const snap = await getDocs(q)
-    return snap.docs.map((doc) => {
-      return new Page(this.docToObject(doc))
-    })
+    await this._fetchAll(this.PATH).then((docs) =>
+      docs.map((doc) => {
+        return new Page(this.docToObject(doc))
+      })
+    )
+
+    // const q = query(collection(db, this.PATH))
+    // const snap = await getDocs(q)
+    // return snap.docs.map((doc) => {
+    //   return new Page(this.docToObject(doc))
+    // })
   }
 
   get = async (id: string) => {
@@ -32,7 +38,9 @@ export class PageRepository extends DBRepository<Page> {
   }
 
   add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
-    return await setDoc(doc(db, this.PATH, this.uid()), this.objectToDoc(page))
+    const test = await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
+
+    return await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
   }
 
   delete = async (id: Page['id']) => {

@@ -1,41 +1,30 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { signOut } from 'firebase/auth'
 
 import { auth } from '@/config/firebase'
 
-import { PageRepository } from '@/repository/db/page/page.repository'
-
-import { useCurrentUser } from '@/hooks'
+import { useCurrentUser, usePage } from '@/hooks'
 
 import { PageItem } from './PageItem'
 import { IconButton } from '../Icon/IconButton/IconButton'
 import { SignInForm } from '../SignInForm'
 import { Tooltip } from '../Tooltip'
 
-const pageRepo = new PageRepository()
-
 export const Sidebar = () => {
   const router = useRouter()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [pages, setPages] = useState<any>()
-
+  const { pages, refetchPages, addPage } = usePage()
   const { currentUser } = useCurrentUser()
 
-  const loadPages = async () => {
-    await pageRepo.fetchAll().then((res) => setPages(res))
-  }
-
-  const addPage = async () => {
-    await pageRepo.add({ emoji: '🚀', title: '宇宙旅行', content: { hoge: 'hoge', fuga: 123 } })
-    await loadPages()
+  const handleAddPage = async () => {
+    await addPage({ emoji: '🚀', title: '宇宙旅行', content: { hoge: 'hoge', fuga: 123 } })
   }
 
   useEffect(() => {
-    loadPages()
-  }, [])
+    refetchPages()
+  }, [refetchPages])
 
   if (!pages) {
     return <p>Loading...</p>
@@ -49,12 +38,12 @@ export const Sidebar = () => {
 
           <div className="flex justify-between items-center">
             <span className="text-xs bold">Pages</span>
-            <IconButton icon="plus" size="sm" onClick={addPage} />
+            <IconButton icon="plus" size="sm" onClick={handleAddPage} />
           </div>
 
           {/* // TODO:  */}
           {pages.map((page: { id: string; emoji?: string | undefined; title: string }) => (
-            <PageItem key={page.id} page={page} onDelete={loadPages} />
+            <PageItem key={page.id} page={page} />
           ))}
         </div>
 

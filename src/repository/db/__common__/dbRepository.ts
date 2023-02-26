@@ -1,5 +1,15 @@
-import { DocumentData, QueryDocumentSnapshot, Timestamp } from '@/libs/firebase'
+import {
+  collection,
+  DocumentData,
+  FirestoreErrorCode,
+  getDocs,
+  query,
+  QueryDocumentSnapshot,
+  Timestamp,
+} from '@/libs/firebase'
 import { uid } from '@/libs/uniq-id'
+
+import { db } from '@/config/firebase'
 
 import { Entity } from '@/models/__common__/entity'
 
@@ -10,7 +20,8 @@ type DocumentValueType<T extends Entity> = ChangeTypeOfKeys<
 >
 
 export abstract class DBRepository<T extends Entity> {
-  uid = uid
+  uniqId = uid
+  db = db
 
   protected docToObject(doc: QueryDocumentSnapshot<DocumentData>): T {
     const data = doc.data() as DocumentValueType<T>
@@ -36,5 +47,32 @@ export abstract class DBRepository<T extends Entity> {
     } as DocumentValueType<T>
 
     return data
+  }
+
+  // TODO: privateに分岐を切り離す
+  // TODO: custom errorインスタンス
+
+  protected _fetchAll = async (path: string) => {
+    const q = query(collection(db, path))
+    return await getDocs(q)
+      .then((res) => res.docs)
+      .catch((e) => {
+        switch (e.code as FirestoreErrorCode) {
+          case 'resource-exhausted':
+            throw new Error('Firestoreのリクエスト上限に達しました\n明日にならないと復旧しません')
+          case 'already-exists':
+            throw new Error('作成しようとしたデータはすでに存在します')
+          case 'deadline-exceeded':
+            throw new Error('操作が完了する前に上限時間を超えました')
+          case 'internal':
+            throw new Error('不明な内部エラーが発生しました')
+          case 'permission-denied':
+            throw new Error('操作に必要な権限がありません')
+          case 'unauthenticated':
+            throw new Error('認証エラーが発生しました')
+          default:
+            throw new Error('不明なエラーが発生しました')
+        }
+      })
   }
 }
