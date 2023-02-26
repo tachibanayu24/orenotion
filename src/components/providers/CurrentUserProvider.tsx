@@ -23,7 +23,6 @@ export const CurrentUserProvider = ({ children }: Props) => {
     () =>
       onAuthStateChanged(auth, (authUser) => {
         if (authUser) {
-          console.log(authUser)
           setCurrentUser(
             User.create({
               isAdmin: true,

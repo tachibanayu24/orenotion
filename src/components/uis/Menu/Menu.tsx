@@ -1,16 +1,24 @@
-import { cloneElement, ComponentProps, ReactElement, SyntheticEvent, useState } from 'react'
+import { cloneElement, ComponentProps, ReactElement, useState } from 'react'
 
+import { MenuItem } from './MenuItem'
 import { Icon } from '../Icon/Icon'
+
+type DefaultOptionType = {
+  type: 'default'
+  icon: ComponentProps<typeof Icon>['icon']
+  title: string
+  onClick: () => void
+  isDanger?: boolean
+}
+
+type DividerOptionType = {
+  type: 'divider'
+}
 
 type Props = {
   children: ReactElement
   position: 'bottom-right'
-  options: {
-    icon: ComponentProps<typeof Icon>['icon']
-    title: string
-    onClick: () => void
-    isDanger?: boolean
-  }[]
+  options: (DefaultOptionType | DividerOptionType)[]
   onOpen?: () => void
   onClose?: () => void
 }
@@ -23,13 +31,9 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
       setIsDisplay(true)
       onOpen && onOpen()
     },
-    className: 'relative',
   })
 
-  const handleClick = (e: SyntheticEvent, onClick: Props['options'][number]['onClick']) => {
-    e.stopPropagation()
-    e.preventDefault()
-    onClick()
+  const handleCloseMenu = () => {
     setIsDisplay(false)
     onClose && onClose()
   }
@@ -39,18 +43,15 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
       {anchorWithOnClick}
       {isDisplay && (
         <div
-          className={`${positionClasses[position]} absolute flex flex-col gap-1 p-1 bg-slate-600 rounded-md shadow-lg`}
+          className={`${positionClasses[position]} absolute flex flex-col gap-1 p-1 bg-slate-700 rounded-md shadow-lg`}
         >
-          {options.map((option, i) => (
-            <div
-              key={`Menu-item-${i}`}
-              onClick={(e) => handleClick(e, option.onClick)}
-              className="w-full flex items-center gap-1 rounded-md hover:bg-white hover:bg-opacity-10 active:bg-white active:bg-opacity-20 py-1 px-2"
-            >
-              <Icon icon={option.icon} size="sm" />
-              <span className="whitespace-nowrap font-normal text-sm">{option.title}</span>
-            </div>
-          ))}
+          {options.map((option, i) =>
+            option.type === 'default' ? (
+              <MenuItem key={`MenuItem-${i}`} option={option} onClose={handleCloseMenu} />
+            ) : option.type === 'divider' ? (
+              <hr key={`MenuItem-${i}`} className="border-slate-500" />
+            ) : undefined
+          )}
         </div>
       )}
     </div>
@@ -58,5 +59,5 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
 }
 
 const positionClasses = {
-  'bottom-right': 'top-2 left-2',
+  'bottom-right': 'top-3 left-3',
 }

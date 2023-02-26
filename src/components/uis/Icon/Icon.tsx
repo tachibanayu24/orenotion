@@ -1,4 +1,11 @@
-import { faEllipsis, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faClone,
+  faCopy,
+  faEllipsis,
+  faLink,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
@@ -9,6 +16,10 @@ type Props = {
 const icons = {
   plus: faPlus,
   elipsis: faEllipsis,
+  link: faLink,
+  clone: faClone,
+  copy: faCopy,
+  trash: faTrash,
 } as const
 
 export const Icon = ({ icon, size }: Props) => {

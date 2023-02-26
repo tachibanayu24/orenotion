@@ -1,22 +1,22 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+// import { useRouter } from 'next/router'
+// import { useEffect } from 'react'
 
-import { PageRepository } from '@/repository/db/page/page.repository'
+// import { PageRepository } from '@/repository/db/page/page.repository'
 
-type QueryType = {
-  pageId: string
-}
+// type QueryType = {
+//   pageId: string
+// }
 
-const pageRepo = new PageRepository()
+// const pageRepo = new PageRepository()
 
 export default function PageDetail() {
-  const router = useRouter()
-  const { pageId } = router.query as QueryType
+  // const router = useRouter()
+  // const { pageId } = router.query as QueryType
 
-  useEffect(() => {
-    if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
-  }, [pageId, router])
+  // useEffect(() => {
+  //   // if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
+  // }, [pageId, router])
 
   return (
     <>

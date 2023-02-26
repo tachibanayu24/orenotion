@@ -25,7 +25,7 @@ export const PageItem = ({ page }: Props) => {
   return (
     <Link
       href={page.id}
-      className="flex justify-between items-center p-1 px-2 text-base font-bold rounded-lg hover:bg-slate-700"
+      className="flex justify-between items-center py-1 px-2 text-base font-bold rounded-lg hover:bg-slate-700"
       onMouseOver={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
@@ -35,12 +35,26 @@ export const PageItem = ({ page }: Props) => {
       </div>
 
       {(isHover || isOpenedMenu) && (
-        <div className="flex items-center">
+        <div className="h-5">
           {/* <IconButton icon="plus" size="sm" onClick={console.log} /> */}
           <Menu
             options={[
-              { icon: 'plus', title: '削除', onClick: console.log },
-              { icon: 'plus', title: 'ページを複製', onClick: console.log },
+              { type: 'default', icon: 'plus', title: '追加', onClick: () => console.log('追加') },
+              {
+                type: 'default',
+                icon: 'link',
+                title: 'リンクをコピー',
+                onClick: () => console.log('コピー'),
+              },
+              { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
+              { type: 'divider' },
+              {
+                type: 'default',
+                icon: 'trash',
+                title: '削除',
+                onClick: () => console.log('削除'),
+                isDanger: true,
+              },
             ]}
             position="bottom-right"
             onOpen={() => setIsOpenedMenu(true)}

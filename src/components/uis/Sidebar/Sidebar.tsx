@@ -23,7 +23,6 @@ export const Sidebar = () => {
   const [pages, setPages] = useState<any>()
 
   const { currentUser } = useCurrentUser()
-  console.log(currentUser)
 
   const loadPages = async () => {
     await pageRepo.fetchAll().then((res) => setPages(res))
