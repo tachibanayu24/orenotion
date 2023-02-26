@@ -9,6 +9,7 @@ export {
   Timestamp,
   getFirestore,
   deleteDoc,
+  FirestoreError,
 } from 'firebase/firestore'
 
 export type { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
