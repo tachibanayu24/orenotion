@@ -2,7 +2,6 @@ import {
   collection,
   DocumentData,
   FirestoreError,
-  FirestoreErrorCode,
   getDocs,
   query,
   QueryDocumentSnapshot,
@@ -53,6 +52,8 @@ export abstract class DBRepository<T extends Entity> {
 
   // TODO: privateに分岐を切り離す
   // TODO: custom errorインスタンス
+  // 分ける意味ないかも
+  // エラー割り振るところだけ抽象化して
 
   protected _fetchAll = async (path: string) => {
     const q = query(collection(db, path))

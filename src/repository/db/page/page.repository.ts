@@ -1,4 +1,4 @@
-import { collection, query, getDocs, doc, getDoc, setDoc, deleteDoc } from '@/libs/firebase'
+import { doc, getDoc, setDoc, deleteDoc } from '@/libs/firebase'
 
 import { db } from '@/config/firebase'
 
@@ -17,12 +17,6 @@ export class PageRepository extends DBRepository<Page> {
         return new Page(this.docToObject(doc))
       })
     )
-
-    // const q = query(collection(db, this.PATH))
-    // const snap = await getDocs(q)
-    // return snap.docs.map((doc) => {
-    //   return new Page(this.docToObject(doc))
-    // })
   }
 
   get = async (id: string) => {
