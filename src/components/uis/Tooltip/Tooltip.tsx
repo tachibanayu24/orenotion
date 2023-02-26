@@ -3,25 +3,28 @@ import { ReactNode, useState } from 'react'
 type Props = {
   component: ReactNode
   children: ReactNode
-  position: 'top-right'
+  position: 'top-right' | 'bottom-left'
   shouldOpenOnClick?: boolean
 }
 
 export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Props) => {
   const [isDisplay, setIsDisplay] = useState(false)
 
-  const renderContent = () => (
-    <div
-      className={`${positionClasses[position]} absolute z-50 p-2 rounded-md shadow-lg bg-slate-600`}
-    >
-      {component}
-    </div>
-  )
+  const renderContent = () => {
+    const stringClasses = typeof component === 'string' ? 'text-xs select-none' : undefined
+    return (
+      <div
+        className={`${positionClasses[position]} ${stringClasses} w-max absolute z-50 p-1 rounded-md shadow-lg bg-slate-600`}
+      >
+        {component}
+      </div>
+    )
+  }
 
   return (
     <>
       <div
-        className="relativ"
+        className="relative"
         onMouseOver={shouldOpenOnClick ? undefined : () => setIsDisplay(true)}
         onMouseLeave={
           shouldOpenOnClick
@@ -29,7 +32,7 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
             : () =>
                 setTimeout(() => {
                   setIsDisplay(false)
-                }, 200)
+                }, 100)
         }
       >
         <div onClick={shouldOpenOnClick ? () => setIsDisplay(true) : undefined}>{children}</div>
@@ -47,5 +50,6 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
 }
 
 const positionClasses = {
-  'top-right': 'bottom-2 left-2',
+  'top-right': 'bottom-8 left-2',
+  'bottom-left': 'top-8 right-2',
 }

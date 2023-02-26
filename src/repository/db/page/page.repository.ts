@@ -6,13 +6,11 @@ import { Page } from '@/models/page'
 
 import { DBRepository } from '../__common__/dbRepository'
 
-// TODO: libs
-
 export class PageRepository extends DBRepository<Page> {
   private PATH = 'pages'
 
   fetchAll = async () => {
-    await this._fetchAll(this.PATH).then((docs) =>
+    return await this._fetchAll(this.PATH).then((docs) =>
       docs.map((doc) => {
         return new Page(this.docToObject(doc))
       })
@@ -32,8 +30,6 @@ export class PageRepository extends DBRepository<Page> {
   }
 
   add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const test = await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
-
     return await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
   }
 

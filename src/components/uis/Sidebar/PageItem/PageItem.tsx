@@ -36,7 +36,7 @@ export const PageItem = ({ page }: Props) => {
       onMouseOver={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <div>
+      <div className="truncate">
         <span className="mr-1">{page.emoji}</span>
         <span>{page.title}</span>
       </div>
@@ -46,7 +46,7 @@ export const PageItem = ({ page }: Props) => {
           {/* <IconButton icon="plus" size="sm" onClick={console.log} /> */}
           <Menu
             options={[
-              // { type: 'default', icon: 'plus', title: '追加', onClick: () => console.log('追加') },
+              // { type: 'default', icon: 'plus', title: '追加/ onClick: () => console.log('追加') },
               {
                 type: 'default',
                 icon: 'link',

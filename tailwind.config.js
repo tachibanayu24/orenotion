@@ -12,6 +12,7 @@ module.exports = {
         fade: 'fadeOut 3s ease-out',
         ohNo: 'ohNo 0.82s cubic-bezier(.36,.07,.19,.97) both',
         progress: 'progress 1s linear forwards',
+        pulse: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
 
       keyframes: (_theme) => ({
@@ -28,6 +29,11 @@ module.exports = {
         progress: {
           '100%': {
             width: '100%',
+          },
+        },
+        pulse: {
+          '50%': {
+            opacity: 0.5,
           },
         },
       }),

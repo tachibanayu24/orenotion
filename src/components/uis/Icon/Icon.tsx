@@ -1,3 +1,4 @@
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import {
   faClone,
   faCopy,
@@ -20,6 +21,7 @@ const icons = {
   clone: faClone,
   copy: faCopy,
   trash: faTrash,
+  twitter: faTwitter,
 } as const
 
 export const Icon = ({ icon, size }: Props) => {
