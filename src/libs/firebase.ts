@@ -8,6 +8,7 @@ export {
   QueryDocumentSnapshot,
   Timestamp,
   getFirestore,
+  deleteDoc,
 } from 'firebase/firestore'
 
 export type { DocumentData } from 'firebase/firestore'

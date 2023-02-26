@@ -11,7 +11,7 @@ module.exports = {
       animation: {
         fade: 'fadeOut 3s ease-out',
         ohNo: 'ohNo 0.82s cubic-bezier(.36,.07,.19,.97) both',
-        progress: 'progress 2s linear forwards',
+        progress: 'progress 1s linear forwards',
       },
 
       keyframes: (_theme) => ({

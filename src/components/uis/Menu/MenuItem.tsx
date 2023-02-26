@@ -21,7 +21,7 @@ export const MenuItem = ({ option, onClose }: Props) => {
   const longPressHandlers = useLongPress(() => {
     option.onClick()
     onClose()
-  }, 2200) // アニメーションは2000msで終わるが200ms余裕をもたせる
+  }, 1000 + 100) // アニメーションは1000msで終わるが100ms余裕をもたせる
 
   const handleClick = (e: SyntheticEvent, onClick: () => void, isDanger?: boolean) => {
     e.stopPropagation()
@@ -37,10 +37,12 @@ export const MenuItem = ({ option, onClose }: Props) => {
     <div
       onClick={(e) => handleClick(e, option.onClick, option.isDanger)}
       {...longPressHandlers}
-      className={`hover:bg-white hover:bg-opacity-10 active:bg-white active:bg-opacity-20 rounded-md ${
-        option.isDanger &&
-        'text-red-400 hover:bg-transparent active:animate-progress active:bg-red-900 active:bg-opacity-70 w-[0%]'
-      }`}
+      className={
+        (option.isDanger
+          ? 'text-red-400 hover:bg-transparent active:animate-progress active:bg-red-900 active:bg-opacity-70 w-[0%]'
+          : 'hover:bg-white hover:bg-opacity-10 active:bg-white active:bg-opacity-20') +
+        ' rounded-md'
+      }
     >
       <div className="w-36 flex items-center gap-1 hover:bg-white hover:bg-opacity-10 rounded-md py-1 px-2">
         <Icon icon={option.icon} size="sm" />

@@ -1,4 +1,4 @@
-import { collection, query, getDocs, doc, getDoc, setDoc } from '@/libs/firebase'
+import { collection, query, getDocs, doc, getDoc, setDoc, deleteDoc } from '@/libs/firebase'
 
 import { db } from '@/config/firebase'
 
@@ -8,10 +8,11 @@ import { DBRepository } from '../__common__/dbRepository'
 
 // TODO: libs
 
-const q = query(collection(db, 'pages'))
-
 export class PageRepository extends DBRepository<Page> {
+  private PATH = 'pages'
+
   fetchAll = async () => {
+    const q = query(collection(db, this.PATH))
     const snap = await getDocs(q)
     return snap.docs.map((doc) => {
       return new Page(this.docToObject(doc))
@@ -19,7 +20,7 @@ export class PageRepository extends DBRepository<Page> {
   }
 
   get = async (id: string) => {
-    const ref = doc(db, 'pages', id)
+    const ref = doc(db, this.PATH, id)
     const document = await getDoc(ref)
 
     if (!document.exists()) {
@@ -31,6 +32,10 @@ export class PageRepository extends DBRepository<Page> {
   }
 
   add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
-    return setDoc(doc(db, 'pages', this.uid()), this.objectToDoc(page))
+    return await setDoc(doc(db, this.PATH, this.uid()), this.objectToDoc(page))
+  }
+
+  delete = async (id: Page['id']) => {
+    return await deleteDoc(doc(db, this.PATH, id))
   }
 }

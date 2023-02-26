@@ -30,6 +30,7 @@ export const Sidebar = () => {
 
   const addPage = async () => {
     await pageRepo.add({ emoji: '🚀', title: '宇宙旅行', content: { hoge: 'hoge', fuga: 123 } })
+    await loadPages()
   }
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const Sidebar = () => {
 
           {/* // TODO:  */}
           {pages.map((page: { id: string; emoji?: string | undefined; title: string }) => (
-            <PageItem key={page.id} page={page} />
+            <PageItem key={page.id} page={page} onDelete={loadPages} />
           ))}
         </div>
 
