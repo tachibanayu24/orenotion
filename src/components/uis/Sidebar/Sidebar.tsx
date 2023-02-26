@@ -60,6 +60,7 @@ export const Sidebar = () => {
         {currentUser?.isAdmin ? (
           <Tooltip
             position="top-right"
+            shouldOpenOnClick
             component={
               <div className="w-60 flex flex-col gap-2 p-3">
                 <button
@@ -74,13 +75,15 @@ export const Sidebar = () => {
               </div>
             }
           >
-            <div className="block bg-red-800 text-xs text-center -my-1 -mx-2 font-bold">
+            <div className="block bg-red-800 text-xs text-center -my-1 -mx-2 font-bold cursor-pointer">
               Admin Mode
             </div>
           </Tooltip>
         ) : (
-          <Tooltip position="top-right" component={<SignInForm />}>
-            <div className="block bg-slate-700 text-xs text-center -my-1 -mx-2">Admin Settings</div>
+          <Tooltip position="top-right" shouldOpenOnClick component={<SignInForm />}>
+            <div className="block bg-slate-700 text-xs text-center -my-1 -mx-2 cursor-pointer">
+              Admin Settings
+            </div>
           </Tooltip>
         )}
       </aside>
