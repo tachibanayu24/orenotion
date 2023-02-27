@@ -45,7 +45,10 @@ export default function PageDetail() {
           </div>
 
           <div className="px-2 py-4">
-            <h1 className="w-full bg-transparent text-3xl font-extrabold mb-2">🛩️ イタリア旅行</h1>
+            <input
+              value={'🛩️ イタリア旅行'}
+              className="w-full bg-transparent text-3xl font-extrabold mb-2 outline-none"
+            />
             <div className="text-xs text-slate-300 flex gap-4">
               <div>
                 <span>作成日時 2023/02/28 04:10</span>

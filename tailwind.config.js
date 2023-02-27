@@ -4,7 +4,6 @@ module.exports = {
   darkMode: 'class',
   theme: {
     // themingしたい
-    // z-index
     // color theme
     // font-theme
     extend: {
