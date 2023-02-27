@@ -1,32 +1,51 @@
+// 効いてなさそう
+import 'highlight.js/styles/github-dark-dimmed.css'
+
 import Head from 'next/head'
-import { useState } from 'react'
+import router from 'next/router'
+import { ChangeEvent, useState } from 'react'
+
+import { usePage } from '@/hooks'
 
 import { Editor } from '@/components/uis/Editor'
 import { EmojiPicker } from '@/components/uis/EmojiPicker'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { Tooltip } from '@/components/uis/Tooltip'
 
-// 効いてなさそう
-import 'highlight.js/styles/github-dark-dimmed.css'
-
 // import { useRouter } from 'next/router'
 // import { useEffect } from 'react'
 
 // import { PageRepository } from '@/repository/db/page/page.repository'
 
-// type QueryType = {
-//   pageId: string
-// }
+type QueryType = {
+  pageId: string
+}
 
 // const pageRepo = new PageRepository()
 
 export default function PageDetail() {
+  // TODO: You should only use "next/router" on the client side of your app.
+  const { pageId } = router.query as QueryType
+
+  const { pages, updatePage } = usePage()
+  console.log(pages)
+
+  const page = pages?.find((p) => p.id === pageId)
+  console.log(page)
   // const router = useRouter()
-  // const { pageId } = router.query as QueryType
 
   // useEffect(() => {
   //   // if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
   // }, [pageId, router])
+
+  const handleUpdateEmoji = (emoji: string) => {
+    updatePage(pageId, { emoji })
+  }
+
+  // TODO: bounceしないと
+  const handleUpdateTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    updatePage(pageId, { title: e.target.value })
+  }
 
   const [emojiOpen, setEmojiOpen] = useState(false)
 
@@ -57,14 +76,16 @@ export default function PageDetail() {
                   setEmojiOpen(true)
                 }}
                 onClose={() => setEmojiOpen(false)}
-                onSelect={console.log}
+                onSelect={handleUpdateEmoji}
               >
                 <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
-                  🛩️
+                  {page?.emoji}
                 </button>
               </EmojiPicker>
               <input
-                value={'イタリア旅行'}
+                value={page?.title}
+                placeholder="Untitle"
+                onChange={handleUpdateTitle}
                 className="w-full bg-transparent font-extrabold  outline-none"
               />
             </div>

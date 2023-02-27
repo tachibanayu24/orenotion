@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, deleteDoc } from '@/libs/firebase'
+import { doc, getDoc, setDoc, deleteDoc, updateDoc } from '@/libs/firebase'
 
 import { db } from '@/config/firebase'
 
@@ -31,6 +31,11 @@ export class PageRepository extends DBRepository<Page> {
 
   add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
     return await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
+  }
+
+  update = async (id: string, updateObject: Partial<Page>) => {
+    const ref = doc(db, this.PATH, id)
+    return await updateDoc(ref, updateObject)
   }
 
   delete = async (id: Page['id']) => {

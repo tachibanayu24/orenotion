@@ -16,6 +16,12 @@ export const EmojiPicker = ({ isOpen, onOpen, onClose, onSelect, children }: Pro
     onClick: onOpen,
   })
 
+  // TODO: 型
+  const handleSelect = (emoji: { native: string }) => {
+    onSelect(emoji.native)
+    onClose()
+  }
+
   return (
     <div className="relative inline z-popup">
       {anchorWithOnClick}
@@ -24,7 +30,7 @@ export const EmojiPicker = ({ isOpen, onOpen, onClose, onSelect, children }: Pro
           <div className="absolute top-11 left-4 z-popup shadow-lg">
             <Picker
               data={data}
-              onEmojiSelect={onSelect}
+              onEmojiSelect={handleSelect}
               autoFocus
               emojiButtonSize={32}
               emojiSize={16}

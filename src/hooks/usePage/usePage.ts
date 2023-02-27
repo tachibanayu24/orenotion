@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { PageRepository } from '@/repository/db/page/page.repository'
 
@@ -18,12 +18,27 @@ export const usePage = () => {
       .catch((e) => console.error(new Error(e)))
   }, [])
 
+  useEffect(() => {
+    refetchPages()
+  }, [refetchPages])
+
   // TODO: DTO
   const addPage = useCallback(
     async (page: Parameters<PageRepository['add']>[number]) => {
       console.log('add')
       await pageRepo
         .add(page)
+        .then(async () => await refetchPages())
+        .catch((e) => console.error(e))
+    },
+    [refetchPages]
+  )
+
+  const updatePage = useCallback(
+    async (id: string, updateObject: Partial<Page>) => {
+      console.log('update')
+      return await pageRepo
+        .update(id, updateObject)
         .then(async () => await refetchPages())
         .catch((e) => console.error(e))
     },
@@ -41,5 +56,5 @@ export const usePage = () => {
     [refetchPages]
   )
 
-  return { pages, refetchPages, addPage, deletePage }
+  return { pages, refetchPages, addPage, updatePage, deletePage }
 }
