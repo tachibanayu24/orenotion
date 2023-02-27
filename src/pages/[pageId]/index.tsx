@@ -1,6 +1,8 @@
 import Head from 'next/head'
+import { useState } from 'react'
 
 import { Editor } from '@/components/uis/Editor'
+import { EmojiPicker } from '@/components/uis/EmojiPicker'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { Tooltip } from '@/components/uis/Tooltip'
 
@@ -26,6 +28,8 @@ export default function PageDetail() {
   //   // if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
   // }, [pageId, router])
 
+  const [emojiOpen, setEmojiOpen] = useState(false)
+
   return (
     <>
       <Head>
@@ -45,10 +49,25 @@ export default function PageDetail() {
           </div>
 
           <div className="px-2 py-4">
-            <input
-              value={'🛩️ イタリア旅行'}
-              className="w-full bg-transparent text-3xl font-extrabold mb-2 outline-none"
-            />
+            <div className="flex items-center gap-1 text-3xl mb-2">
+              <EmojiPicker
+                isOpen={emojiOpen}
+                onOpen={() => {
+                  console.log('clicec')
+                  setEmojiOpen(true)
+                }}
+                onClose={() => setEmojiOpen(false)}
+                onSelect={console.log}
+              >
+                <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
+                  🛩️
+                </button>
+              </EmojiPicker>
+              <input
+                value={'イタリア旅行'}
+                className="w-full bg-transparent font-extrabold  outline-none"
+              />
+            </div>
             <div className="text-xs text-slate-300 flex gap-4">
               <div>
                 <span>作成日時 2023/02/28 04:10</span>
