@@ -1,9 +1,8 @@
 import Head from 'next/head'
 
+import { Editor } from '@/components/uis/Editor'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { Tooltip } from '@/components/uis/Tooltip'
-
-import style from './style.module.css'
 
 // 効いてなさそう
 import 'highlight.js/styles/github-dark-dimmed.css'
@@ -36,73 +35,34 @@ export default function PageDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex justify-between items-center">
-        <span className="text-sm">breadcrumbs / ページタイトル</span>
-        <Tooltip position="bottom-left" component="シェアする">
-          <IconButton icon="twitter" size="md" />
-        </Tooltip>
-      </div>
+      <div>
+        <div className="sticky top-0 bg-slate-900 z-30 -mt-4 pt-4">
+          <div className="flex justify-between items-center">
+            <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span>
+            <Tooltip position="bottom-left" component="シェアする">
+              <IconButton icon="twitter" size="md" />
+            </Tooltip>
+          </div>
 
-      <div className="px-2 py-4">
-        <div>
-          <h1 className="w-full bg-transparent text-3xl font-extrabold mb-2">🛩️ イタリア旅行</h1>
-          <div className="text-xs text-slate-300 flex gap-4">
-            <div>
-              <span>作成日時 2023/02/28 04:10</span>
-            </div>
-            <div>
-              <span>更新日時 ---</span>
+          <div className="px-2 py-4">
+            <h1 className="w-full bg-transparent text-3xl font-extrabold mb-2">🛩️ イタリア旅行</h1>
+            <div className="text-xs text-slate-300 flex gap-4">
+              <div>
+                <span>作成日時 2023/02/28 04:10</span>
+              </div>
+              <div>
+                <span>更新日時 ---</span>
+              </div>
             </div>
           </div>
+
+          <hr className="border-slate-500 mt-2" />
         </div>
 
-        <hr className="border-slate-500 my-4" />
-
-        <div dangerouslySetInnerHTML={{ __html: content }} className={style.content} />
+        <div className="pt-2">
+          <Editor />
+        </div>
       </div>
     </>
   )
 }
-
-const content = `<h1>Heading1</h1>
-    <h2>Heading2</h2>
-    <h3>Heading3</h3>
-    <p>paragpraph</p>
-    <blockquote>
-      Nothing is impossible, the word itself says “I’m possible!”
-    </blockquote>
-    <ul>
-      <li>A list item</li>
-      <li>And another one</li>
-    </ul>
-    <ol>
-      <li>A list item</li>
-      <li>And another one</li>
-    </ol>
-
-    <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
-    {
-      if (i % 15 == 0)
-        console.log("FizzBuzz");
-      else if (i % 3 == 0)
-        console.log("Fizz");
-      else if (i % 5 == 0)
-        console.log("Buzz");
-      else
-        console.log(i);
-    }</code></pre>
-    <p>paragpraph</p>
-    <hr>
-    <p>paragpraph</p>
-    <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-    <ul data-type="taskList">
-      <li data-type="taskItem" data-checked="true">A list item</li>
-      <li data-type="taskItem" data-checked="false">And another one</li>
-    </ul>
-
-    <p><strong>This is bold.</strong></p>
-    <p><code>This is code.</code></p>
-    <p><em>This is italic.</em></p>
-    <p><s>But that’s striked through.</s></p>
-
-    `
