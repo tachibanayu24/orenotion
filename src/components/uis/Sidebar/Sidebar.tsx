@@ -29,7 +29,7 @@ export const Sidebar = () => {
   }, [refetchPages])
 
   return (
-    <aside className="w-[240px] h-screen sticky top-0 flex flex-col justify-between p-2 bg-slate-800 shadow-xl">
+    <aside className="w-[240px] h-screen sticky top-0 z-front flex flex-col justify-between p-2 bg-slate-800 shadow-xl">
       <div>
         <h1 className="text-lg mb-4 text-center font-bold">
           <Link href="/">俺のNotion</Link>

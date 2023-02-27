@@ -43,7 +43,7 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
       {anchorWithOnClick}
       {isDisplay && (
         <div
-          className={`${positionClasses[position]} absolute z-50 flex flex-col gap-1 p-1 bg-slate-700 rounded-md shadow-lg`}
+          className={`${positionClasses[position]} absolute z-popup flex flex-col gap-1 p-1 bg-slate-700 rounded-md shadow-lg`}
         >
           {options.map((option, i) =>
             option.type === 'default' ? (
@@ -56,7 +56,7 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
       )}
 
       {isDisplay && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-40" onClick={handleCloseMenu} />
+        <div className="fixed top-0 left-0 w-screen h-screen z-overlay" onClick={handleCloseMenu} />
       )}
     </div>
   )

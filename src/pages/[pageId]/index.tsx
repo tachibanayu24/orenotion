@@ -36,7 +36,7 @@ export default function PageDetail() {
       </Head>
 
       <div>
-        <div className="sticky top-0 bg-slate-900 z-30 -mt-4 pt-4">
+        <div className="sticky top-0 bg-slate-900 z-floating -mt-4 pt-4">
           <div className="flex justify-between items-center">
             <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span>
             <Tooltip position="bottom-left" component="シェアする">

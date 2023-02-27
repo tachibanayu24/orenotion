@@ -1,9 +1,17 @@
+.editor > * + * {
+  margin-top: 0.75em;
+}
+
 .editor :focus-visible {
   outline: none;
 }
 
-.editor > * + * {
-  margin-top: 0.75em;
+/* いいのかわからないがrelativeだと前面に出てしまう */
+.editor .ProseMirror {
+  position: static;
+}
+.editor {
+  position: static;
 }
 
 .editor h1 {

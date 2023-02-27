@@ -8,6 +8,16 @@ module.exports = {
     // color theme
     // font-theme
     extend: {
+      zIndex: {
+        background: -1000,
+        main: 0,
+        floating: 1000,
+        front: 1100,
+        overlay: 1200,
+        modal: 1300,
+        snackbar: 1400,
+        popup: 1500,
+      },
       animation: {
         fade: 'fadeOut 3s ease-out',
         ohNo: 'ohNo 0.82s cubic-bezier(.36,.07,.19,.97) both',

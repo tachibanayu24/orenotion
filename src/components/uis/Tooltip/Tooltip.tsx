@@ -14,7 +14,7 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
     const stringClasses = typeof component === 'string' ? 'text-xs select-none' : undefined
     return (
       <div
-        className={`${positionClasses[position]} ${stringClasses} w-max absolute z-50 p-1 rounded-md shadow-lg bg-slate-600`}
+        className={`${positionClasses[position]} ${stringClasses} w-max absolute z-popup p-1 rounded-md shadow-lg bg-slate-600`}
       >
         {component}
       </div>
@@ -40,7 +40,7 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
 
         {isDisplay && shouldOpenOnClick && (
           <div
-            className="fixed top-0 left-0 w-screen h-screen z-40"
+            className="fixed top-0 left-0 w-screen h-screen z-overlay"
             onClick={() => setIsDisplay(false)}
           />
         )}
