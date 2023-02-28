@@ -5,12 +5,15 @@ import Head from 'next/head'
 import router from 'next/router'
 import { ChangeEvent, useState } from 'react'
 
+import { format } from 'date-fns'
+
 import { debounce } from '@/utils'
 
 import { usePage } from '@/hooks'
 
 import { Editor } from '@/components/uis/Editor'
 import { EmojiPicker } from '@/components/uis/EmojiPicker'
+import { Icon } from '@/components/uis/Icon/Icon'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { Tooltip } from '@/components/uis/Tooltip'
 
@@ -47,10 +50,18 @@ export default function PageDetail() {
 
   const handleUpdateTitle = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
     setIsUpdating(true)
-    await updatePage(pageId, { title: e.target.value }, () => setIsUpdating(false))
+    await updatePage(pageId, { title: e.target.value }, () =>
+      setTimeout(() => {
+        setIsUpdating(false)
+      }, 500)
+    )
   }, 1000)
 
   const [emojiOpen, setEmojiOpen] = useState(false)
+
+  console.log(page?.createdAt)
+
+  if (!page) return <></>
 
   return (
     <>
@@ -92,14 +103,23 @@ export default function PageDetail() {
                 className="w-full bg-transparent font-extrabold  outline-none"
               />
             </div>
-            <div className="text-xs text-slate-300 flex gap-4">
+            <div className="text-xs text-slate-300 flex justify-between">
               <div>
-                <span>作成日時 2023/02/28 04:10</span>
+                <span className="mr-4">
+                  作成日時 {format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')}
+                </span>
+                <span>
+                  更新日時{' '}
+                  {page.updatedAt ? format(page.updatedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
+                </span>
               </div>
-              <div>
-                <span>更新日時 ---</span>
-                {isUpdating && <span>保存中...</span>}
-              </div>
+              {isUpdating && (
+                <span>
+                  <div className="flex gap-2 items-center">
+                    <Icon icon="spin" size="sm" shouldSpin /> 保存中...
+                  </div>
+                </span>
+              )}
             </div>
           </div>
 

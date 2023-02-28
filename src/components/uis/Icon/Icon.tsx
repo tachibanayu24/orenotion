@@ -5,6 +5,7 @@ import {
   faEllipsis,
   faLink,
   faPlus,
+  faCircleNotch,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 type Props = {
   icon: keyof typeof icons
   size: 'sm' | 'md' | 'lg'
+  shouldSpin?: boolean
 }
 
 const icons = {
@@ -22,13 +24,16 @@ const icons = {
   copy: faCopy,
   trash: faTrash,
   twitter: faTwitter,
+  spin: faCircleNotch,
 } as const
 
-export const Icon = ({ icon, size }: Props) => {
+export const Icon = ({ icon, size, shouldSpin }: Props) => {
   return (
     <FontAwesomeIcon
       icon={icons[icon]}
-      className={`${sizeClasses[size]} flex justify-center items-center flex-shrink-0`}
+      className={`${sizeClasses[size]} flex justify-center items-center flex-shrink-0 ${
+        shouldSpin && 'animate-spin'
+      }`}
     />
   )
 }
