@@ -9,9 +9,9 @@ import { auth } from '@/config/firebase'
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
 import { PageItem } from './PageItem'
-import { SidebarSkeleton } from './SidebarSkeleton'
 import { IconButton } from '../Icon/IconButton/IconButton'
 import { SignInForm } from '../SignInForm'
+import { SidebarSkeleton } from '../Skeleton/SidebarSkeleton'
 import { Tooltip } from '../Tooltip'
 
 export const Sidebar = () => {

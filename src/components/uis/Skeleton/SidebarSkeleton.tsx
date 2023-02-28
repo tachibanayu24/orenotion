@@ -1,4 +1,4 @@
-import { Skeleton } from '../Skeleton'
+import { Skeleton } from '.'
 
 const PageItemSkeleton = () => (
   <div className="flex gap-1 px-2 py-1">

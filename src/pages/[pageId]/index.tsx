@@ -3,7 +3,7 @@ import 'highlight.js/styles/github-dark-dimmed.css'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
 
 import { format } from 'date-fns'
 
@@ -15,6 +15,7 @@ import { Editor } from '@/components/uis/Editor'
 import { EmojiPicker } from '@/components/uis/EmojiPicker'
 import { Icon } from '@/components/uis/Icon/Icon'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
+import { PageSkeleton } from '@/components/uis/Skeleton/PageSkeleton'
 import { Tooltip } from '@/components/uis/Tooltip'
 
 type QueryType = {
@@ -51,9 +52,32 @@ export default function PageDetail() {
     )
   }, 1000)
 
+  const handleUpdateContent = debounce(
+    async (json: Parameters<ComponentProps<typeof Editor>['onUpdate']>[0]) => {
+      setIsUpdating(true)
+      await updatePage(pageId, { content: json }, () =>
+        setTimeout(() => {
+          setIsUpdating(false)
+        }, 500)
+      )
+    },
+    1000
+  )
+
+  const handleSaveContent = async (
+    json: Parameters<ComponentProps<typeof Editor>['onUpdate']>[0]
+  ) => {
+    setIsUpdating(true)
+    await updatePage(pageId, { content: json }, () =>
+      setTimeout(() => {
+        setIsUpdating(false)
+      }, 500)
+    )
+  }
+
   const [emojiOpen, setEmojiOpen] = useState(false)
 
-  if (isLoading) return <>loading</>
+  if (isLoading) return <PageSkeleton />
 
   if (!page) return <>404</>
 
@@ -121,7 +145,11 @@ export default function PageDetail() {
         </div>
 
         <div className="pt-2">
-          <Editor />
+          <Editor
+            onUpdate={handleUpdateContent}
+            onSave={handleSaveContent}
+            content={page.content}
+          />
         </div>
       </div>
     </>

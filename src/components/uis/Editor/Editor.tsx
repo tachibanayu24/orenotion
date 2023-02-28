@@ -4,8 +4,12 @@ import style from './style.module.css'
 import { useEditor } from './useEditor'
 import 'highlight.js/styles/github-dark-dimmed.css'
 
-export const Editor = () => {
-  const editor = useEditor()
+type Props = Parameters<typeof useEditor>[0]
+
+export const Editor = ({ onUpdate, onSave, content }: Props) => {
+  const editor = useEditor({ onUpdate, onSave, content })
+
+  if (!editor) return <></>
 
   const handleFocus = () => editor?.chain().focus().run()
 

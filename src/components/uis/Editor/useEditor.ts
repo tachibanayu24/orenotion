@@ -20,7 +20,7 @@ import Strike from '@tiptap/extension-strike'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
-import { useEditor as useEditorOrigin } from '@tiptap/react'
+import { JSONContent, useEditor as useEditorOrigin } from '@tiptap/react'
 import c from 'highlight.js/lib/languages/c'
 import cpp from 'highlight.js/lib/languages/cpp'
 import css from 'highlight.js/lib/languages/css'
@@ -72,10 +72,29 @@ lowlight.registerLanguage('ts', typescript)
 lowlight.registerLanguage('wasm', wasm)
 lowlight.registerLanguage('yaml', yaml)
 
-export const useEditor = () =>
+type Props = {
+  onUpdate: (json: JSONContent) => void
+  onSave: (json: JSONContent) => void
+  content?: JSONContent
+}
+
+export const useEditor = ({ onUpdate, onSave, content }: Props) =>
   useEditorOrigin({
+    onUpdate: ({ editor }) => {
+      onUpdate(editor.getJSON())
+    },
     extensions: [
-      Document,
+      Document.extend({
+        addKeyboardShortcuts() {
+          return {
+            ...this.parent?.(),
+            'Cmd-s': () => {
+              onSave(this.editor.getJSON())
+              return true // Prevent focus out from editor
+            },
+          }
+        },
+      }),
       Paragraph,
       Text,
       Heading.configure({ levels: [1, 2, 3] }),
@@ -130,72 +149,6 @@ export const useEditor = () =>
         openOnClick: true,
       }),
     ],
-    content: `<h1>Heading1</h1>
-    <h2>Heading2</h2>
-    <h3>Heading3</h3>
-    <p>paragpraph</p>
-    <blockquote>
-      Nothing is impossible, the word itself says “I’m possible!”
-    </blockquote>
-    <ul>
-      <li>A list item</li>
-      <li>And another one</li>
-    </ul>
-    <ol>
-      <li>A list item</li>
-      <li>And another one</li>
-    </ol>
-
-    <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
-    {
-      if (i % 15 == 0)
-        console.log("FizzBuzz");
-      else if (i % 3 == 0)
-        console.log("Fizz");
-      else if (i % 5 == 0)
-        console.log("Buzz");
-      else
-        console.log(i);
-    }</code></pre>
-    <p>paragpraph</p>
-    <hr>
-    <p>paragpraph</p>
-    <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-    <ul data-type="taskList">
-      <li data-type="taskItem" data-checked="true">A list item</li>
-      <li data-type="taskItem" data-checked="false">And another one</li>
-    </ul>
-
-    <p><strong>This is bold.</strong></p>
-    <p><code>This is code.</code></p>
-    <p><em>This is italic.</em></p>
-    <p><s>But that’s striked through.</s></p>
-
-    <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
-    {
-      if (i % 15 == 0)
-        console.log("FizzBuzz");
-      else if (i % 3 == 0)
-        console.log("Fizz");
-      else if (i % 5 == 0)
-        console.log("Buzz");
-      else
-        console.log(i);
-    }</code></pre>
-    <p>paragpraph</p>
-    <hr>
-    <p>paragpraph</p>
-    <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-    <ul data-type="taskList">
-      <li data-type="taskItem" data-checked="true">A list item</li>
-      <li data-type="taskItem" data-checked="false">And another one</li>
-    </ul>
-
-    <p><strong>This is bold.</strong></p>
-    <p><code>This is code.</code></p>
-    <p><em>This is italic.</em></p>
-    <p><s>But that’s striked through.</s></p>
-
-    `,
+    content,
     autofocus: 'end',
   })
