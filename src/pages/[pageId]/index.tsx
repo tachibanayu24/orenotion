@@ -5,6 +5,8 @@ import Head from 'next/head'
 import router from 'next/router'
 import { ChangeEvent, useState } from 'react'
 
+import { debounce } from '@/utils'
+
 import { usePage } from '@/hooks'
 
 import { Editor } from '@/components/uis/Editor'
@@ -28,10 +30,11 @@ export default function PageDetail() {
   const { pageId } = router.query as QueryType
 
   const { pages, updatePage } = usePage()
-  console.log(pages)
+  const [isUpdating, setIsUpdating] = useState(false)
+  // console.log(pages)
 
   const page = pages?.find((p) => p.id === pageId)
-  console.log(page)
+  // console.log(page)
   // const router = useRouter()
 
   // useEffect(() => {
@@ -42,10 +45,10 @@ export default function PageDetail() {
     updatePage(pageId, { emoji })
   }
 
-  // TODO: bounceしないと
-  const handleUpdateTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    updatePage(pageId, { title: e.target.value })
-  }
+  const handleUpdateTitle = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsUpdating(true)
+    await updatePage(pageId, { title: e.target.value }, () => setIsUpdating(false))
+  }, 1000)
 
   const [emojiOpen, setEmojiOpen] = useState(false)
 
@@ -83,7 +86,7 @@ export default function PageDetail() {
                 </button>
               </EmojiPicker>
               <input
-                value={page?.title}
+                defaultValue={page?.title}
                 placeholder="Untitle"
                 onChange={handleUpdateTitle}
                 className="w-full bg-transparent font-extrabold  outline-none"
@@ -95,6 +98,7 @@ export default function PageDetail() {
               </div>
               <div>
                 <span>更新日時 ---</span>
+                {isUpdating && <span>保存中...</span>}
               </div>
             </div>
           </div>

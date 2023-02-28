@@ -23,38 +23,28 @@ export const usePage = () => {
   }, [refetchPages])
 
   // TODO: DTO
-  const addPage = useCallback(
-    async (page: Parameters<PageRepository['add']>[number]) => {
-      console.log('add')
-      await pageRepo
-        .add(page)
-        .then(async () => await refetchPages())
-        .catch((e) => console.error(e))
-    },
-    [refetchPages]
-  )
+  const addPage = useCallback(async (page: Parameters<PageRepository['add']>[number]) => {
+    console.log('add')
+    await pageRepo
+      .add(page)
+      // .then(async () => await refetchPages())
+      .catch((e) => console.error(e))
+  }, [])
 
   const updatePage = useCallback(
-    async (id: string, updateObject: Partial<Page>) => {
-      console.log('update')
+    async (id: string, updateObject: Partial<Page>, onUpdate?: () => void) => {
       return await pageRepo
-        .update(id, updateObject)
-        .then(async () => await refetchPages())
+        .update(id, { ...updateObject, updatedAt: new Date() })
+        .then(onUpdate)
         .catch((e) => console.error(e))
     },
-    [refetchPages]
+    []
   )
 
-  const deletePage = useCallback(
-    async (pageId: string) => {
-      console.log('delete')
-      await pageRepo
-        .delete(pageId)
-        .then(async () => await refetchPages())
-        .catch((e) => console.error(e))
-    },
-    [refetchPages]
-  )
+  const deletePage = useCallback(async (pageId: string) => {
+    console.log('delete')
+    await pageRepo.delete(pageId).catch((e) => console.error(e))
+  }, [])
 
   return { pages, refetchPages, addPage, updatePage, deletePage }
 }
