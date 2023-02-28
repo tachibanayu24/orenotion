@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth'
 
 import { auth } from '@/config/firebase'
 
-import { useCurrentUser, usePage } from '@/hooks'
+import { useCurrentUser, usePage, usePages } from '@/hooks'
 
 import { PageItem } from './PageItem'
 import { SidebarSkeleton } from './SidebarSkeleton'
@@ -17,7 +17,8 @@ import { Tooltip } from '../Tooltip'
 export const Sidebar = () => {
   const router = useRouter()
 
-  const { pages, refetchPages, addPage } = usePage()
+  const { pages, refetchPages } = usePages()
+  const { addPage } = usePage()
   const { currentUser } = useCurrentUser()
 
   const handleAddPage = async () => {

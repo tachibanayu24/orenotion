@@ -1,0 +1,1 @@
+export { usePages } from './usePages'

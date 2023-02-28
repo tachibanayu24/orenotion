@@ -2,8 +2,8 @@
 import 'highlight.js/styles/github-dark-dimmed.css'
 
 import Head from 'next/head'
-import router from 'next/router'
-import { ChangeEvent, useState } from 'react'
+import { useRouter } from 'next/router'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { format } from 'date-fns'
 
@@ -17,32 +17,26 @@ import { Icon } from '@/components/uis/Icon/Icon'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { Tooltip } from '@/components/uis/Tooltip'
 
-// import { useRouter } from 'next/router'
-// import { useEffect } from 'react'
-
-// import { PageRepository } from '@/repository/db/page/page.repository'
-
 type QueryType = {
   pageId: string
 }
 
-// const pageRepo = new PageRepository()
-
 export default function PageDetail() {
-  // TODO: You should only use "next/router" on the client side of your app.
+  const router = useRouter()
+
   const { pageId } = router.query as QueryType
 
-  const { pages, updatePage } = usePage()
+  const { page, fetchPage, updatePage } = usePage()
+  const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  // console.log(pages)
 
-  const page = pages?.find((p) => p.id === pageId)
-  // console.log(page)
-  // const router = useRouter()
-
-  // useEffect(() => {
-  //   // if (router.isReady) console.log('PageDetail', pageRepo.get(pageId))
-  // }, [pageId, router])
+  useEffect(() => {
+    if (router.isReady) {
+      fetchPage(pageId).then(() => setIsLoading(false))
+    } else {
+      setIsLoading(true)
+    }
+  }, [fetchPage, pageId, router.isReady])
 
   const handleUpdateEmoji = (emoji: string) => {
     updatePage(pageId, { emoji })
@@ -59,9 +53,9 @@ export default function PageDetail() {
 
   const [emojiOpen, setEmojiOpen] = useState(false)
 
-  console.log(page?.createdAt)
+  if (isLoading) return <>loading</>
 
-  if (!page) return <></>
+  if (!page) return <>404</>
 
   return (
     <>
@@ -93,12 +87,12 @@ export default function PageDetail() {
                 onSelect={handleUpdateEmoji}
               >
                 <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
-                  {page?.emoji}
+                  {page.emoji}
                 </button>
               </EmojiPicker>
               <input
-                defaultValue={page?.title}
-                placeholder="Untitle"
+                defaultValue={page.title}
+                placeholder="Untitled"
                 onChange={handleUpdateTitle}
                 className="w-full bg-transparent font-extrabold  outline-none"
               />
