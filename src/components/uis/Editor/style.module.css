@@ -1,3 +1,7 @@
+.editor {
+  min-height: calc(100vh - 155px - 30px - 24px);
+}
+
 .editor > * + * {
   margin-top: 0.75em;
 }

@@ -16,7 +16,7 @@ export const Editor = ({ onUpdate, onSave, content }: Props) => {
   return (
     <EditorContent
       onClick={handleFocus}
-      className={`${style.editor} prose prose-sm w-full text-gray-100 py-2 px-8 placeholder:text-gray-500`}
+      className={`${style.editor} prose prose-sm w-full h-full text-gray-100 py-2 px-8 placeholder:text-gray-500`}
       editor={editor}
     />
   )

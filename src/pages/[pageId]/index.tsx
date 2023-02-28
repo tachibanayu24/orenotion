@@ -24,10 +24,9 @@ type QueryType = {
 
 export default function PageDetail() {
   const router = useRouter()
-
+  const { page, fetchPage, updatePage } = usePage()
   const { pageId } = router.query as QueryType
 
-  const { page, fetchPage, updatePage } = usePage()
   const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
@@ -37,7 +36,7 @@ export default function PageDetail() {
     } else {
       setIsLoading(true)
     }
-  }, [fetchPage, pageId, router.isReady])
+  }, [fetchPage, page?.title, pageId, router.isReady])
 
   const handleUpdateEmoji = (emoji: string) => {
     updatePage(pageId, { emoji })
@@ -45,6 +44,7 @@ export default function PageDetail() {
 
   const handleUpdateTitle = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
     setIsUpdating(true)
+
     await updatePage(pageId, { title: e.target.value }, () =>
       setTimeout(() => {
         setIsUpdating(false)
@@ -103,10 +103,7 @@ export default function PageDetail() {
             <div className="flex items-center gap-1 text-3xl mb-2">
               <EmojiPicker
                 isOpen={emojiOpen}
-                onOpen={() => {
-                  console.log('clicec')
-                  setEmojiOpen(true)
-                }}
+                onOpen={() => setEmojiOpen(true)}
                 onClose={() => setEmojiOpen(false)}
                 onSelect={handleUpdateEmoji}
               >
@@ -114,12 +111,14 @@ export default function PageDetail() {
                   {page.emoji}
                 </button>
               </EmojiPicker>
-              <input
-                defaultValue={page.title}
-                placeholder="Untitled"
-                onChange={handleUpdateTitle}
-                className="w-full bg-transparent font-extrabold  outline-none"
-              />
+              <div key={page.title} className="w-full">
+                <input
+                  defaultValue={page.title}
+                  placeholder="Untitled"
+                  onChange={handleUpdateTitle}
+                  className="w-full bg-transparent font-extrabold  outline-none"
+                />
+              </div>
             </div>
             <div className="text-xs text-slate-300 flex justify-between">
               <div>
@@ -144,7 +143,7 @@ export default function PageDetail() {
           <hr className="border-slate-500 mt-2" />
         </div>
 
-        <div className="pt-2">
+        <div key={page.id} className="pt-2">
           <Editor
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}
