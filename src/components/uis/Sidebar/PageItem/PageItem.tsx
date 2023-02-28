@@ -1,32 +1,35 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { usePage } from '@/hooks'
+import { Unsubscribe } from 'firebase/auth'
 
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 
+import { Page } from '@/models/page'
+
 import { Menu } from '../../Menu'
 
-type PageType = {
-  id: string
-  emoji?: string
-  title: string
-}
-
 type Props = {
-  page: PageType
-  childPages?: PageType[]
+  page: Page
+  // childPages?: PageType[]
+  onDelete: (id: string) => void
+  unsubscribe: (id: string) => Unsubscribe
 }
 
-export const PageItem = ({ page }: Props) => {
-  const { deletePage } = usePage()
-
+export const PageItem = ({ page, onDelete, unsubscribe }: Props) => {
   const [isHover, setIsHover] = useState(false)
   const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
   const handleCopyLink = (pageId: string) => {
     console.log('copy', pageId)
   }
+
+  useEffect(() => {
+    const unsub = unsubscribe(page.id)
+    return () => unsub()
+  }, [page, unsubscribe])
+
+  if (!page) return <></>
 
   // TODO: フルロードしてる
   return (
@@ -38,7 +41,9 @@ export const PageItem = ({ page }: Props) => {
     >
       <div className="truncate">
         <span className="mr-1">{page.emoji}</span>
-        <span>{page.title}</span>
+        <span className={page.title ? undefined : 'text-slate-400'}>
+          {page.title || 'Untitled'}
+        </span>
       </div>
 
       {(isHover || isOpenedMenu) && (
@@ -59,7 +64,7 @@ export const PageItem = ({ page }: Props) => {
                 type: 'default',
                 icon: 'trash',
                 title: '削除',
-                onClick: () => deletePage(page.id),
+                onClick: () => onDelete(page.id),
                 isDanger: true,
               },
             ]}

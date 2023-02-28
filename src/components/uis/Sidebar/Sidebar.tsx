@@ -18,11 +18,17 @@ export const Sidebar = () => {
   const router = useRouter()
 
   const { pages, refetchPages } = usePages()
-  const { addPage } = usePage()
+  const { addPage, deletePage, unsubscribePage } = usePage()
   const { currentUser } = useCurrentUser()
 
   const handleAddPage = async () => {
-    await addPage({ emoji: '🚀', title: '宇宙旅行', content: { hoge: 'hoge', fuga: 123 } })
+    await addPage({ emoji: '📝', title: '' })
+    refetchPages()
+  }
+
+  const handleDeletePage = async (pageId: string) => {
+    await deletePage(pageId)
+    refetchPages()
   }
 
   useEffect(() => {
@@ -41,8 +47,13 @@ export const Sidebar = () => {
         </div>
         {/* // TODO:  */}
         {pages ? (
-          pages.map((page: { id: string; emoji?: string | undefined; title: string }) => (
-            <PageItem key={page.id} page={page} />
+          pages.map((page) => (
+            <PageItem
+              key={page.id}
+              page={page}
+              onDelete={handleDeletePage}
+              unsubscribe={unsubscribePage}
+            />
           ))
         ) : (
           <SidebarSkeleton />

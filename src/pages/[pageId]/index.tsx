@@ -22,6 +22,7 @@ type QueryType = {
   pageId: string
 }
 
+// TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
 export default function PageDetail() {
   const router = useRouter()
   const { page, fetchPage, updatePage } = usePage()

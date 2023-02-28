@@ -11,9 +11,10 @@ export {
   deleteDoc,
   updateDoc,
   FirestoreError,
+  onSnapshot,
 } from 'firebase/firestore'
 
-export type { DocumentData, FirestoreErrorCode } from 'firebase/firestore'
+export type { DocumentData, FirestoreErrorCode, Unsubscribe } from 'firebase/firestore'
 
 export { initializeApp } from 'firebase/app'
 export { getAnalytics } from 'firebase/analytics'

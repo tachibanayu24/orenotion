@@ -1,7 +1,8 @@
-import { doc, getDoc, setDoc, deleteDoc, updateDoc } from '@/libs/firebase'
+import { doc, getDoc, setDoc, deleteDoc, updateDoc, onSnapshot } from '@/libs/firebase'
 
 import { db } from '@/config/firebase'
 
+import { NotFoundError } from '@/models/__common__/error'
 import { Page } from '@/models/page'
 
 import { DBRepository } from '../__common__/dbRepository'
@@ -22,8 +23,7 @@ export class PageRepository extends DBRepository<Page> {
     const document = await getDoc(ref)
 
     if (!document.exists()) {
-      // TODO: エラーインスタンスのカスタム
-      throw new Error('ページが見つかりませんでした')
+      throw new NotFoundError('ページが見つかりませんでした')
     } else {
       return new Page(this.docToObject(document))
     }
@@ -41,4 +41,11 @@ export class PageRepository extends DBRepository<Page> {
   delete = async (id: Page['id']) => {
     return await deleteDoc(doc(db, this.PATH, id))
   }
+
+  unsubscribe = (id: Page['id'], onUpdate: (page: Page) => void) =>
+    onSnapshot(doc(db, this.PATH, id), (doc) => {
+      if (doc.exists()) {
+        onUpdate(new Page(this.docToObject(doc)))
+      }
+    })
 }

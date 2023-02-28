@@ -1,10 +1,12 @@
+import { JSONContent } from '@tiptap/core'
+
 import { Entity } from '../__common__/entity'
 
 export class Page extends Entity {
-  emoji?: string
+  emoji: string
   title: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any
+
+  content?: JSONContent
 
   constructor(init: Page) {
     super(init)

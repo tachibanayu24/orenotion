@@ -35,5 +35,10 @@ export const usePage = () => {
     await pageRepo.delete(id).catch((e) => console.error(e))
   }, [])
 
-  return { page, fetchPage, addPage, updatePage, deletePage }
+  const unsubscribePage = useCallback(
+    (id: string) => pageRepo.unsubscribe(id, (page) => setPage(page)),
+    []
+  )
+
+  return { page, fetchPage, addPage, updatePage, deletePage, unsubscribePage }
 }
