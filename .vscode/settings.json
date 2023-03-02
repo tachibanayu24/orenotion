@@ -1,4 +1,35 @@
 {
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.svg": "html"
+  },
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "backgroundColor": "gray",
+      "color": "#fff",
+      "isWholeLine": false
+    },
+    {
+      "text": "FIXME:",
+      "backgroundColor": "#ef5350",
+      "color": "#fff",
+      "isWholeLine": false
+    },
+    {
+      "text": "NOTE:",
+      "backgroundColor": "#03a9f4",
+      "color": "#fff",
+      "isWholeLine": false
+    },
+    {
+      "text": "XXX:",
+      "backgroundColor": "#ff9800",
+      "color": "#fff",
+      "isWholeLine": false
+    }
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
     "Dropcursor",
     "elipsis",

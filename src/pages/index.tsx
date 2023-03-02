@@ -1,8 +1,12 @@
+/* eslint-disable import/order */
 import Head from 'next/head'
 
-import { Skeleton } from '@/components/uis/Skeleton'
+import { Timeline } from '@/components/uis/Timeline'
+import { usePages } from '@/hooks'
 
 export default function Home() {
+  const { pages } = usePages()
+
   return (
     <>
       <Head>
@@ -11,27 +15,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1 className="text-3xl">Heading1</h1>
-        <Skeleton variant="h1" />
-        <h2 className="text-2xl">Heading2</h2>
-        <Skeleton variant="h2" />
-        <h3 className="text-xl">Heading1</h3>
-        <Skeleton variant="h3" />
-        <p className="text-lg">Paragraph</p>
-        <Skeleton variant="p" />
-        <p className="text-lg">Rect</p>
-        <div className="w-1/2">
-          <Skeleton variant="rectangle" size="sm" />
-        </div>
-        <p className="text-lg">Rect</p>
-        <div className="w-1/2">
-          <Skeleton variant="rectangle" size="md" />
-        </div>
-        <p className="text-lg">Rect</p>
-        <div className="w-1/2">
-          <Skeleton variant="rectangle" size="lg" />
-        </div>
+      <main className="px-20">
+        <h1 className="text-2xl font-bold mb-4">最近の更新</h1>
+
+        <Timeline pages={pages} isLoading={!(pages && pages.length > 0)} />
       </main>
     </>
   )
