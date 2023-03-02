@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 
 import { debounce } from '@/utils'
 
-import { usePage } from '@/hooks'
+import { useCurrentUser, usePage } from '@/hooks'
 
 import { Editor } from '@/components/uis/Editor'
 import { EmojiPicker } from '@/components/uis/EmojiPicker'
@@ -24,6 +24,7 @@ type QueryType = {
 export default function PageDetail() {
   const router = useRouter()
   const { page, fetchPage, updatePage } = usePage()
+  const { currentUser } = useCurrentUser()
 
   const { pageId } = router.query as QueryType
 
@@ -114,7 +115,7 @@ export default function PageDetail() {
             <div className="flex items-center gap-1 text-3xl mb-2">
               <EmojiPicker
                 isOpen={emojiOpen}
-                onOpen={() => setEmojiOpen(true)}
+                onOpen={currentUser?.isAdmin ? () => setEmojiOpen(true) : undefined}
                 onClose={() => setEmojiOpen(false)}
                 onSelect={handleUpdateEmoji}
               >
@@ -128,13 +129,16 @@ export default function PageDetail() {
                   placeholder="Untitled"
                   onChange={handleUpdateTitle}
                   className="w-full bg-transparent font-extrabold  outline-none"
+                  readOnly={!currentUser?.isAdmin}
                 />
               </div>
-              <Toggle
-                defaultChecked={Boolean(page.publishedAt)}
-                label={['公開中', '未公開']}
-                onChange={handleUpdatePublishedAt}
-              />
+              {currentUser?.isAdmin && (
+                <Toggle
+                  defaultChecked={Boolean(page.publishedAt)}
+                  label={['公開中', '未公開']}
+                  onChange={handleUpdatePublishedAt}
+                />
+              )}
             </div>
             <div className="text-xs text-slate-300 flex justify-between">
               <div>
@@ -167,6 +171,7 @@ export default function PageDetail() {
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}
             content={page.content}
+            editable={Boolean(currentUser?.isAdmin)}
           />
         </div>
       </div>

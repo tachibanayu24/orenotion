@@ -6,8 +6,8 @@ import 'highlight.js/styles/github-dark-dimmed.css'
 
 type Props = Parameters<typeof useEditor>[0]
 
-export const Editor = ({ onUpdate, onSave, content }: Props) => {
-  const editor = useEditor({ onUpdate, onSave, content })
+export const Editor = ({ onUpdate, onSave, content, editable }: Props) => {
+  const editor = useEditor({ onUpdate, onSave, content, editable })
 
   if (!editor) return <></>
 

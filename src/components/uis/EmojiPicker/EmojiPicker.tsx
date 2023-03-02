@@ -5,7 +5,7 @@ import Picker from '@emoji-mart/react'
 
 type Props = {
   isOpen: boolean
-  onOpen: () => void
+  onOpen?: () => void
   onClose: () => void
   onSelect: (emoji: string) => void
   children: ReactElement

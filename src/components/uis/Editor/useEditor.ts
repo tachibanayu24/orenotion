@@ -76,10 +76,12 @@ type Props = {
   onUpdate: (json: JSONContent) => void
   onSave: (json: JSONContent) => void
   content?: JSONContent
+  editable?: boolean
 }
 
-export const useEditor = ({ onUpdate, onSave, content }: Props) =>
+export const useEditor = ({ onUpdate, onSave, content, editable }: Props) =>
   useEditorOrigin({
+    editable: editable,
     onUpdate: ({ editor }) => {
       onUpdate(editor.getJSON())
     },
