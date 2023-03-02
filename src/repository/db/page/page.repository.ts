@@ -63,7 +63,7 @@ export class PageRepository extends DBRepository<Page> {
     return await deleteDoc(doc(db, this.PATH, id))
   }
 
-  unsubscribe = (id: Page['id'], onUpdate: (page: Page) => void) =>
+  listen = (id: Page['id'], onUpdate: (page: Page) => void) =>
     onSnapshot(doc(db, this.PATH, id), (doc) => {
       if (doc.exists()) {
         onUpdate(new Page(this.docToObject(doc)))

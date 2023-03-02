@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/uis/Sidebar'
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 bg-slate-800">
+    <div className="flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">
       <Sidebar />
 
       <div className=" bg-slate-900">

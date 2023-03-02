@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import { Unsubscribe } from 'firebase/auth'
+import { usePage } from '@/hooks'
 
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 
@@ -10,13 +10,14 @@ import { Page } from '@/models/page'
 import { Menu } from '../../Menu'
 
 type Props = {
-  page: Page
+  pageId: Page['id']
   // childPages?: PageType[]
   onDelete: (id: string) => void
-  unsubscribe: (id: string) => Unsubscribe
+  isActive?: boolean
 }
 
-export const PageItem = ({ page, onDelete, unsubscribe }: Props) => {
+export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
+  const { page, listenPage } = usePage()
   const [isHover, setIsHover] = useState(false)
   const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
@@ -25,17 +26,21 @@ export const PageItem = ({ page, onDelete, unsubscribe }: Props) => {
   }
 
   useEffect(() => {
-    const unsub = unsubscribe(page.id)
-    return () => unsub()
-  }, [page, unsubscribe])
+    const unsubscribe = listenPage(pageId)
+    return () => unsubscribe()
+  }, [listenPage, pageId])
 
   if (!page) return <></>
+
+  console.log(page.title)
 
   // TODO: フルロードしてる
   return (
     <Link
       href={page.id}
-      className="flex justify-between items-center py-1 px-2 text-base font-semibold rounded-lg hover:bg-slate-700"
+      className={`flex justify-between items-center py-1 px-2 text-base font-semibold rounded-lg ${
+        isActive && 'bg-slate-700'
+      } hover:bg-slate-600`}
       onMouseOver={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >

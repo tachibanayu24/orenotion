@@ -1,9 +1,6 @@
-// 効いてなさそう
-import 'highlight.js/styles/github-dark-dimmed.css'
-
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ChangeEvent, ComponentProps, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
 
 import { format } from 'date-fns'
 
@@ -27,7 +24,6 @@ type QueryType = {
 export default function PageDetail() {
   const router = useRouter()
   const { page, fetchPage, updatePage } = usePage()
-  const editorRef = useRef<HTMLDivElement>(null)
 
   const { pageId } = router.query as QueryType
 
@@ -166,7 +162,7 @@ export default function PageDetail() {
           <hr className="border-slate-500 mt-2" />
         </div>
 
-        <div ref={editorRef} className="pt-2">
+        <div className="pt-2">
           <Editor
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}

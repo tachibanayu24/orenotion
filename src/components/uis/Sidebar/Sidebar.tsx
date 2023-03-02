@@ -16,11 +16,18 @@ import { SignInForm } from '../SignInForm'
 import { SidebarSkeleton } from '../Skeleton/SidebarSkeleton'
 import { Tooltip } from '../Tooltip'
 
+type QueryType = {
+  pageId: string
+}
+
 export const Sidebar = () => {
   const router = useRouter()
+  const { pageId } = router.query as QueryType
+
+  console.log(pageId)
 
   const { pages, refetchPages } = usePages()
-  const { addPage, deletePage, unsubscribePage } = usePage()
+  const { addPage, deletePage } = usePage()
   const { currentUser } = useCurrentUser()
 
   const handleAddPage = async () => {
@@ -38,7 +45,7 @@ export const Sidebar = () => {
   }, [refetchPages])
 
   return (
-    <aside className="w-[240px] h-screen sticky top-0 z-front flex flex-col justify-between p-2 bg-slate-800 shadow-xl">
+    <aside className="w-[240px] h-screen sticky top-0 z-front bg-slate-800 flex flex-col justify-between p-2 shadow-xl">
       <div>
         <h1 className="text-lg mb-4 text-center font-bold">
           <Link href="/">俺のNotion</Link>
@@ -52,9 +59,9 @@ export const Sidebar = () => {
           pages.map((page) => (
             <PageItem
               key={page.id}
-              page={page}
+              pageId={page.id}
               onDelete={handleDeletePage}
-              unsubscribe={unsubscribePage}
+              isActive={page.id === pageId}
             />
           ))
         ) : (

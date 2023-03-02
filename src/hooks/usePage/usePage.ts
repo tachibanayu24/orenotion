@@ -9,6 +9,8 @@ const pageRepo = new PageRepository()
 export const usePage = () => {
   const [page, setPage] = useState<Page>()
 
+  console.log(page?.title)
+
   const fetchPage = useCallback(async (id: string) => {
     console.log('get')
     await pageRepo.get(id).then((res) => setPage(res))
@@ -35,10 +37,10 @@ export const usePage = () => {
     await pageRepo.delete(id).catch((e) => console.error(e))
   }, [])
 
-  const unsubscribePage = useCallback(
-    (id: string) => pageRepo.unsubscribe(id, (page) => setPage(page)),
-    []
+  const listenPage = useCallback(
+    (id: string) => pageRepo.listen(id, async (page) => await fetchPage(page.id)),
+    [fetchPage]
   )
 
-  return { page, fetchPage, addPage, updatePage, deletePage, unsubscribePage }
+  return { page, fetchPage, addPage, updatePage, deletePage, listenPage }
 }
