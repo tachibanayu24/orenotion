@@ -48,5 +48,16 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.text-shadow-green-md': {
+          textShadow: '4px 4px 4px #86efac',
+        },
+      }
+
+      addUtilities(newUtilities)
+    },
+  ],
 }
