@@ -3,7 +3,7 @@ import 'highlight.js/styles/github-dark-dimmed.css'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
+import { ChangeEvent, ComponentProps, useEffect, useRef, useState } from 'react'
 
 import { format } from 'date-fns'
 
@@ -16,6 +16,7 @@ import { EmojiPicker } from '@/components/uis/EmojiPicker'
 import { Icon } from '@/components/uis/Icon/Icon'
 import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
 import { PageSkeleton } from '@/components/uis/Skeleton/PageSkeleton'
+import { Toggle } from '@/components/uis/Toggle'
 import { Tooltip } from '@/components/uis/Tooltip'
 
 type QueryType = {
@@ -26,8 +27,11 @@ type QueryType = {
 export default function PageDetail() {
   const router = useRouter()
   const { page, fetchPage, updatePage } = usePage()
+  const editorRef = useRef<HTMLDivElement>(null)
+
   const { pageId } = router.query as QueryType
 
+  const [emojiOpen, setEmojiOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
@@ -53,6 +57,17 @@ export default function PageDetail() {
     )
   }, 1000)
 
+  const handleUpdatePublishedAt = async (value: boolean) => {
+    setIsUpdating(true)
+
+    await updatePage(pageId, { publishedAt: value ? new Date() : null }, () => {
+      setTimeout(() => {
+        setIsUpdating(false)
+      }, 500)
+      fetchPage(pageId)
+    })
+  }
+
   const handleUpdateContent = debounce(
     async (json: Parameters<ComponentProps<typeof Editor>['onUpdate']>[0]) => {
       setIsUpdating(true)
@@ -76,11 +91,11 @@ export default function PageDetail() {
     )
   }
 
-  const [emojiOpen, setEmojiOpen] = useState(false)
-
   if (isLoading) return <PageSkeleton />
 
   if (!page) return <>404</>
+
+  console.log(page)
 
   return (
     <>
@@ -99,7 +114,6 @@ export default function PageDetail() {
               <IconButton icon="twitter" size="md" />
             </Tooltip>
           </div>
-
           <div className="px-2 py-4">
             <div className="flex items-center gap-1 text-3xl mb-2">
               <EmojiPicker
@@ -120,11 +134,20 @@ export default function PageDetail() {
                   className="w-full bg-transparent font-extrabold  outline-none"
                 />
               </div>
+              <Toggle
+                defaultChecked={Boolean(page.publishedAt)}
+                label={['公開中', '未公開']}
+                onChange={handleUpdatePublishedAt}
+              />
             </div>
             <div className="text-xs text-slate-300 flex justify-between">
               <div>
                 <span className="mr-4">
                   作成日時 {format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')}
+                </span>
+                <span className="mr-4">
+                  公開日時{' '}
+                  {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
                 </span>
                 <span>
                   更新日時{' '}
@@ -140,11 +163,10 @@ export default function PageDetail() {
               )}
             </div>
           </div>
-
           <hr className="border-slate-500 mt-2" />
         </div>
 
-        <div key={page.id} className="pt-2">
+        <div ref={editorRef} className="pt-2">
           <Editor
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}

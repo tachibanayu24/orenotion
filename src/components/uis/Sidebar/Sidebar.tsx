@@ -8,6 +8,8 @@ import { auth } from '@/config/firebase'
 
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
+import { PAGE_CLASS } from '@/models/page/page'
+
 import { PageItem } from './PageItem'
 import { IconButton } from '../Icon/IconButton/IconButton'
 import { SignInForm } from '../SignInForm'
@@ -22,7 +24,7 @@ export const Sidebar = () => {
   const { currentUser } = useCurrentUser()
 
   const handleAddPage = async () => {
-    await addPage({ emoji: '📝', title: '' })
+    await addPage({ emoji: '📝', title: '', pageClass: PAGE_CLASS.TIER3, publishedAt: null })
     refetchPages()
   }
 

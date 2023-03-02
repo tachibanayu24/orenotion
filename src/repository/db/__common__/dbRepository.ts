@@ -27,11 +27,20 @@ export abstract class DBRepository<T extends Entity> {
   protected docToObject(doc: QueryDocumentSnapshot<DocumentData>): T {
     const data = doc.data() as DocumentValueType<T>
 
+    let newData = {} as T
+
+    // すべてのTimestamp型のインスタンスをDateにパースする
+    Object.keys(data).map((key) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const value = data[key] as unknown
+      if (value instanceof Timestamp) newData = { ...newData, [key]: value.toDate() }
+      else return (newData = { ...newData, [key]: value })
+    })
+
     return {
-      ...data,
+      ...newData,
       id: doc.id,
-      createdAt: data.createdAt.toDate(),
-      updatedAt: data.updatedAt?.toDate(),
     } as T
   }
 
