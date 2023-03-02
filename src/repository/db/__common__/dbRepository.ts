@@ -1,12 +1,4 @@
-import {
-  collection,
-  DocumentData,
-  FirestoreError,
-  getDocs,
-  query,
-  QueryDocumentSnapshot,
-  Timestamp,
-} from '@/libs/firebase'
+import { DocumentData, FirestoreError, QueryDocumentSnapshot, Timestamp } from '@/libs/firebase'
 import { uid } from '@/libs/uniq-id'
 
 import { db } from '@/config/firebase'
@@ -59,22 +51,8 @@ export abstract class DBRepository<T extends Entity> {
     return data
   }
 
-  // TODO: privateに分岐を切り離す
-  // TODO: custom errorインスタンス
-  // 分ける意味ないかも
-  // エラー割り振るところだけ抽象化して
-
-  protected _fetchAll = async (path: string) => {
-    const q = query(collection(db, path))
-    return await getDocs(q)
-      .then((res) => res.docs)
-      .catch((e) => {
-        throw this.getError(e)
-      })
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private getError = (error: Error | FirestoreError | any) => {
+  protected getError = (error: Error | FirestoreError | any) => {
     if (error instanceof Error) {
       return error
     } else if (error instanceof FirestoreError) {

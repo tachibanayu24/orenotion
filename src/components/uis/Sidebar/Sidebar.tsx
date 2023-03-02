@@ -73,7 +73,7 @@ export const Sidebar = () => {
                   signOut(auth)
                   router.reload()
                 }}
-                className={`p-1 rounded-full border border-sky-400 text-sm shadow-md font-bold text-sky-400`}
+                className={`p-1 rounded-full border border-green-400 text-sm shadow-md font-bold text-green-400`}
               >
                 ログアウト
               </button>

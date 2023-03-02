@@ -18,7 +18,6 @@ export const SignInForm = ({ onAuthenticated }: Props) => {
   const router = useRouter()
 
   const [isError, setIsError] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const handleSignIn = (e: SyntheticEvent) => {
     e.preventDefault()
@@ -30,7 +29,6 @@ export const SignInForm = ({ onAuthenticated }: Props) => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setIsAuthenticated(true)
         onAuthenticated && onAuthenticated()
         router.reload()
       })
@@ -62,11 +60,11 @@ export const SignInForm = ({ onAuthenticated }: Props) => {
       />
       <button
         type="submit"
-        className={`${isError && 'animate-ohNo bg-red-500'} ${
-          isAuthenticated && 'bg-green-700'
-        } mt-2 p-1 rounded-full bg-sky-500 text-sm shadow-md font-bold text-white`}
+        className={`${
+          isError && 'animate-ohNo bg-red-500'
+        } mt-2 p-1 rounded-full bg-green-500 text-sm shadow-md font-bold text-white`}
       >
-        {isAuthenticated ? '✅' : 'ログイン'}
+        ログイン
       </button>
     </form>
   )
