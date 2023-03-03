@@ -40,8 +40,6 @@ export class ErrorBoundary extends Component<Props, State> {
     console.log('Unexpected error occurred!', error, errorInfo)
   }
 
-  // private handleClickFeedback = () => showReportDialog({ eventId: this.state.eventId })
-
   render(): ReactNode {
     const { children } = this.props
     const { error } = this.state
@@ -54,10 +52,10 @@ export class ErrorBoundary extends Component<Props, State> {
       if (error instanceof NotFoundError) {
         return (
           <main className="h-screen w-full flex flex-col justify-center items-center bg-slate-900">
-            <h1 className="text-9xl font-extrabold text-white tracking-widest shadow-lg text-shadow-green-md">
+            <h1 className="text-9xl font-extrabold text-white tracking-widest shadow-lg text-shadow-green-md select-none">
               404
             </h1>
-            <div className="bg-green-600 px-2 text-sm rounded rotate-12 absolute">
+            <div className="bg-green-600 px-2 text-sm rounded rotate-12 absolute select-none">
               Page Not Found
             </div>
             <button className="mt-5">

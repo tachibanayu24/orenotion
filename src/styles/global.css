@@ -61,3 +61,21 @@ input:checked ~ .dot {
     /* Chrome 26+, Opera 23+, Firefox 39+ */
       url('../assets/fonts/ubuntu-v15-latin_cyrillic-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
+/* EmojiMartのオーバーライド
+shadow domなので面倒なため仕方なくここで */
+* {
+  --background-rgb: 85, 170, 255;
+  --border-radius: 12px;
+  --category-icon-size: 16px;
+  --color-border-over: rgba(0, 0, 0, 0.1);
+  --color-border: rgba(0, 0, 0, 0.05);
+  --rgb-accent: 22, 163, 74;
+  --rgb-background: 51, 65, 85;
+  --rgb-color: 226, 232, 240;
+  --rgb-input: 30, 41, 59;
+  --preview-placeholder-size: 16px;
+  --font-family: Ubuntu, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-size: 12px;
+}

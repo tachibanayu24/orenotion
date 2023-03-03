@@ -3,11 +3,9 @@ import { useEffect, useState } from 'react'
 
 import { usePage } from '@/hooks'
 
-import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
+import { IconButton, Menu } from '@/components/uis'
 
 import { Page } from '@/models/page'
-
-import { Menu } from '../../Menu'
 
 type Props = {
   pageId: Page['id']
@@ -31,8 +29,6 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
   }, [listenPage, pageId])
 
   if (!page) return <></>
-
-  console.log(page.title)
 
   // TODO: フルロードしてる
   return (

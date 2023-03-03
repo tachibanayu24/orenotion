@@ -9,16 +9,12 @@ const pageRepo = new PageRepository()
 export const usePage = () => {
   const [page, setPage] = useState<Page>()
 
-  console.log(page?.title)
-
   const fetchPage = useCallback(async (id: string) => {
-    console.log('get')
     await pageRepo.get(id).then((res) => setPage(res))
   }, [])
 
   // TODO: DTO
   const addPage = useCallback(async (page: Parameters<PageRepository['add']>[number]) => {
-    console.log('add')
     await pageRepo.add(page).catch((e) => console.error(e))
   }, [])
 
@@ -33,7 +29,6 @@ export const usePage = () => {
   )
 
   const deletePage = useCallback(async (id: string) => {
-    console.log('delete')
     await pageRepo.delete(id).catch((e) => console.error(e))
   }, [])
 

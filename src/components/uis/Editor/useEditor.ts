@@ -79,78 +79,82 @@ type Props = {
   editable?: boolean
 }
 
-export const useEditor = ({ onUpdate, onSave, content, editable }: Props) =>
-  useEditorOrigin({
-    editable: editable,
-    onUpdate: ({ editor }) => {
-      onUpdate(editor.getJSON())
+export const useEditor = ({ onUpdate, onSave, content, editable }: Props) => {
+  return useEditorOrigin(
+    {
+      editable: editable,
+      onUpdate: ({ editor }) => {
+        onUpdate(editor.getJSON())
+      },
+      extensions: [
+        Document.extend({
+          addKeyboardShortcuts() {
+            return {
+              ...this.parent?.(),
+              'Cmd-s': () => {
+                onSave(this.editor.getJSON())
+                return true // Prevent focus out from editor
+              },
+            }
+          },
+        }),
+        Paragraph,
+        Text,
+        Heading.configure({ levels: [1, 2, 3] }),
+        Blockquote,
+        BulletList,
+        ListItem.extend({
+          addKeyboardShortcuts() {
+            return {
+              ...this.parent?.(),
+              Tab: () => {
+                this.editor.commands.sinkListItem(this.name)
+                return true // Prevent focus out from editor
+              },
+            }
+          },
+        }),
+        OrderedList,
+        TaskList,
+        TaskItem.configure({
+          nested: true,
+        }),
+        CodeBlockLowlight.configure({
+          lowlight,
+        }),
+        HorizontalRule,
+        Image,
+        Gapcursor,
+        Dropcursor.configure({
+          color: '#38bdf8', // TODO: tailwindのconfig resolverを実装する
+          width: 3,
+        }),
+        History,
+        Placeholder.configure({
+          placeholder: ({ node }) => {
+            switch (node.type.name) {
+              case 'heading':
+                return 'Heading...'
+              case 'codeBlock':
+                return ''
+              default:
+                return 'Write something...'
+            }
+          },
+          emptyNodeClass:
+            'cursor-text before:content-[attr(data-placeholder)] before:absolute before:left-0 before:text-mauve-11 before:opacity-50 before-pointer-events-none',
+        }),
+        Bold,
+        Code,
+        Italic,
+        Strike,
+        Link.configure({
+          openOnClick: true,
+        }),
+      ],
+      content,
+      autofocus: 'end',
     },
-    extensions: [
-      Document.extend({
-        addKeyboardShortcuts() {
-          return {
-            ...this.parent?.(),
-            'Cmd-s': () => {
-              onSave(this.editor.getJSON())
-              return true // Prevent focus out from editor
-            },
-          }
-        },
-      }),
-      Paragraph,
-      Text,
-      Heading.configure({ levels: [1, 2, 3] }),
-      Blockquote,
-      BulletList,
-      ListItem.extend({
-        addKeyboardShortcuts() {
-          return {
-            ...this.parent?.(),
-            Tab: () => {
-              this.editor.commands.sinkListItem(this.name)
-              return true // Prevent focus out from editor
-            },
-          }
-        },
-      }),
-      OrderedList,
-      TaskList,
-      TaskItem.configure({
-        nested: true,
-      }),
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),
-      HorizontalRule,
-      Image,
-      Gapcursor,
-      Dropcursor.configure({
-        color: '#38bdf8', // TODO: tailwindのconfig resolverを実装する
-        width: 3,
-      }),
-      History,
-      Placeholder.configure({
-        placeholder: ({ node }) => {
-          switch (node.type.name) {
-            case 'heading':
-              return 'Heading...'
-            case 'codeBlock':
-              return ''
-            default:
-              return 'Write something...'
-          }
-        },
-        emptyNodeClass:
-          'cursor-text before:content-[attr(data-placeholder)] before:absolute before:left-0 before:text-mauve-11 before:opacity-50 before-pointer-events-none',
-      }),
-      Bold,
-      Code,
-      Italic,
-      Strike,
-      Link.configure({
-        openOnClick: true,
-      }),
-    ],
-    content,
-    autofocus: 'end',
-  })
+    [content]
+  )
+}

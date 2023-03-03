@@ -8,7 +8,6 @@ const getValueRecursive = (object: JSONContent, key: string) => {
     }
     if (object[k] && typeof object[k] === 'object') {
       value = `${value} ${getValueRecursive(object[k], key)}`
-      // return value !== undefined
     }
   })
 
@@ -16,8 +15,6 @@ const getValueRecursive = (object: JSONContent, key: string) => {
 }
 
 export const getPlaneTextFromJSONContent = (content: JSONContent) => {
-  console.log(content)
-
   const result = getValueRecursive(content, 'text')
 
   return result

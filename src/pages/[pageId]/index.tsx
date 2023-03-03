@@ -2,19 +2,11 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
 
-import { format } from 'date-fns'
-
 import { debounce } from '@/utils'
 
 import { useCurrentUser, usePage } from '@/hooks'
 
-import { Editor } from '@/components/uis/Editor'
-import { EmojiPicker } from '@/components/uis/EmojiPicker'
-import { Icon } from '@/components/uis/Icon/Icon'
-import { IconButton } from '@/components/uis/Icon/IconButton/IconButton'
-import { PageSkeleton } from '@/components/uis/Skeleton/PageSkeleton'
-import { Toggle } from '@/components/uis/Toggle'
-import { Tooltip } from '@/components/uis/Tooltip'
+import { Editor, PageHeader, PageSkeleton } from '@/components/uis'
 
 type QueryType = {
   pageId: string
@@ -23,25 +15,21 @@ type QueryType = {
 // TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
 export default function PageDetail() {
   const router = useRouter()
-  const { page, fetchPage, updatePage } = usePage()
+  const { page, listenPage, updatePage } = usePage()
   const { currentUser } = useCurrentUser()
 
   const { pageId } = router.query as QueryType
 
-  const [emojiOpen, setEmojiOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
-    if (router.isReady) {
-      fetchPage(pageId).then(() => setIsLoading(false))
-    } else {
-      setIsLoading(true)
-    }
-  }, [fetchPage, page?.title, pageId, router.isReady])
+    const unsubscribe = router.isReady ? listenPage(pageId) : () => void 0
 
-  const handleUpdateEmoji = (emoji: string) => {
-    updatePage(pageId, { emoji })
+    return () => unsubscribe()
+  }, [listenPage, pageId, router.isReady])
+
+  const handleUpdateEmoji = async (emoji: string) => {
+    await updatePage(pageId, { emoji })
   }
 
   const handleUpdateTitle = debounce(async (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +49,6 @@ export default function PageDetail() {
       setTimeout(() => {
         setIsUpdating(false)
       }, 500)
-      fetchPage(pageId)
     })
   }
 
@@ -88,11 +75,8 @@ export default function PageDetail() {
     )
   }
 
-  if (isLoading) return <PageSkeleton />
-
-  if (!page) return <>404</>
-
-  console.log(page)
+  // TODO: listenしているが初期読み込みのローディングは取れないのか？
+  if (!page) return <PageSkeleton />
 
   return (
     <>
@@ -104,67 +88,14 @@ export default function PageDetail() {
       </Head>
 
       <div>
-        <div className="sticky top-0 bg-slate-900 z-floating -mt-4 pt-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span>
-            <Tooltip position="bottom-left" component="シェアする">
-              <IconButton icon="twitter" size="md" />
-            </Tooltip>
-          </div>
-          <div className="px-2 py-4">
-            <div className="flex items-center gap-1 text-3xl mb-2">
-              <EmojiPicker
-                isOpen={emojiOpen}
-                onOpen={currentUser?.isAdmin ? () => setEmojiOpen(true) : undefined}
-                onClose={() => setEmojiOpen(false)}
-                onSelect={handleUpdateEmoji}
-              >
-                <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
-                  {page.emoji}
-                </button>
-              </EmojiPicker>
-              <div key={page.title} className="w-full">
-                <input
-                  defaultValue={page.title}
-                  placeholder="Untitled"
-                  onChange={handleUpdateTitle}
-                  className="w-full bg-transparent font-extrabold  outline-none"
-                  readOnly={!currentUser?.isAdmin}
-                />
-              </div>
-              {currentUser?.isAdmin && (
-                <Toggle
-                  defaultChecked={Boolean(page.publishedAt)}
-                  label={['公開中', '未公開']}
-                  onChange={handleUpdatePublishedAt}
-                />
-              )}
-            </div>
-            <div className="text-xs text-slate-300 flex justify-between">
-              <div>
-                <span className="mr-4">
-                  作成日時 {format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')}
-                </span>
-                <span className="mr-4">
-                  公開日時{' '}
-                  {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
-                </span>
-                <span>
-                  更新日時{' '}
-                  {page.updatedAt ? format(page.updatedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
-                </span>
-              </div>
-              {isUpdating && (
-                <span>
-                  <div className="flex gap-2 items-center">
-                    <Icon icon="spin" size="sm" shouldSpin /> 保存中...
-                  </div>
-                </span>
-              )}
-            </div>
-          </div>
-          <hr className="border-slate-500 mt-2" />
-        </div>
+        <PageHeader
+          page={page}
+          currentUser={currentUser}
+          onSelectEmoji={handleUpdateEmoji}
+          onChangeTitle={handleUpdateTitle}
+          onChangePublishedAt={handleUpdatePublishedAt}
+          isUpdating={isUpdating}
+        />
 
         <div className="pt-2">
           <Editor

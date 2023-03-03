@@ -1,7 +1,9 @@
-import { cloneElement, ReactElement } from 'react'
+import { cloneElement, ReactElement, useEffect } from 'react'
 
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+
+import style from './style.module.css'
 
 type Props = {
   isOpen: boolean
@@ -16,11 +18,22 @@ export const EmojiPicker = ({ isOpen, onOpen, onClose, onSelect, children }: Pro
     onClick: onOpen,
   })
 
-  // TODO: 型
   const handleSelect = (emoji: { native: string }) => {
     onSelect(emoji.native)
     onClose()
   }
+
+  // const picker = new PickerOrigin({
+  //   data,
+  //   onSelect: handleSelect,
+  // }).injectStyles(style.)
+  useEffect(() => {
+    const dom = document.querySelector('em-emoji-picker')
+    console.log('dom', dom)
+
+    dom?.shadowRoot?.querySelector('section')?.setAttribute('style', 'background-color: #1e293b')
+    // dom?.shadowRoot?.querySelector('.padding-small')?.setAttribute('background-color: #1e293b'
+  }, [document])
 
   return (
     <div className="relative inline z-popup">
@@ -37,6 +50,9 @@ export const EmojiPicker = ({ isOpen, onOpen, onClose, onSelect, children }: Pro
               skinTonePosition="none"
               theme="dark"
               locale="ja"
+              // className={`${style.picker} text-2lg`}
+              className={style.picker}
+              injectStyles={style.picker}
             />
           </div>
           <div className="fixed top-0 left-0 w-screen h-screen z-overlay" onClick={onClose} />

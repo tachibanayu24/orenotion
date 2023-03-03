@@ -6,15 +6,13 @@ import { signOut } from 'firebase/auth'
 
 import { auth } from '@/config/firebase'
 
-import { useCurrentUser, usePage, usePages } from '@/hooks'
+import { useCurrentUser, useLatestRelease, usePage, usePages } from '@/hooks'
+
+import { IconButton, SignInForm, SidebarSkeleton, Tooltip } from '@/components/uis'
 
 import { PAGE_CLASS } from '@/models/page/page'
 
 import { PageItem } from './PageItem'
-import { IconButton } from '../Icon/IconButton/IconButton'
-import { SignInForm } from '../SignInForm'
-import { SidebarSkeleton } from '../Skeleton/SidebarSkeleton'
-import { Tooltip } from '../Tooltip'
 
 type QueryType = {
   pageId: string
@@ -24,11 +22,10 @@ export const Sidebar = () => {
   const router = useRouter()
   const { pageId } = router.query as QueryType
 
-  console.log(pageId)
-
   const { pages, refetchPages } = usePages()
   const { addPage, deletePage } = usePage()
   const { currentUser } = useCurrentUser()
+  const { version } = useLatestRelease()
 
   const handleAddPage = async () => {
     await addPage({ emoji: '📝', title: '', pageClass: PAGE_CLASS.TIER3, publishedAt: null })
@@ -47,14 +44,17 @@ export const Sidebar = () => {
   return (
     <aside className="w-[240px] h-screen sticky top-0 z-front bg-slate-800 flex flex-col justify-between p-2 shadow-xl">
       <div>
-        <h1 className="text-lg mb-4 text-center font-bold">
-          <Link href="/">俺のNotion</Link>
-        </h1>
+        <div className="text-center">
+          <h1 className="text-lg mb-4 text-center font-bold inline">
+            <Link href="/">俺のNotion</Link>
+          </h1>
+          <span className="text-xs ml-2">{version || '...'}</span>
+        </div>
+
         <div className="flex justify-between items-center mb-2">
           <span className="text-xs bold">Pages</span>
           <IconButton icon="plus" size="sm" onClick={handleAddPage} />
         </div>
-        {/* // TODO:  */}
         {pages ? (
           pages.map((page) => (
             <PageItem
