@@ -2,10 +2,14 @@ import { ChangeEvent, useState } from 'react'
 
 import { format } from 'date-fns'
 
-import { EmojiPicker, Icon, IconButton, Toggle, Tooltip } from '@/components/uis'
-
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
+
+import { EmojiPicker } from '../EmojiPicker'
+import { Icon } from '../Icon'
+import { IconButton } from '../IconButton'
+import { Toggle } from '../Toggle'
+import { Tooltip } from '../Tooltip'
 
 type Props = {
   page: Page

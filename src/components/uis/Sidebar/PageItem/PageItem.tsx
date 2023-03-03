@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react'
 
 import { usePage } from '@/hooks'
 
-import { IconButton, Menu } from '@/components/uis'
-
+//
 import { Page } from '@/models/page'
+
+import { IconButton } from '../../IconButton'
+import { Menu } from '../../Menu'
 
 type Props = {
   pageId: Page['id']
