@@ -8,11 +8,13 @@ import { auth } from '@/config/firebase'
 
 import { useCurrentUser, useLatestRelease, usePage, usePages } from '@/hooks'
 
-import { IconButton, SignInForm, SidebarSkeleton, Tooltip } from '@/components/uis'
-
 import { PAGE_CLASS } from '@/models/page/page'
 
 import { PageItem } from './PageItem'
+import { IconButton } from '../IconButton'
+import { SignInForm } from '../SignInForm'
+import { SidebarSkeleton } from '../Skeleton/SidebarSkeleton'
+import { Tooltip } from '../Tooltip'
 
 type QueryType = {
   pageId: string
