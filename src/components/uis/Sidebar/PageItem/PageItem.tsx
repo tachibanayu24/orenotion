@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { usePage, usePages } from '@/hooks'
 
@@ -35,7 +35,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
     const nested = page.nestChildren(pages)
 
     return (
-      <>
+      <Fragment key={`PageItem-${page.id}`}>
         <div
           // NOTE: tailwindでやると何故か効かないので仕方なく
           style={{
@@ -94,7 +94,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
           </Link>
         </div>
         {nested.hasChildren() && nested.children.map((child) => renderItem(child, pages))}
-      </>
+      </Fragment>
     )
   }
 
