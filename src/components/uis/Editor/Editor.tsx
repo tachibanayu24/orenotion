@@ -1,9 +1,10 @@
 import 'highlight.js/styles/github-dark-dimmed.css'
 
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback } from 'react'
 
-import { EditorContent, JSONContent } from '@tiptap/react'
+import { EditorContent } from '@tiptap/react'
 
+import { useCurrentUser } from '@/hooks'
 import { useTraceUpdate } from '@/hooks/useTraceUpdate'
 
 import style from './style.module.css'
@@ -37,15 +38,16 @@ type Props = Parameters<typeof useEditor>[0]
 // })
 
 export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
+  const { currentUser } = useCurrentUser()
   const editor = useEditor({ onUpdate, onSave, content, editable })
   const handleFocus = () => editor?.chain().focus().run()
 
   useTraceUpdate({ onUpdate, onSave, content, editable }, 'Editor')
 
-  const addImage = useCallback(() => {
+  const handleAddImage = useCallback(() => {
     const url = window.prompt('URL')
 
-    if (url) {
+    if (url && editor) {
       editor.chain().focus().setImage({ src: url }).run()
     }
   }, [editor])
@@ -54,7 +56,14 @@ export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
 
   return (
     <>
-      <button onClick={addImage}>setImage</button>
+      {currentUser?.isAdmin && (
+        <button
+          onClick={handleAddImage}
+          className="px-3 py-1 rounded-full border border-slate-400 bg-slate-700 text-sm font-semibold"
+        >
+          画像を貼り付ける
+        </button>
+      )}
 
       <EditorContent
         key="editor"

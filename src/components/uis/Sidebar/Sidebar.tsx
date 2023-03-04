@@ -80,9 +80,11 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
 
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs bold">Pages</span>
-            <Tooltip position="top-right" component="ページを作成する">
-              <IconButton icon="plus" size="sm" onClick={handleAddPage} />
-            </Tooltip>
+            {currentUser?.isAdmin && (
+              <Tooltip position="top-right" component="ページを作成する">
+                <IconButton icon="plus" size="sm" onClick={handleAddPage} />
+              </Tooltip>
+            )}
           </div>
           {pages ? (
             pages
