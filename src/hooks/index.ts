@@ -1,5 +1,6 @@
 export { useCurrentUser } from './useCurrentUser'
 export { useLatestRelease } from './useLatestRelease'
+export { useLocalStorage } from './useLocalStorage'
 export { useLongPress } from './useLongPress'
 export { usePage } from './usePage'
 export { usePages } from './usePages'

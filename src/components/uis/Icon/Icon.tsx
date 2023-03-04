@@ -8,6 +8,8 @@ import {
   faCircleNotch,
   faTrash,
   faHome,
+  faAnglesLeft,
+  faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -27,6 +29,8 @@ const icons = {
   twitter: faTwitter,
   spin: faCircleNotch,
   home: faHome,
+  anglesLeft: faAnglesLeft,
+  anglesRight: faAnglesRight,
 } as const
 
 export const Icon = ({ icon, size, shouldSpin }: Props) => {

@@ -2,6 +2,8 @@ import { ChangeEvent, useState } from 'react'
 
 import { format } from 'date-fns'
 
+import { useLocalStorage } from '@/hooks'
+
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
 
@@ -29,21 +31,20 @@ export const PageHeader = ({
   onChangePublishedAt,
   isUpdating,
 }: Props) => {
+  const { storedValue: isSidebarExpanded } = useLocalStorage('is-sidebar-expanded')
   const [emojiOpen, setEmojiOpen] = useState(false)
 
-  console.log(emojiOpen)
-
   return (
-    <div className="sticky top-0 bg-slate-900 z-floating -mt-4 pt-4">
-      <div className="flex justify-between items-center">
+    <div className="sticky top-0 bg-slate-900 z-floating -mt-2 pt-2">
+      <div className={`flex justify-between items-center ${!isSidebarExpanded && 'ml-8'}`}>
         {/* <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span> */}
         <Breadcrumbs page={page} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />
         </Tooltip>
       </div>
-      <div className="px-2 py-4">
-        <div className="flex items-center gap-1 text-3xl mb-2">
+      <div>
+        <div className="flex items-center gap-1 text-3xl">
           <EmojiPicker
             isOpen={emojiOpen}
             onOpen={currentUser?.isAdmin ? () => setEmojiOpen(true) : undefined}
