@@ -26,6 +26,7 @@ export const Breadcrumbs = ({ page }: Props) => {
 
   if (!pages) return <></>
 
+  // TODO: モバイルのときパンくずはroot directoryだけ表示で切れいれば良いのでelipsisする
   return (
     <div className="flex items-center gap-0.5 text-sm text-slate-200 whitespace-nowrap">
       <Link href="/" className="mr-1">

@@ -8,6 +8,7 @@ import { Page } from '@/models/page'
 
 import { IconButton } from '../../IconButton'
 import { Menu } from '../../Menu'
+import { Tooltip } from '../../Tooltip'
 
 type Props = {
   pageId: Page['id']
@@ -51,46 +52,52 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
             onMouseOver={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
           >
-            <div className="truncate">
+            <div className="truncate flex items-center">
               <span className="mr-1">{nested.emoji}</span>
               <span className={nested.title ? undefined : 'text-slate-400'}>
                 {nested.title || 'Untitled'}
               </span>
             </div>
 
-            {(isHover || isOpenedMenu) && (
-              <div className="h-5">
-                {/* <IconButton icon="plus" size="sm" onClick={console.log} /> */}
-                <Menu
-                  options={[
-                    // { type: 'default', icon: 'plus', title: '追加/ onClick: () => console.log('追加') },
-                    {
-                      type: 'default',
-                      icon: 'link',
-                      title: 'リンクをコピー',
-                      onClick: () => handleCopyLink(nested.id),
-                    },
-                    // { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
-                    { type: 'divider' },
-                    {
-                      type: 'default',
-                      icon: 'trash',
-                      title: '削除',
-                      onClick: () => onDelete(nested.id),
-                      isDanger: true,
-                    },
-                  ]}
-                  position="bottom-right"
-                  onOpen={() => setIsOpenedMenu(true)}
-                  onClose={() => {
-                    setIsHover(false)
-                    setIsOpenedMenu(false)
-                  }}
-                >
-                  <IconButton icon="elipsis" size="sm" />
-                </Menu>
-              </div>
-            )}
+            <div className="flex items-center gap-1">
+              {!page.publishedAt && (
+                <Tooltip position="top-right" component="未公開のページ">
+                  <div className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-2xl shrink-0" />
+                </Tooltip>
+              )}
+              {(isHover || isOpenedMenu) && (
+                <div className="h-5">
+                  <Menu
+                    options={[
+                      // { type: 'default', icon: 'plus', title: '追加/ onClick: () => console.log('追加') },
+                      {
+                        type: 'default',
+                        icon: 'link',
+                        title: 'リンクをコピー',
+                        onClick: () => handleCopyLink(nested.id),
+                      },
+                      // { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
+                      { type: 'divider' },
+                      {
+                        type: 'default',
+                        icon: 'trash',
+                        title: '削除',
+                        onClick: () => onDelete(nested.id),
+                        isDanger: true,
+                      },
+                    ]}
+                    position="bottom-right"
+                    onOpen={() => setIsOpenedMenu(true)}
+                    onClose={() => {
+                      setIsHover(false)
+                      setIsOpenedMenu(false)
+                    }}
+                  >
+                    <IconButton icon="elipsis" size="sm" />
+                  </Menu>
+                </div>
+              )}
+            </div>
           </Link>
         </div>
         {nested.hasChildren() && nested.children.map((child) => renderItem(child, pages))}

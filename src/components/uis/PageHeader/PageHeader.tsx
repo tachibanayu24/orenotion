@@ -66,7 +66,7 @@ export const PageHeader = ({
           </div>
           {currentUser?.isAdmin && (
             <Toggle
-              defaultChecked={Boolean(page.publishedAt)}
+              checked={Boolean(page.publishedAt)}
               label={['公開中', '未公開']}
               onChange={onChangePublishedAt}
             />
