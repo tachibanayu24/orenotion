@@ -31,16 +31,19 @@ export const PageHeader = ({
   onChangePublishedAt,
   isUpdating,
 }: Props) => {
-  const { storedValue: isSidebarExpanded } = useLocalStorage('is-sidebar-expanded')
+  // const { storedValue: isSidebarExpanded } = useLocalStorage('is-sidebar-expanded')
   const [emojiOpen, setEmojiOpen] = useState(false)
 
-  console.log(isSidebarExpanded)
+  // console.log('pageheader------------')
+  // console.log(isSidebarExpanded)
 
-  const mlClass = (isExpanded: boolean) => (isExpanded ? '' : 'ml-8')
+  // const mlClass = isSidebarExpanded ? '' : 'ml-8'
+
+  // console.log(mlClass)
 
   return (
     <div className="sticky top-0 bg-slate-900 z-floating -mt-2 pt-2">
-      <div className={`flex justify-between items-center ${mlClass(isSidebarExpanded)}`}>
+      <div className={`flex justify-between items-center`}>
         <Breadcrumbs page={page} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />

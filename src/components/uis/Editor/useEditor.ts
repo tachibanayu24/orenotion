@@ -47,6 +47,8 @@ import html from 'highlight.js/lib/languages/xml'
 import yaml from 'highlight.js/lib/languages/yaml'
 import { lowlight } from 'lowlight'
 
+import { theme } from '@/config/theme'
+
 lowlight.registerLanguage('c', c)
 lowlight.registerLanguage('cpp', cpp)
 lowlight.registerLanguage('css', css)
@@ -126,7 +128,7 @@ export const useEditor = ({ onUpdate, onSave, content, editable }: Props) => {
         Image,
         Gapcursor,
         Dropcursor.configure({
-          color: '#38bdf8', // TODO: tailwindのconfig resolverを実装する
+          color: theme.colors.blue[400],
           width: 3,
         }),
         History,

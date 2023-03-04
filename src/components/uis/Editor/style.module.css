@@ -1,3 +1,4 @@
+/* TODO: できればcaretの幅や色を変えたい */
 .editor {
   min-height: calc(100vh - 155px - 30px - 24px);
 }

@@ -65,6 +65,7 @@
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/emoji-mart": "^3.0.9",
+    "@types/tailwindcss": "^3.1.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.34.0",
