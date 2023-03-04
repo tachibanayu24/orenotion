@@ -77,13 +77,13 @@ export const PageHeader = ({
         </div>
         <div className="text-xs text-slate-300 flex justify-between">
           <div>
-            <span className="mr-4">{format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')} 作成</span>
+            {currentUser?.isAdmin && (
+              <span className="mr-4">{format(page.createdAt, 'yyyy/M/d(eee) H:m')} 作成</span>
+            )}
             <span className="mr-4">
-              {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'} 公開
+              {page.publishedAt ? format(page.publishedAt, 'yyyy/M/d(eee) H:m') : '---'} 公開
             </span>
-            <span>
-              {page.updatedAt ? format(page.updatedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'} 更新
-            </span>
+            <span>{page.updatedAt ? format(page.updatedAt, 'yyyy/M/d(eee) H:m') : '---'} 更新</span>
           </div>
           {isUpdating && (
             <span>
