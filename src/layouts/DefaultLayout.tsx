@@ -1,27 +1,32 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
-import { useLocalStorage } from '@/hooks'
+import { useLayout } from '@/hooks/useLayout'
 
 import { Sidebar } from '@/components/uis'
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
-  const { storedValue: isSidebarExpanded, setValue: setIsSidebarExpanded } = useLocalStorage(
-    'is-sidebar-expanded',
-    true
-  )
+  const { isExpandedSidebar, toggleSidebar } = useLayout()
+  // TODO: 必要？
+  const [loaded, setLoaded] = useState(false)
 
-  const widthClass = (isExpanded: boolean) => (isExpanded ? 'w-[calc(100vw_-_240px)]' : 'w-screen')
+  const expandedClass = (isExpanded: boolean) =>
+    isExpanded ? 'sm:w-screen lg:w-[calc(100vw_-_240px)] sm:-ml-[240px] lg:ml-auto' : 'w-screen'
+
+  useEffect(() => {
+    setLoaded(true)
+  }, [])
+
+  if (!loaded) return <></>
 
   return (
     <div className="flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">
-      <Sidebar
-        isExpanded={isSidebarExpanded}
-        onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
-      />
+      <Sidebar isExpanded={isExpandedSidebar} onToggle={toggleSidebar} />
 
       <div className="bg-slate-900">
         <main
-          className={`${widthClass(isSidebarExpanded)} min-h-[calc(100vh_-_30px)] grow py-2 px-4`}
+          className={`${expandedClass(
+            isExpandedSidebar
+          )} min-h-[calc(100vh_-_30px)] grow py-2 px-4`}
         >
           {children}
         </main>

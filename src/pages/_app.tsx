@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app'
 
 import { SWRConfig } from 'swr'
 
-import { CurrentUserProvider } from '@/components/providers'
+import { CurrentUserProvider, LayoutProvider } from '@/components/providers'
 import { ErrorBoundary } from '@/components/providers/ErrorBoundary'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
@@ -13,17 +13,19 @@ import DefaultLayout from '@/layouts/DefaultLayout'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary>
-      <SWRConfig
-        value={{
-          revalidateOnFocus: false,
-        }}
-      >
-        <CurrentUserProvider>
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
-        </CurrentUserProvider>
-      </SWRConfig>
+      <LayoutProvider>
+        <SWRConfig
+          value={{
+            revalidateOnFocus: false,
+          }}
+        >
+          <CurrentUserProvider>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </CurrentUserProvider>
+        </SWRConfig>
+      </LayoutProvider>
     </ErrorBoundary>
   )
 }

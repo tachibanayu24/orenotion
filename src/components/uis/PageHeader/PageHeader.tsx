@@ -2,12 +2,12 @@ import { ChangeEvent, useState } from 'react'
 
 import { format } from 'date-fns'
 
-import { useLocalStorage } from '@/hooks'
+import { useLayout } from '@/hooks/useLayout'
 
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
 
-import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from './Breadcrumbs'
 import { EmojiPicker } from '../EmojiPicker'
 import { Icon } from '../Icon'
 import { IconButton } from '../IconButton'
@@ -31,19 +31,13 @@ export const PageHeader = ({
   onChangePublishedAt,
   isUpdating,
 }: Props) => {
-  // const { storedValue: isSidebarExpanded } = useLocalStorage('is-sidebar-expanded')
+  const { isExpandedSidebar } = useLayout()
+
   const [emojiOpen, setEmojiOpen] = useState(false)
 
-  // console.log('pageheader------------')
-  // console.log(isSidebarExpanded)
-
-  // const mlClass = isSidebarExpanded ? '' : 'ml-8'
-
-  // console.log(mlClass)
-
   return (
-    <div className="sticky top-0 bg-slate-900 z-floating -mt-2 pt-2">
-      <div className={`flex justify-between items-center`}>
+    <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">
+      <div className={`flex justify-between items-center ${!isExpandedSidebar && 'ml-8'}`}>
         <Breadcrumbs page={page} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />
