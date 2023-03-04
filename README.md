@@ -11,7 +11,7 @@ Notionライクな書き心地で、インターネットでの公開を前提�
 
 # RoadMap
 
-* [orenition v0.1.0(beta)](https://github.com/users/tachibanayu24/projects/1)
+* [in progress][orenition v0.1.0(beta)](https://github.com/users/tachibanayu24/projects/1)
 
 * [orenotion v1.0.0](https://github.com/users/tachibanayu24/projects/2)
 
