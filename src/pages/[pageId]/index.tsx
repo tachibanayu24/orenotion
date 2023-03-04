@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
+import { ChangeEvent, ComponentProps, useCallback, useEffect, useState } from 'react'
+
+import { JSONContent } from '@tiptap/core'
 
 import { debounce } from '@/utils'
 
@@ -21,6 +23,7 @@ export default function PageDetail() {
   const { pageId } = router.query as QueryType
 
   const [isUpdating, setIsUpdating] = useState(false)
+  const [content, setContent] = useState<JSONContent>()
 
   useEffect(() => {
     const unsubscribe = router.isReady ? listenPage(pageId) : () => void 0
@@ -52,7 +55,22 @@ export default function PageDetail() {
     })
   }
 
-  const handleUpdateContent = debounce(
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleUpdateContent = useCallback(
+    debounce(async (json: JSONContent) => {
+      console.log(json)
+      setContent(json)
+      setIsUpdating(true)
+      await updatePage(pageId, { content: json }, () =>
+        setTimeout(() => {
+          setIsUpdating(false)
+        }, 500)
+      )
+    }, 1000),
+    [pageId, updatePage]
+  )
+
+  const handleSaveContent = useCallback(
     async (json: Parameters<ComponentProps<typeof Editor>['onUpdate']>[0]) => {
       setIsUpdating(true)
       await updatePage(pageId, { content: json }, () =>
@@ -61,19 +79,8 @@ export default function PageDetail() {
         }, 500)
       )
     },
-    1000
+    [pageId, updatePage]
   )
-
-  const handleSaveContent = async (
-    json: Parameters<ComponentProps<typeof Editor>['onUpdate']>[0]
-  ) => {
-    setIsUpdating(true)
-    await updatePage(pageId, { content: json }, () =>
-      setTimeout(() => {
-        setIsUpdating(false)
-      }, 500)
-    )
-  }
 
   // TODO: listenしているが初期読み込みのローディングは取れないのか？
   if (!page) return <PageSkeleton />
@@ -99,6 +106,7 @@ export default function PageDetail() {
 
         <div className="pt-2">
           <Editor
+            // key="editorrr"
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}
             content={page.content}

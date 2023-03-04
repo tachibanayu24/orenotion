@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { format } from 'date-fns'
 
@@ -34,6 +34,16 @@ export const PageHeader = ({
   const { isExpandedSidebar } = useLayout()
 
   const [emojiOpen, setEmojiOpen] = useState(false)
+  const [title, setTitle] = useState('')
+
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+    onChangeTitle(e)
+  }
+
+  useEffect(() => {
+    setTitle(page.title)
+  }, [page.title])
 
   return (
     <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">
@@ -55,11 +65,11 @@ export const PageHeader = ({
               {page.emoji}
             </button>
           </EmojiPicker>
-          <div key={page.title} className="w-full">
+          <div className="w-full">
             <input
-              defaultValue={page.title}
+              value={title}
               placeholder="Untitled"
-              onChange={onChangeTitle}
+              onChange={handleChangeTitle}
               className="w-full bg-transparent font-extrabold  outline-none"
               readOnly={!currentUser?.isAdmin}
             />

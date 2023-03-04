@@ -155,7 +155,8 @@ export const useEditor = ({ onUpdate, onSave, content, editable }: Props) => {
         }),
       ],
       content,
-      autofocus: 'end',
+      // TODO: どうしようかな
+      // autofocus: 'end',
     },
     [content]
   )
