@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
 
+import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs'
 import { EmojiPicker } from '../EmojiPicker'
 import { Icon } from '../Icon'
 import { IconButton } from '../IconButton'
@@ -35,7 +36,8 @@ export const PageHeader = ({
   return (
     <div className="sticky top-0 bg-slate-900 z-floating -mt-4 pt-4">
       <div className="flex justify-between items-center">
-        <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span>
+        {/* <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span> */}
+        <Breadcrumbs page={page} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />
         </Tooltip>

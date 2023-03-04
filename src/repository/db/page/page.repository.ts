@@ -54,6 +54,7 @@ export class PageRepository extends DBRepository<Page> {
 
   add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
     console.info('repo.add')
+    console.log(page)
     return await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
   }
 

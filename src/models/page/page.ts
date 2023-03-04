@@ -33,7 +33,7 @@ export class Page extends Entity {
   childIds?: string[]
   children?: Page[]
 
-  constructor(init: Omit<Page, 'nestChildren' | 'isPrimary' | 'hasChildren'>) {
+  constructor(init: Omit<Page, 'nestChildren' | 'isPrimary' | 'hasChildren' | 'getParent'>) {
     super(init)
 
     this.emoji = init.emoji
@@ -49,7 +49,7 @@ export class Page extends Entity {
   static create(
     params: OptionalByKey<
       Page,
-      'id' | 'createdAt' | 'updatedAt' | 'nestChildren' | 'isPrimary' | 'hasChildren'
+      'id' | 'createdAt' | 'updatedAt' | 'nestChildren' | 'isPrimary' | 'hasChildren' | 'getParent'
     >
   ) {
     return new Page({
@@ -69,6 +69,11 @@ export class Page extends Entity {
 
   nestChildren(pages: Page[]) {
     const children = pages.filter((p) => this.childIds?.includes(p.id)).map((p) => new Page(p))
-    this.children = children
+
+    return new Page({ ...this, children: children })
+  }
+
+  getParent(pages: Page[]) {
+    return pages.find((p) => p.childIds?.includes(this.id))
   }
 }
