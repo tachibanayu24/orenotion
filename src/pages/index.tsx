@@ -1,8 +1,8 @@
-/* eslint-disable import/order */
 import Head from 'next/head'
 
-import { Timeline } from '@/components/uis/Timeline'
 import { usePages } from '@/hooks'
+
+import { Timeline } from '@/components/uis/Timeline'
 
 export default function Home() {
   const { pages } = usePages()
@@ -15,7 +15,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="px-20">
+      <main className="px-4 lg:px-20 mt-4">
         <h1 className="text-2xl font-bold mb-4">最近の更新</h1>
 
         <Timeline pages={pages} isLoading={!(pages && pages.length > 0)} />
