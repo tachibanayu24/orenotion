@@ -61,7 +61,7 @@ export const SignInForm = ({ onAuthenticated }: Props) => {
       <button
         type="submit"
         className={`${
-          isError && 'animate-ohNo bg-red-500'
+          isError && 'animate-shake bg-red-500'
         } mt-2 p-1 rounded-full bg-green-500 text-sm shadow-md font-bold text-white`}
       >
         ログイン

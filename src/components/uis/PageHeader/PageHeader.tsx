@@ -34,10 +34,13 @@ export const PageHeader = ({
   const { storedValue: isSidebarExpanded } = useLocalStorage('is-sidebar-expanded')
   const [emojiOpen, setEmojiOpen] = useState(false)
 
+  console.log(isSidebarExpanded)
+
+  const mlClass = (isExpanded: boolean) => (isExpanded ? '' : 'ml-8')
+
   return (
     <div className="sticky top-0 bg-slate-900 z-floating -mt-2 pt-2">
-      <div className={`flex justify-between items-center ${!isSidebarExpanded && 'ml-8'}`}>
-        {/* <span className="text-sm">🎉 イベント / 🛩️ イタリア旅行</span> */}
+      <div className={`flex justify-between items-center ${mlClass(isSidebarExpanded)}`}>
         <Breadcrumbs page={page} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />
@@ -74,13 +77,12 @@ export const PageHeader = ({
         </div>
         <div className="text-xs text-slate-300 flex justify-between">
           <div>
-            <span className="mr-4">作成日時 {format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')}</span>
+            <span className="mr-4">{format(page.createdAt, 'yyyy/MM/dd(eee) HH:mm')} 作成</span>
             <span className="mr-4">
-              公開日時{' '}
-              {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
+              {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'} 公開
             </span>
             <span>
-              更新日時 {page.updatedAt ? format(page.updatedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'}
+              {page.updatedAt ? format(page.updatedAt, 'yyyy/MM/dd(eee) HH:mm') : '---'} 更新
             </span>
           </div>
           {isUpdating && (
@@ -92,7 +94,7 @@ export const PageHeader = ({
           )}
         </div>
       </div>
-      <hr className="border-slate-500 mt-2" />
+      <hr className="border-slate-500 mt-2 -mx-4" />
     </div>
   )
 }

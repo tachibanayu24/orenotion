@@ -10,7 +10,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
     true
   )
 
-  console.log(isSidebarExpanded)
+  const widthClass = (isExpanded: boolean) => (isExpanded ? 'w-[calc(100vw_-_240px)]' : 'w-screen')
 
   return (
     <div className="flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">
@@ -21,9 +21,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
 
       <div className="bg-slate-900">
         <main
-          className={`w-[calc(100vw_-_${
-            isSidebarExpanded ? '240px' : '0px'
-          })] min-h-[calc(100vh_-_30px)] grow py-2 px-4`}
+          className={`${widthClass(isSidebarExpanded)} min-h-[calc(100vh_-_30px)] grow py-2 px-4`}
         >
           {children}
         </main>
