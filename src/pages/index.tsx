@@ -15,8 +15,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="px-4 lg:px-20 mt-4">
-        <h1 className="text-2xl font-bold mb-4">最近の更新</h1>
+      <main className="px-4 lg:px-20 mt-1">
+        <h1 className="text-base lg:text-2xl font-extrabold ml-2 lg:ml-0 mb-4">
+          最近更新したドキュメント
+        </h1>
 
         <Timeline pages={pages} isLoading={!(pages && pages.length > 0)} />
       </main>
