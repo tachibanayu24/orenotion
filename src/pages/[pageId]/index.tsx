@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ChangeEvent, ComponentProps, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, ComponentProps, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { JSONContent } from '@tiptap/core'
 
@@ -23,7 +23,8 @@ export default function PageDetail() {
   const { pageId } = router.query as QueryType
 
   const [isUpdating, setIsUpdating] = useState(false)
-  const [content, setContent] = useState<JSONContent>()
+
+  const content = useMemo(() => page?.content, [page?.content])
 
   useEffect(() => {
     const unsubscribe = router.isReady ? listenPage(pageId) : () => void 0
@@ -58,8 +59,6 @@ export default function PageDetail() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleUpdateContent = useCallback(
     debounce(async (json: JSONContent) => {
-      console.log(json)
-      setContent(json)
       setIsUpdating(true)
       await updatePage(pageId, { content: json }, () =>
         setTimeout(() => {
@@ -104,12 +103,12 @@ export default function PageDetail() {
           isUpdating={isUpdating}
         />
 
-        <div className="pt-2">
+        <div className="pt-2" key="fixed">
           <Editor
-            // key="editorrr"
+            key="editorrr"
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}
-            content={page.content}
+            content={content}
             editable={Boolean(currentUser?.isAdmin)}
           />
         </div>

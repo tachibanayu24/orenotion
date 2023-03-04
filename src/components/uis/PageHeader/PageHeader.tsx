@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { format } from 'date-fns'
 
 import { useLayout } from '@/hooks/useLayout'
+// import { useTraceUpdate } from '@/hooks/useTraceUpdate'
 
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
@@ -44,6 +45,11 @@ export const PageHeader = ({
   useEffect(() => {
     setTitle(page.title)
   }, [page.title])
+
+  // useTraceUpdate(
+  //   { page, currentUser, onSelectEmoji, onChangeTitle, onChangePublishedAt, isUpdating },
+  //   'Header'
+  // )
 
   return (
     <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">

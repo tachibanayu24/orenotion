@@ -64,6 +64,13 @@
   height: 16px;
 }
 
+.editor img {
+  display: inline;
+  padding: 8px 16px;
+  max-width: 100%;
+  vertical-align: top;
+}
+
 .editor pre {
   background: #0d0d0d;
   border-radius: 0.5rem;

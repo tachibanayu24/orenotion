@@ -125,7 +125,9 @@ export const useEditor = ({ onUpdate, onSave, content, editable }: Props) => {
           lowlight,
         }),
         HorizontalRule,
-        Image,
+        Image.configure({
+          inline: true,
+        }),
         Gapcursor,
         Dropcursor.configure({
           color: theme.colors.blue[400],
