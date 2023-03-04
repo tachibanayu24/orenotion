@@ -36,3 +36,4 @@ $ yarn install
 $ yarn dev
 ```
 
+最低1ユーザーをFirebase AuthenticationのコンソールからID/PWで作成し、UIからログインすることで、ページの追加や編集ができるようになります。
