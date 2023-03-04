@@ -58,7 +58,7 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
 
   if (isExpanded) {
     return (
-      <aside className="w-[240px] h-screen sticky top-0 z-front bg-slate-800 flex flex-col justify-between p-2 shadow-xl">
+      <aside className="w-[240px] h-[calc(100vh_-_8px)] lg:h-screen sticky top-0 z-front bg-slate-800 flex flex-col flex-shrink-0 justify-between p-2 shadow-xl rounded-3xl lg:rounded-none ml-1 my-1 lg:m-0">
         <div>
           <div className="flex justify-between mb-4">
             <div>
@@ -110,13 +110,13 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
               </div>
             }
           >
-            <div className="block bg-red-800 text-xs text-center -m-2 font-bold cursor-pointer">
+            <div className="block bg-red-800 text-xs text-center -m-2 font-bold cursor-pointer rounded-b-3xl lg:rounded-none">
               Admin Mode
             </div>
           </Tooltip>
         ) : (
           <Tooltip position="top-right" shouldOpenOnClick component={<SignInForm />}>
-            <div className="block bg-slate-700 text-xs text-center -m-2 cursor-pointer">
+            <div className="block bg-slate-700 text-xs text-center -m-2 cursor-pointer rounded-b-3xl lg:rounded-none">
               Admin Settings
             </div>
           </Tooltip>

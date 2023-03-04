@@ -10,7 +10,11 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
   const [loaded, setLoaded] = useState(false)
 
   const expandedClass = (isExpanded: boolean) =>
-    isExpanded ? 'sm:w-screen lg:w-[calc(100vw_-_240px)] sm:-ml-[240px] lg:ml-auto' : 'w-screen'
+    isExpanded
+      ? `
+w-screen lg:w-[calc(100vw_-_240px)]
+ml-[-240px] lg:ml-auto`
+      : 'w-screen'
 
   useEffect(() => {
     setLoaded(true)
@@ -19,10 +23,10 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
   if (!loaded) return <></>
 
   return (
-    <div className="flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">
+    <div className="bg-slate-900 flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">
       <Sidebar isExpanded={isExpandedSidebar} onToggle={toggleSidebar} />
 
-      <div className="bg-slate-900">
+      <div>
         <main
           className={`${expandedClass(
             isExpandedSidebar
