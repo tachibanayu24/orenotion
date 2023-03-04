@@ -67,12 +67,22 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
               </h1>
               <span className="text-xs ml-2">{version || '...'}</span>
             </div>
-            <IconButton icon="anglesLeft" size="md" onClick={onToggle} className="text-slate-400" />
+
+            <Tooltip position="bottom-right" component="サイドバーを閉じる">
+              <IconButton
+                icon="anglesLeft"
+                size="md"
+                onClick={onToggle}
+                className="text-slate-400"
+              />
+            </Tooltip>
           </div>
 
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs bold">Pages</span>
-            <IconButton icon="plus" size="sm" onClick={handleAddPage} />
+            <Tooltip position="top-right" component="ページを作成する">
+              <IconButton icon="plus" size="sm" onClick={handleAddPage} />
+            </Tooltip>
           </div>
           {pages ? (
             pages
@@ -125,13 +135,15 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
     )
   } else {
     return (
-      <aside className="fixed top-0 z-front p-2">
-        <IconButton
-          icon="anglesRight"
-          size="md"
-          onClick={onToggle}
-          className="text-slate-400 mt-0.5"
-        />
+      <aside className="sticky h-screen -mr-11 top-0 z-front p-2">
+        <Tooltip position="bottom-right" component="サイドバーを開く">
+          <IconButton
+            icon="anglesRight"
+            size="md"
+            onClick={onToggle}
+            className="text-slate-400 mt-0.5"
+          />
+        </Tooltip>
       </aside>
     )
   }

@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react'
 type Props = {
   component: ReactNode
   children: ReactNode
-  position: 'top-right' | 'bottom-left'
+  position: 'top-right' | 'bottom-left' | 'bottom-right'
   shouldOpenOnClick?: boolean
 }
 
@@ -14,7 +14,7 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
     const stringClasses = typeof component === 'string' ? 'text-xs select-none' : undefined
     return (
       <div
-        className={`${positionClasses[position]} ${stringClasses} w-max absolute z-popup p-1 rounded-md shadow-lg bg-slate-600`}
+        className={`${positionClasses[position]} ${stringClasses} w-max absolute z-popup p-1 rounded-md shadow-lg bg-slate-600 bg-opacity-90`}
       >
         {component}
       </div>
@@ -52,4 +52,5 @@ export const Tooltip = ({ component, children, position, shouldOpenOnClick }: Pr
 const positionClasses = {
   'top-right': 'bottom-8 left-2',
   'bottom-left': 'top-8 right-2',
+  'bottom-right': 'top-8 left-2',
 }
