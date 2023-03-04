@@ -1,4 +1,4 @@
-import { cloneElement, ComponentProps, ReactElement, useState } from 'react'
+import { cloneElement, ComponentProps, ReactElement, SyntheticEvent, useState } from 'react'
 
 import { MenuItem } from './MenuItem'
 import { Icon } from '../Icon/Icon'
@@ -33,7 +33,11 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
     },
   })
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = (e?: SyntheticEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     setIsDisplay(false)
     onClose && onClose()
   }
@@ -56,7 +60,10 @@ export const Menu = ({ children, position, options, onOpen, onClose }: Props) =>
       )}
 
       {isDisplay && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-overlay" onClick={handleCloseMenu} />
+        <div
+          className="fixed top-0 left-0 w-screen h-screen z-overlay cursor-default"
+          onClick={handleCloseMenu}
+        />
       )}
     </div>
   )

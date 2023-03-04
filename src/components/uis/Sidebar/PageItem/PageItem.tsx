@@ -100,11 +100,5 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
 
   if (!page || !pages) return <></>
 
-  // TODO: フルロードしてる
-  return (
-    <>
-      {renderItem(page, pages)}
-      {page.hasChildren() && page.children.map((child) => renderItem(child, pages))}
-    </>
-  )
+  return renderItem(page, pages)
 }

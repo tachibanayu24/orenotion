@@ -14,7 +14,7 @@ type DefaultOptionType = {
 
 type Props = {
   option: DefaultOptionType
-  onClose: () => void
+  onClose: (e?: SyntheticEvent) => void
 }
 
 export const MenuItem = ({ option, onClose }: Props) => {
@@ -29,7 +29,7 @@ export const MenuItem = ({ option, onClose }: Props) => {
 
     if (!isDanger) {
       onClick()
-      onClose()
+      onClose(e)
     }
   }
 

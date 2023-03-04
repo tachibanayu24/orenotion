@@ -10,7 +10,7 @@ type Props = {
   page: Page
 }
 
-const Slash = () => <span className="text-xs text-slate-400 mr-2">/</span>
+const Slash = () => <span className="text-xs text-slate-400 mr-1">/</span>
 
 export const Breadcrumbs = ({ page }: Props) => {
   const { pages } = usePages()
@@ -26,10 +26,8 @@ export const Breadcrumbs = ({ page }: Props) => {
 
   if (!pages) return <></>
 
-  console.log(getPageList(page, pages))
-
   return (
-    <div className="flex items-center gap-2 text-sm text-slate-200">
+    <div className="flex items-center gap-1 text-sm text-slate-200">
       <Link href="/">
         <Icon icon="home" size="sm" />
       </Link>
@@ -37,7 +35,7 @@ export const Breadcrumbs = ({ page }: Props) => {
       {getPageList(page, pages).map((page) => (
         <span key={`Breadcrumbs-${page.id}`} className="text-sm text-slate-200">
           <Slash />
-          <Link href={page.id}>
+          <Link href={page.id} className="p-1 rounded-md hover:bg-slate-600">
             {page.emoji} {page.title}
           </Link>
         </span>
