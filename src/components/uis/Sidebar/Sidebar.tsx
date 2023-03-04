@@ -8,7 +8,7 @@ import { auth } from '@/config/firebase'
 
 import { useCurrentUser, useLatestRelease, usePage, usePages } from '@/hooks'
 
-import { PAGE_CLASS } from '@/models/page/page'
+import { Page, PAGE_CLASS } from '@/models/page/page'
 
 import { PageItem } from './PageItem'
 import { IconButton } from '../IconButton'
@@ -30,7 +30,15 @@ export const Sidebar = () => {
   const { version } = useLatestRelease()
 
   const handleAddPage = async () => {
-    await addPage({ emoji: '📝', title: '', pageClass: PAGE_CLASS.TIER3, publishedAt: null })
+    await addPage(
+      Page.create({
+        emoji: '📝',
+        title: '',
+        layer: 1,
+        pageClass: PAGE_CLASS.TIER3,
+        publishedAt: null,
+      })
+    )
     refetchPages()
   }
 
@@ -58,14 +66,18 @@ export const Sidebar = () => {
           <IconButton icon="plus" size="sm" onClick={handleAddPage} />
         </div>
         {pages ? (
-          pages.map((page) => (
-            <PageItem
-              key={page.id}
-              pageId={page.id}
-              onDelete={handleDeletePage}
-              isActive={page.id === pageId}
-            />
-          ))
+          pages
+            .filter((p) => p.isPrimary())
+            .map((page) => {
+              return (
+                <PageItem
+                  key={page.id}
+                  pageId={page.id}
+                  onDelete={handleDeletePage}
+                  isActive={page.id === pageId}
+                />
+              )
+            })
         ) : (
           <SidebarSkeleton />
         )}
