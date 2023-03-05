@@ -43,7 +43,9 @@ export class PageRepository extends DBRepository<Page> {
   get = async (id: string) => {
     console.info('repo.get')
     const ref = doc(db, this.PATH, id)
-    const document = await getDoc(ref)
+    const document = await getDoc(ref).catch((e) => {
+      throw this.getError(e)
+    })
 
     if (!document.exists()) {
       throw new NotFoundError('ページが見つかりませんでした')
@@ -69,12 +71,19 @@ export class PageRepository extends DBRepository<Page> {
     return await deleteDoc(doc(db, this.PATH, id))
   }
 
-  listen = (id: Page['id'], onUpdate: (page: Page) => void) => {
+  listen = (id: Page['id'], onUpdate: (page: Page) => void, onError?: (e: Error) => void) => {
     console.info('repo.listen')
-    return onSnapshot(doc(db, this.PATH, id), (doc) => {
-      if (doc.exists()) {
-        onUpdate(new Page(this.docToObject(doc)))
+
+    return onSnapshot(
+      doc(db, this.PATH, id),
+      (doc) => {
+        if (doc.exists()) {
+          onUpdate(new Page(this.docToObject(doc)))
+        }
+      },
+      (e) => {
+        onError && onError(this.getError(e))
       }
-    })
+    )
   }
 }

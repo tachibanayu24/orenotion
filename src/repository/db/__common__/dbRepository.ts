@@ -53,30 +53,24 @@ export abstract class DBRepository<T extends Entity> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected getError = (error: Error | FirestoreError | any) => {
-    if (error instanceof Error) {
-      return error
-    } else if (error instanceof FirestoreError) {
-      switch (error.code as FirestoreError['code']) {
-        case 'resource-exhausted':
-          return new DBError(
-            'Firestoreのリクエスト上限に達しました\n明日にならないと復旧しません',
-            error
-          )
-        case 'already-exists':
-          return new DBError('作成しようとしたデータはすでに存在します', error)
-        case 'deadline-exceeded':
-          return new DBError('操作が完了する前に上限時間を超えました', error)
-        case 'internal':
-          return new DBError('不明な内部エラーが発生しました', error)
-        case 'permission-denied':
-          return new DBError('操作に必要な権限がありません', error)
-        case 'unauthenticated':
-          return new AuthError('認証エラーが発生しました', error)
-        default:
-          return new Error('不明なエラーが発生しました', error)
-      }
-    } else {
-      return new Error('不明なエラーが発生しました')
+    switch (error.code as FirestoreError['code']) {
+      case 'resource-exhausted':
+        return new DBError(
+          'Firestoreのリクエスト上限に達しました\n明日にならないと復旧しません',
+          error
+        )
+      case 'already-exists':
+        return new DBError('作成しようとしたデータはすでに存在します', error)
+      case 'deadline-exceeded':
+        return new DBError('操作が完了する前に上限時間を超えました', error)
+      case 'internal':
+        return new DBError('不明な内部エラーが発生しました', error)
+      case 'permission-denied':
+        return new DBError('ページが存在しないか、操作に必要な権限がありません', error)
+      case 'unauthenticated':
+        return new AuthError('認証エラーが発生しました', error)
+      default:
+        return new Error('不明なエラーが発生しました', error)
     }
   }
 }

@@ -106,6 +106,7 @@ export default function PageDetail() {
         publishedTime={page.publishedAt?.toLocaleString() || ''}
         modifiedTime={page.updatedAt?.toLocaleString() || ''}
         tags={getPageList(page, pages).map((p) => p.title)}
+        noindex={!page.publishedAt}
       />
 
       <div>

@@ -32,7 +32,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
       handleCopy(`${location.host}/${page.id}`)
       addSnack({
         type: 'success',
-        message: `${page.emoji} ${page.title || 'Untitled'} へのリンクをコピーしました`,
+        message: `${page.getTitle()} へのリンクをコピーしました`,
       })
     },
     [addSnack, handleCopy]
@@ -49,7 +49,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
         onDelete(page.id).then(() =>
           addSnack({
             type: 'success',
-            message: `${page.emoji} ${page.title || 'Untitled'} を削除しました`,
+            message: `${page.getTitle()} を削除しました`,
           })
         )
       }
@@ -85,7 +85,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
             <div className="truncate flex items-center">
               <span className="mr-1">{nested.emoji}</span>
               <span className={nested.title ? undefined : 'text-slate-400'}>
-                {nested.title || 'Untitled'}
+                {nested.getTitle({ withEmoji: false })}
               </span>
             </div>
 
