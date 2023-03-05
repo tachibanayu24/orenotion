@@ -10,6 +10,8 @@ import {
   faHome,
   faAnglesLeft,
   faAnglesRight,
+  faCheck,
+  faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -31,6 +33,8 @@ const icons = {
   home: faHome,
   anglesLeft: faAnglesLeft,
   anglesRight: faAnglesRight,
+  check: faCheck,
+  triangleExclamation: faTriangleExclamation,
 } as const
 
 export const Icon = ({ icon, size, shouldSpin }: Props) => {

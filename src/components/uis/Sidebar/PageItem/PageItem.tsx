@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
 
 import { usePage, usePages } from '@/hooks'
+import { useSnackbar } from '@/hooks/useSnackbar'
 
-//
 import { Page } from '@/models/page'
 
 import { IconButton } from '../../IconButton'
@@ -20,11 +20,13 @@ type Props = {
 export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
   const { pages } = usePages()
   const { page, listenPage } = usePage()
+  const { addSnack } = useSnackbar()
+
   const [isHover, setIsHover] = useState(false)
   const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
-  const handleCopyLink = (pageId: string) => {
-    console.log('copy', pageId)
+  const handleCopyLink = (page: Page) => {
+    addSnack({ type: 'success', message: `${page.emoji} ${page.title} へのリンクをコピーしました` })
   }
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
                         type: 'default',
                         icon: 'link',
                         title: 'リンクをコピー',
-                        onClick: () => handleCopyLink(nested.id),
+                        onClick: () => handleCopyLink(nested),
                       },
                       // { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
                       { type: 'divider' },

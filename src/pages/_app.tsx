@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app'
 
 import { SWRConfig } from 'swr'
 
-import { CurrentUserProvider, LayoutProvider } from '@/components/providers'
+import { CurrentUserProvider, LayoutProvider, SnackbarProvider } from '@/components/providers'
 import { ErrorBoundary } from '@/components/providers/ErrorBoundary'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
@@ -20,9 +20,11 @@ export default function App({ Component, pageProps }: AppProps) {
           }}
         >
           <CurrentUserProvider>
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
+            <SnackbarProvider>
+              <DefaultLayout>
+                <Component {...pageProps} />
+              </DefaultLayout>
+            </SnackbarProvider>
           </CurrentUserProvider>
         </SWRConfig>
       </LayoutProvider>
