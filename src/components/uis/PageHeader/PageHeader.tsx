@@ -16,7 +16,8 @@ import { Toggle } from '../Toggle'
 import { Tooltip } from '../Tooltip'
 
 type Props = {
-  page: Page
+  pages: Page[]
+  currentPage: Page
   currentUser?: User
   onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void
   onSelectEmoji: (emoji: string) => Promise<void>
@@ -25,7 +26,8 @@ type Props = {
 }
 
 export const PageHeader = ({
-  page,
+  pages,
+  currentPage,
   currentUser,
   onSelectEmoji,
   onChangeTitle,
@@ -43,8 +45,8 @@ export const PageHeader = ({
   }
 
   useEffect(() => {
-    setTitle(page.title)
-  }, [page.title])
+    setTitle(currentPage.title)
+  }, [currentPage.title])
 
   // useTraceUpdate(
   //   { page, currentUser, onSelectEmoji, onChangeTitle, onChangePublishedAt, isUpdating },
@@ -54,7 +56,7 @@ export const PageHeader = ({
   return (
     <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">
       <div className={`flex justify-between items-center ${!isExpandedSidebar && 'ml-8'}`}>
-        <Breadcrumbs page={page} />
+        <Breadcrumbs currentPage={currentPage} pages={pages} />
         <Tooltip position="bottom-left" component="シェアする">
           <IconButton icon="twitter" size="md" />
         </Tooltip>
@@ -68,7 +70,7 @@ export const PageHeader = ({
             onSelect={onSelectEmoji}
           >
             <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
-              {page.emoji}
+              {currentPage.emoji}
             </button>
           </EmojiPicker>
           <div className="w-full">
@@ -82,7 +84,7 @@ export const PageHeader = ({
           </div>
           {currentUser?.isAdmin && (
             <Toggle
-              checked={Boolean(page.publishedAt)}
+              checked={Boolean(currentPage.publishedAt)}
               label={['公開中', '未公開']}
               onChange={onChangePublishedAt}
             />
@@ -91,12 +93,20 @@ export const PageHeader = ({
         <div className="text-xs text-slate-300 flex justify-between">
           <div>
             {currentUser?.isAdmin && (
-              <span className="mr-4">{format(page.createdAt, 'yyyy/M/d(eee) H:m')} 作成</span>
+              <span className="mr-4">
+                {format(currentPage.createdAt, 'yyyy/M/d(eee) H:m')} 作成
+              </span>
             )}
             <span className="mr-4">
-              {page.publishedAt ? format(page.publishedAt, 'yyyy/M/d(eee) H:m') : '---'} 公開
+              {currentPage.publishedAt
+                ? format(currentPage.publishedAt, 'yyyy/M/d(eee) H:m')
+                : '---'}{' '}
+              公開
             </span>
-            <span>{page.updatedAt ? format(page.updatedAt, 'yyyy/M/d(eee) H:m') : '---'} 更新</span>
+            <span>
+              {currentPage.updatedAt ? format(currentPage.updatedAt, 'yyyy/M/d(eee) H:m') : '---'}{' '}
+              更新
+            </span>
           </div>
           {isUpdating && (
             <span>
