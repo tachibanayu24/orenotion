@@ -17,7 +17,7 @@ type QueryType = {
 // TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
 export default function PageDetail() {
   const router = useRouter()
-  const { page, listenPage, updatePage } = usePage()
+  const { page, listenPage, fetchPage, updatePage } = usePage()
   const { currentUser } = useCurrentUser()
 
   const { pageId } = router.query as QueryType
@@ -26,11 +26,20 @@ export default function PageDetail() {
 
   const content = useMemo(() => page?.content, [page?.content])
 
+  // 変種モードではlistenしない
   useEffect(() => {
-    const unsubscribe = router.isReady ? listenPage(pageId) : () => void 0
+    if (currentUser?.isAdmin) {
+      if (router.isReady) fetchPage(pageId)
+    }
+  }, [currentUser?.isAdmin, fetchPage, pageId, router.isReady])
 
-    return () => unsubscribe()
-  }, [listenPage, pageId, router.isReady])
+  // 閲覧モードではlistenする
+  useEffect(() => {
+    if (!currentUser?.isAdmin) {
+      const unsubscribe = router.isReady ? listenPage(pageId) : () => void 0
+      return () => unsubscribe()
+    }
+  }, [currentUser?.isAdmin, listenPage, pageId, router.isReady])
 
   const handleUpdateEmoji = async (emoji: string) => {
     await updatePage(pageId, { emoji })
