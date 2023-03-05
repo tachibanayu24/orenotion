@@ -20,6 +20,8 @@ export default function Home() {
           最近更新したドキュメント
         </h1>
 
+        <p className="break-words">{'tdtestatseteset \n regsgs'}</p>
+
         <Timeline pages={pages} isLoading={!(pages && pages.length > 0)} />
       </main>
     </>

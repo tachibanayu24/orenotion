@@ -14,7 +14,7 @@ export const Snackbar = ({ type, message }: Props) => {
         {type === 'success' && <Icon icon="check" size="md" />}
         {type === 'failure' && <Icon icon="triangleExclamation" size="md" />}
       </div>
-      <p className="text-sm ml-2.5 text-slate-200">{message}</p>
+      <p className="text-sm ml-2.5 text-slate-200 whitespace-pre-wrap">{message}</p>
     </div>
   )
 }

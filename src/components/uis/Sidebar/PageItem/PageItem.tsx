@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 
 import { usePage, usePages } from '@/hooks'
+import { useClipboard } from '@/hooks/useClipboard'
 import { useSnackbar } from '@/hooks/useSnackbar'
 
 import { Page } from '@/models/page'
@@ -13,7 +14,7 @@ import { Tooltip } from '../../Tooltip'
 type Props = {
   pageId: Page['id']
   // childPages?: PageType[]
-  onDelete: (id: string) => void
+  onDelete: (id: string) => Promise<void>
   isActive?: boolean
 }
 
@@ -21,13 +22,40 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
   const { pages } = usePages()
   const { page, listenPage } = usePage()
   const { addSnack } = useSnackbar()
+  const { handleCopy } = useClipboard()
 
   const [isHover, setIsHover] = useState(false)
   const [isOpenedMenu, setIsOpenedMenu] = useState(false)
 
-  const handleCopyLink = (page: Page) => {
-    addSnack({ type: 'success', message: `${page.emoji} ${page.title} へのリンクをコピーしました` })
-  }
+  const handleCopyLink = useCallback(
+    (page: Page) => {
+      handleCopy(`${location.host}/${page.id}`)
+      addSnack({
+        type: 'success',
+        message: `${page.emoji} ${page.title || 'Untitled'} へのリンクをコピーしました`,
+      })
+    },
+    [addSnack, handleCopy]
+  )
+
+  const handleDelete = useCallback(
+    (page: Page) => {
+      if (page.hasChildren()) {
+        addSnack({
+          type: 'failure',
+          message: `子ページを持つページは削除できません\n先にすべての小ページを削除してください`,
+        })
+      } else {
+        onDelete(page.id).then(() =>
+          addSnack({
+            type: 'success',
+            message: `${page.emoji} ${page.title || 'Untitled'} を削除しました`,
+          })
+        )
+      }
+    },
+    [addSnack, onDelete]
+  )
 
   useEffect(() => {
     const unsubscribe = listenPage(pageId)
@@ -71,7 +99,12 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
                 <div className="h-5">
                   <Menu
                     options={[
-                      // { type: 'default', icon: 'plus', title: '追加/ onClick: () => console.log('追加') },
+                      {
+                        type: 'default',
+                        icon: 'plus',
+                        title: '追加',
+                        onClick: () => console.log('追加'),
+                      },
                       {
                         type: 'default',
                         icon: 'link',
@@ -84,7 +117,7 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
                         type: 'default',
                         icon: 'trash',
                         title: '削除',
-                        onClick: () => onDelete(nested.id),
+                        onClick: () => handleDelete(nested),
                         isDanger: true,
                       },
                     ]}
