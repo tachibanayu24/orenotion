@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 
 import { useLayout } from '@/hooks/useLayout'
 
@@ -6,8 +6,6 @@ import { Sidebar } from '@/components/uis'
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   const { isExpandedSidebar, toggleSidebar } = useLayout()
-  // TODO: 必要？
-  const [loaded, setLoaded] = useState(false)
 
   const expandedClass = (isExpanded: boolean) =>
     isExpanded
@@ -15,12 +13,6 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
 w-screen lg:w-[calc(100vw_-_240px)]
 ml-[-240px] lg:ml-auto`
       : 'w-screen'
-
-  useEffect(() => {
-    setLoaded(true)
-  }, [])
-
-  if (!loaded) return <></>
 
   return (
     <div className="bg-slate-900 flex min-h-screen antialiased hover:subpixel-antialiased text-gray-200 ">

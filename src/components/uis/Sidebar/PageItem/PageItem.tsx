@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
-import { usePage, usePages } from '@/hooks'
+import { useCurrentUser, usePage, usePages } from '@/hooks'
 import { useClipboard } from '@/hooks/useClipboard'
 import { useSnackbar } from '@/hooks/useSnackbar'
 
 import { Page } from '@/models/page'
+import { PAGE_CLASS } from '@/models/page/page'
 
 import { IconButton } from '../../IconButton'
 import { Menu } from '../../Menu'
@@ -19,8 +20,9 @@ type Props = {
 }
 
 export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
+  const { currentUser } = useCurrentUser()
   const { pages } = usePages()
-  const { page, listenPage } = usePage()
+  const { page, listenPage, updatePage, addPage } = usePage()
   const { addSnack } = useSnackbar()
   const { handleCopy } = useClipboard()
 
@@ -55,6 +57,25 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
       }
     },
     [addSnack, onDelete]
+  )
+
+  const handleAddPage = useCallback(
+    async (parentPage: Page) => {
+      const newPage = Page.create({
+        emoji: '📝',
+        title: '',
+        layer: parentPage.layer + 1,
+        pageClass: PAGE_CLASS.TIER3,
+        publishedAt: null,
+      })
+      await updatePage(parentPage.id, {
+        childIds: parentPage.childIds ? [...parentPage.childIds, newPage.id] : [newPage.id],
+      })
+      await addPage(newPage)
+
+      addSnack({ type: 'success', message: `${parentPage.getTitle()} の子ページを作成しました` })
+    },
+    [addPage, addSnack, updatePage]
   )
 
   useEffect(() => {
@@ -101,25 +122,29 @@ export const PageItem = ({ pageId, onDelete, isActive }: Props) => {
                     options={[
                       {
                         type: 'default',
-                        icon: 'plus',
-                        title: '追加',
-                        onClick: () => console.log('追加'),
-                      },
-                      {
-                        type: 'default',
                         icon: 'link',
                         title: 'リンクをコピー',
                         onClick: () => handleCopyLink(nested),
                       },
                       // { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
-                      { type: 'divider' },
-                      {
-                        type: 'default',
-                        icon: 'trash',
-                        title: '削除',
-                        onClick: () => handleDelete(nested),
-                        isDanger: true,
-                      },
+                      ...(currentUser?.isAdmin
+                        ? [
+                            {
+                              type: 'default',
+                              icon: 'plus',
+                              title: '追加',
+                              onClick: () => handleAddPage(page),
+                            } as const,
+                            { type: 'divider' } as const,
+                            {
+                              type: 'default',
+                              icon: 'trash',
+                              title: '削除',
+                              onClick: () => handleDelete(nested),
+                              isDanger: true,
+                            } as const,
+                          ]
+                        : []),
                     ]}
                     position="bottom-right"
                     onOpen={() => setIsOpenedMenu(true)}

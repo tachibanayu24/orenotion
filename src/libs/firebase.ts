@@ -12,6 +12,7 @@ export {
   updateDoc,
   FirestoreError,
   onSnapshot,
+  orderBy,
 } from 'firebase/firestore'
 
 export type { DocumentData, FirestoreErrorCode, Unsubscribe } from 'firebase/firestore'

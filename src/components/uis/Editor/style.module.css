@@ -3,8 +3,8 @@
   min-height: calc(100vh - 155px - 30px - 24px);
 }
 
-.editor > * + * {
-  margin-top: 0.75em;
+.editor * {
+  margin-top: 0.5rem;
 }
 
 .editor :focus-visible {
@@ -13,35 +13,36 @@
 
 .editor h1 {
   font-size: 1.875rem;
-  line-height: 2.25rem;
+  line-height: 3.75rem;
   font-weight: bold;
 }
 
 .editor h2 {
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 3rem;
   font-weight: bold;
 }
 .editor h3 {
   font-size: 1.25rem;
-  line-height: 1.75rem;
+  line-height: 2.5rem;
   font-weight: bold;
 }
 
 .editor p {
-  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .editor ul {
   list-style-type: disc;
   margin: 4px 0;
-  padding-left: 16px;
+  padding-left: 2rem;
 }
 
 .editor ol {
   list-style-type: decimal;
   margin: 4px 0;
-  padding-left: 16px;
+  padding-left: 2rem;
 }
 
 .editor blockquote {
@@ -78,10 +79,21 @@
   padding: 0.75rem 1rem;
 }
 .editor pre code {
-  background: none;
+  background: inherit;
+  border-radius: none;
   color: inherit;
   font-size: 0.8rem;
+  font-weight: inherit;
   padding: 0;
+  border: none;
+}
+.editor code {
+  background: rgba(135, 131, 120, 0.15);
+  border-radius: 3px;
+  color: #eb5757;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.2em 0.4em;
   border: none;
 }
 

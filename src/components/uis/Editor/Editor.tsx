@@ -12,31 +12,6 @@ import { useEditor } from './useEditor'
 
 type Props = Parameters<typeof useEditor>[0]
 
-// export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
-//   const [currentContent, setCurrentContent] = useState<JSONContent>()
-
-//   const handleChange = (json: JSONContent) => {
-//     setCurrentContent(json)
-//     onUpdate(json)
-//   }
-
-//   const editor = useEditor({ onUpdate: handleChange, onSave, content: currentContent, editable })
-//   const handleFocus = () => editor?.chain().focus().run()
-
-//   useTraceUpdate({ onUpdate, onSave, content, editable }, 'Editor')
-
-//   if (!editor) return <></>
-
-//   return (
-//     <EditorContent
-//       key="editor"
-//       onClick={handleFocus}
-//       className={`${style.editor} prose prose-sm w-full h-full text-gray-100 py-2  px-0 lg:px-8 placeholder:text-gray-500`}
-//       editor={editor}
-//     />
-//   )
-// })
-
 export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
   const { currentUser } = useCurrentUser()
   const editor = useEditor({ onUpdate, onSave, content, editable })
@@ -68,7 +43,7 @@ export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
       <EditorContent
         key="editor"
         onClick={handleFocus}
-        className={`${style.editor} prose prose-sm w-full h-full text-gray-100 py-2  px-0 lg:px-8 placeholder:text-gray-500`}
+        className={`${style.editor} prose prose-sm w-full h-full text-gray-100 py-2  px-0 lg:px-8 placeholder:text-gray-500 pb-20`}
         editor={editor}
       />
     </>

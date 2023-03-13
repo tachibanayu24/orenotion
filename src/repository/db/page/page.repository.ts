@@ -10,6 +10,7 @@ import {
   query,
   setDoc,
   updateDoc,
+  orderBy,
 } from '@/libs/firebase'
 
 import { db } from '@/config/firebase'
@@ -25,8 +26,12 @@ export class PageRepository extends DBRepository<Page> {
   fetchAll = async ({ publishedOnly }: { publishedOnly: boolean }) => {
     console.info('repo.fetchAll')
     const q = publishedOnly
-      ? query(collection(db, this.PATH), where('publishedAt', '!=', null))
-      : query(collection(db, this.PATH))
+      ? query(
+          collection(db, this.PATH),
+          where('publishedAt', '!=', null),
+          orderBy('publishedAt', 'desc')
+        )
+      : query(collection(db, this.PATH), orderBy('publishedAt', 'desc'))
 
     return await getDocs(q)
       .then((res) => res.docs)
@@ -54,10 +59,13 @@ export class PageRepository extends DBRepository<Page> {
     }
   }
 
-  add = async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
+  add = async (page: Omit<Page, 'createdAt' | 'updatedAt'>) => {
     console.info('repo.add')
     console.log(page)
-    return await setDoc(doc(db, this.PATH, this.uniqId()), this.objectToDoc(page))
+    const docId = page.id
+    const newPage = { ...page, id: undefined }
+    console.log(newPage)
+    return await setDoc(doc(db, this.PATH, docId), this.objectToDoc(newPage))
   }
 
   update = async (id: string, updateObject: Partial<Page>) => {
