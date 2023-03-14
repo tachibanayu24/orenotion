@@ -13,6 +13,7 @@
     "lint:prettier:fix": "yarn lint:prettier --write"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

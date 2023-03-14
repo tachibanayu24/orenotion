@@ -1,19 +1,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
-import { signOut } from 'firebase/auth'
+import { useLatestRelease } from '@/hooks'
 
-import { auth } from '@/config/firebase'
-
-import { useCurrentUser, useLatestRelease, usePage, usePages } from '@/hooks'
-
-import { Page, PAGE_CLASS } from '@/models/page/page'
-
-import { PageItem } from './PageItem'
+import { PageContainer } from './PageContainer'
+import { SignInContainer } from './SignInContainer'
 import { IconButton } from '../IconButton'
-import { SignInForm } from '../SignInForm'
-import { SidebarSkeleton } from '../Skeleton/SidebarSkeleton'
 import { Tooltip } from '../Tooltip'
 
 type Props = {
@@ -29,32 +21,7 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
   const router = useRouter()
   const { pageId } = router.query as QueryType
 
-  const { pages, refetchPages } = usePages()
-  const { addPage, deletePage } = usePage()
-  const { currentUser } = useCurrentUser()
   const { version } = useLatestRelease()
-
-  const handleAddPage = async () => {
-    await addPage(
-      Page.create({
-        emoji: '📝',
-        title: '',
-        layer: 1,
-        pageClass: PAGE_CLASS.TIER3,
-        publishedAt: null,
-      })
-    )
-    refetchPages()
-  }
-
-  const handleDeletePage = async (pageId: string) => {
-    await deletePage(pageId)
-    refetchPages()
-  }
-
-  useEffect(() => {
-    refetchPages()
-  }, [refetchPages])
 
   if (isExpanded) {
     return (
@@ -78,61 +45,10 @@ export const Sidebar = ({ isExpanded, onToggle }: Props) => {
             </Tooltip>
           </div>
 
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-xs bold">Pages</span>
-            {currentUser?.isAdmin && (
-              <Tooltip position="top-right" component="ページを作成する">
-                <IconButton icon="plus" size="sm" onClick={handleAddPage} />
-              </Tooltip>
-            )}
-          </div>
-          {pages ? (
-            pages
-              .filter((p) => p.isPrimary())
-              .map((page) => {
-                return (
-                  <PageItem
-                    key={page.id}
-                    pageId={page.id}
-                    onDelete={handleDeletePage}
-                    isActive={page.id === pageId}
-                  />
-                )
-              })
-          ) : (
-            <SidebarSkeleton />
-          )}
+          <PageContainer currentPageId={pageId} />
         </div>
 
-        {currentUser?.isAdmin ? (
-          <Tooltip
-            position="top-right"
-            shouldOpenOnClick
-            component={
-              <div className="w-60 flex flex-col gap-2 p-3">
-                <button
-                  onClick={() => {
-                    signOut(auth)
-                    router.reload()
-                  }}
-                  className={`p-1 rounded-full border border-green-400 text-sm shadow-md font-bold text-green-400`}
-                >
-                  ログアウト
-                </button>
-              </div>
-            }
-          >
-            <div className="block bg-red-800 text-xs text-center -m-2 font-bold cursor-pointer rounded-b-3xl lg:rounded-none">
-              Admin Mode
-            </div>
-          </Tooltip>
-        ) : (
-          <Tooltip position="top-right" shouldOpenOnClick component={<SignInForm />}>
-            <div className="block bg-slate-700 text-xs text-center -m-2 cursor-pointer rounded-b-3xl lg:rounded-none">
-              Admin Settings
-            </div>
-          </Tooltip>
-        )}
+        <SignInContainer />
       </aside>
     )
   } else {
