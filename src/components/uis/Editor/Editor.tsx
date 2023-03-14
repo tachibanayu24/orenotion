@@ -5,7 +5,6 @@ import { memo, useCallback } from 'react'
 import { EditorContent } from '@tiptap/react'
 
 import { useCurrentUser } from '@/hooks'
-import { useTraceUpdate } from '@/hooks/useTraceUpdate'
 
 import style from './style.module.css'
 import { useEditor } from './useEditor'
@@ -16,8 +15,6 @@ export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
   const { currentUser } = useCurrentUser()
   const editor = useEditor({ onUpdate, onSave, content, editable })
   const handleFocus = () => editor?.chain().focus().run()
-
-  useTraceUpdate({ onUpdate, onSave, content, editable }, 'Editor')
 
   const handleAddImage = useCallback(() => {
     const url = window.prompt('URL')

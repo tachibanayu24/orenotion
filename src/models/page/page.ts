@@ -83,7 +83,9 @@ export class Page extends Entity {
   }
 
   nestChildren(pages: Page[]) {
-    const children = pages.filter((p) => this.childIds?.includes(p.id)).map((p) => new Page(p))
+    const children: Page[] = pages
+      .filter((p) => this.childIds?.includes(p.id))
+      .map((p) => p.nestChildren(pages))
 
     return new Page({ ...this, children: children })
   }

@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
 import { Tooltip, IconButton, SidebarSkeleton } from '@/components/uis'
@@ -14,7 +16,7 @@ export const PageContainer = ({ currentPageId }: Props) => {
   const { currentUser } = useCurrentUser()
 
   const { pages, refetchPages } = usePages()
-  const { addPage, deletePage } = usePage()
+  const { addPage } = usePage()
 
   const handleAddPage = async () => {
     await addPage(
@@ -29,9 +31,18 @@ export const PageContainer = ({ currentPageId }: Props) => {
     refetchPages()
   }
 
-  const handleDeletePage = async (pageId: string) => {
-    await deletePage(pageId)
-    refetchPages()
+  const getStructuredPages = (pages: Page[]) =>
+    pages.map((p) => p.isPrimary() && p.nestChildren(pages)).filter((v): v is Page => Boolean(v))
+
+  console.log(pages && getStructuredPages(pages))
+
+  const renderPageItemRecursive = (page: Page): JSX.Element => {
+    return (
+      <Fragment key={page.id}>
+        <PageItem pageId={page.id} isActive={page.id === currentPageId} />
+        {page.hasChildren() && page.children.map((child) => renderPageItemRecursive(child))}
+      </Fragment>
+    )
   }
 
   return (
@@ -45,18 +56,7 @@ export const PageContainer = ({ currentPageId }: Props) => {
         )}
       </div>
       {pages ? (
-        pages
-          .filter((p) => p.isPrimary())
-          .map((page) => {
-            return (
-              <PageItem
-                key={page.id}
-                pageId={page.id}
-                onDelete={handleDeletePage}
-                isActive={page.id === currentPageId}
-              />
-            )
-          })
+        getStructuredPages(pages).map((page) => renderPageItemRecursive(page))
       ) : (
         <SidebarSkeleton />
       )}
