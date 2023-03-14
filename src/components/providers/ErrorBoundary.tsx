@@ -18,7 +18,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error) {
-    console.log('getDerivedStateFromError', error)
     return { error }
   }
 
@@ -31,8 +30,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   onUnhandledRejection = (event: PromiseRejectionEvent) => {
-    console.log('onUnhandledRejection')
-
     event.promise.catch((error: Error) => {
       this.setState(ErrorBoundary.getDerivedStateFromError(error))
     })

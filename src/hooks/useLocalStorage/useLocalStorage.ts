@@ -25,7 +25,5 @@ export const useLocalStorage = <T>(key: string, defaultValue?: T) => {
     setStoredValue(newValue)
   }
 
-  console.log(storedValue)
-
   return { storedValue, setValue }
 }
