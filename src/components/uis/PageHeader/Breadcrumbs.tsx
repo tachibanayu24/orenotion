@@ -18,19 +18,22 @@ export const Breadcrumbs = ({ currentPage, pages }: Props) => {
 
   // TODO: モバイルのときパンくずはroot directoryだけ表示で切れいれば良いのでelipsisする
   return (
-    <div className="flex items-center gap-0.5 text-sm text-slate-200 whitespace-nowrap">
+    <div className="flex items-center gap-0.5 text-sm text-slate-200 whitespace-nowrap truncate">
       <Link href="/" className="mr-1">
         <Icon icon="home" size="sm" />
       </Link>
 
-      {getPageList(currentPage, pages).map((page) => (
-        <span key={`Breadcrumbs-${page.id}`} className="text-sm text-slate-200">
-          <Slash />
-          <Link href={page.id} className="p-0.5 rounded-md hover:bg-slate-600">
-            {page.emoji} {page.title}
-          </Link>
-        </span>
-      ))}
+      {getPageList(currentPage, pages).map((page) => {
+        const title = page.getTitle()
+        return (
+          <span key={`Breadcrumbs-${page.id}`} className="text-sm text-slate-200">
+            <Slash />
+            <Link href={page.id} className="p-0.5 rounded-md hover:bg-slate-600">
+              {title.length > 10 ? `${title.substring(0, 10)}...` : title}
+            </Link>
+          </span>
+        )
+      })}
     </div>
   )
 }

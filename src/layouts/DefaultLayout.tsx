@@ -11,7 +11,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
     isExpanded
       ? `
 w-screen lg:w-[calc(100vw_-_240px)]
-ml-[-240px] lg:ml-auto`
+ml-[-244px] lg:ml-auto`
       : 'w-screen'
 
   return (
@@ -26,7 +26,11 @@ ml-[-240px] lg:ml-auto`
         >
           {children}
         </main>
-        <footer className="h-[30px] text-xs flex justify-center items-center border-t border-slate-700 border-dashed">
+        <footer
+          className={`${expandedClass(
+            isExpandedSidebar
+          )} h-[30px] text-xs flex justify-center items-center border-t border-slate-700 border-dashed left-0`}
+        >
           Copyright by Yuto Tachibana
         </footer>
       </div>

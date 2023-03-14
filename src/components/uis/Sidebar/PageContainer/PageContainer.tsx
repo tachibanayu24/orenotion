@@ -2,11 +2,13 @@ import { Fragment } from 'react'
 
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
-import { Tooltip, IconButton, SidebarSkeleton } from '@/components/uis'
-
 import { Page, PAGE_CLASS } from '@/models/page/page'
 
 import { PageItem } from '../PageItem'
+
+import { IconButton } from '../../IconButton'
+import { SidebarSkeleton } from '../../Skeleton/SidebarSkeleton'
+import { Tooltip } from '../../Tooltip'
 
 type Props = {
   currentPageId: string

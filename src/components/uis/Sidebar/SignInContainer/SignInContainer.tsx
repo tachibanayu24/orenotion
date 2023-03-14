@@ -6,9 +6,9 @@ import { auth } from '@/config/firebase'
 
 import { useCurrentUser } from '@/hooks'
 
-import { Tooltip } from '@/components/uis'
-
 import { SignInForm } from './SignInForm'
+
+import { Tooltip } from '../../Tooltip'
 
 export const SignInContainer = () => {
   const router = useRouter()

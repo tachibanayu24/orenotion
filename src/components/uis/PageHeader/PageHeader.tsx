@@ -73,7 +73,7 @@ export const PageHeader = ({
               {currentPage.emoji}
             </button>
           </EmojiPicker>
-          <div className="w-full">
+          <div className="w-full my-2">
             <input
               value={title}
               placeholder="Untitled"
