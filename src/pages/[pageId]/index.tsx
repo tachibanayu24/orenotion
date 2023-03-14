@@ -122,7 +122,6 @@ export default function PageDetail() {
 
         <div className="pt-2" key="fixed">
           <Editor
-            key="editorrr"
             onUpdate={handleUpdateContent}
             onSave={handleSaveContent}
             content={content}
