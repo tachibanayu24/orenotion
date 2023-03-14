@@ -99,7 +99,7 @@ export default function PageDetail() {
       <SEO
         type="article"
         pagePath={`/${page.id}`}
-        title={`${page.emoji} ${page.title}`}
+        title={page.getTitle({ withEmoji: false })}
         description={
           page.content ? getPlaneTextFromJSONContent(page.content) : 'コンテンツがありません'
         }
