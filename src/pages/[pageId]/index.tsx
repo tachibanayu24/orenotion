@@ -19,7 +19,7 @@ type QueryType = {
 }
 
 // TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
-export default function PageDetail(initialPage: ReturnType<Page['toJson']>) {
+export default function PageDetail(data: { initialPage: ReturnType<Page['toJson']> }) {
   const router = useRouter()
   const { pages } = usePages()
   const { page, listenPage, fetchPage, updatePage } = usePage()
@@ -95,8 +95,7 @@ export default function PageDetail(initialPage: ReturnType<Page['toJson']>) {
     [pageId, updatePage]
   )
 
-  // // TODO: listenしているが初期読み込みのローディングは取れないのか？
-  // if (!page || !pages) return
+  const { initialPage } = data
 
   return (
     <>

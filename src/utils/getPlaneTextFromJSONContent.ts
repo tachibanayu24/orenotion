@@ -15,7 +15,7 @@ const getValueRecursive = (object: JSONContent, key: string) => {
 }
 
 export const getPlaneTextFromJSONContent = (content: JSONContent) => {
-  const result = getValueRecursive(content, 'text')
+  const result = getValueRecursive(content, 'text').replace(/ +/g, ' ')
 
   return result
 }
