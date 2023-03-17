@@ -14,8 +14,8 @@ const getValueRecursive = (object: JSONContent, key: string) => {
   return value
 }
 
-export const getPlaneTextFromJSONContent = (content: JSONContent) => {
+export const getPlaneTextFromJSONContent = (content: JSONContent, max?: number) => {
   const result = getValueRecursive(content, 'text').replace(/ +/g, ' ')
 
-  return result
+  return max && result.length > max ? result.substring(0, max) + '...' : result
 }

@@ -105,7 +105,7 @@ export default function PageDetail(data: { initialPage: ReturnType<Page['toJson'
         title={initialPage.title}
         description={
           initialPage.content
-            ? getPlaneTextFromJSONContent(initialPage.content)
+            ? getPlaneTextFromJSONContent(initialPage.content, 400)
             : 'コンテンツがありません'
         }
         publishedTime={initialPage.publishedAt}
