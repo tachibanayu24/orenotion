@@ -3,19 +3,23 @@ import { ChangeEvent, ComponentProps, useCallback, useEffect, useMemo, useState 
 
 import { JSONContent } from '@tiptap/core'
 
-import { debounce, getPageList, getPlaneTextFromJSONContent } from '@/utils'
+import { debounce, getPlaneTextFromJSONContent } from '@/utils'
+
+import { PageRepository } from '@/repository/db/page/page.repository'
 
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
 import { Editor, PageHeader, PageSkeleton } from '@/components/uis'
 import { SEO } from '@/components/utils'
 
+import { Page } from '@/models/page'
+
 type QueryType = {
   pageId: string
 }
 
 // TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
-export default function PageDetail() {
+export default function PageDetail(initialPage: ReturnType<Page['toJson']>) {
   const router = useRouter()
   const { pages } = usePages()
   const { page, listenPage, fetchPage, updatePage } = usePage()
@@ -91,44 +95,57 @@ export default function PageDetail() {
     [pageId, updatePage]
   )
 
-  // TODO: listenしているが初期読み込みのローディングは取れないのか？
-  if (!page || !pages) return <PageSkeleton />
+  // // TODO: listenしているが初期読み込みのローディングは取れないのか？
+  // if (!page || !pages) return
 
   return (
     <>
       <SEO
         type="article"
-        pagePath={`/${page.id}`}
-        title={page.getTitle({ withEmoji: false })}
+        pagePath={`/${initialPage.id}`}
+        title={initialPage.title}
         description={
-          page.content ? getPlaneTextFromJSONContent(page.content) : 'コンテンツがありません'
+          initialPage.content
+            ? getPlaneTextFromJSONContent(initialPage.content)
+            : 'コンテンツがありません'
         }
-        publishedTime={page.publishedAt?.toLocaleString() || ''}
-        modifiedTime={page.updatedAt?.toLocaleString() || ''}
-        tags={getPageList(page, pages).map((p) => p.title)}
-        noindex={!page.publishedAt}
+        publishedTime={initialPage.publishedAt}
+        modifiedTime={initialPage.updatedAt}
+        tags={[initialPage.title]}
+        noindex={!initialPage.publishedAt}
       />
 
-      <div>
-        <PageHeader
-          pages={pages}
-          currentPage={page}
-          currentUser={currentUser}
-          onSelectEmoji={handleUpdateEmoji}
-          onChangeTitle={handleUpdateTitle}
-          onChangePublishedAt={handleUpdatePublishedAt}
-          isUpdating={isUpdating}
-        />
-
-        <div className="pt-2" key="fixed">
-          <Editor
-            onUpdate={handleUpdateContent}
-            onSave={handleSaveContent}
-            content={content}
-            editable={Boolean(currentUser?.isAdmin)}
+      {!page || !pages ? (
+        <PageSkeleton />
+      ) : (
+        <div>
+          <PageHeader
+            pages={pages}
+            currentPage={page}
+            currentUser={currentUser}
+            onSelectEmoji={handleUpdateEmoji}
+            onChangeTitle={handleUpdateTitle}
+            onChangePublishedAt={handleUpdatePublishedAt}
+            isUpdating={isUpdating}
           />
+
+          <div className="pt-2" key="fixed">
+            <Editor
+              onUpdate={handleUpdateContent}
+              onSave={handleSaveContent}
+              content={content}
+              editable={Boolean(currentUser?.isAdmin)}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
+}
+
+export async function getServerSideProps({ query }: { query: QueryType }) {
+  const pageRepo = new PageRepository()
+  const page = (await pageRepo.get(query.pageId)).toJson()
+
+  return { props: { initialPage: page } }
 }

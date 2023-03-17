@@ -33,9 +33,7 @@ export class Page extends Entity {
   childIds?: string[]
   children?: Page[]
 
-  constructor(
-    init: Omit<Page, 'nestChildren' | 'isPrimary' | 'hasChildren' | 'getParent' | 'getTitle'>
-  ) {
+  constructor(init: ExcludeMethods<Page>) {
     super(init)
 
     this.emoji = init.emoji
@@ -48,19 +46,7 @@ export class Page extends Entity {
     this.children = init.children
   }
 
-  static create(
-    params: OptionalByKey<
-      Page,
-      | 'id'
-      | 'createdAt'
-      | 'updatedAt'
-      | 'nestChildren'
-      | 'isPrimary'
-      | 'hasChildren'
-      | 'getParent'
-      | 'getTitle'
-    >
-  ) {
+  static create(params: OptionalByKey<ExcludeMethods<Page>, 'id'>) {
     return new Page({
       ...params,
       id: uid(),
@@ -92,5 +78,24 @@ export class Page extends Entity {
 
   getParent(pages: Page[]) {
     return pages.find((p) => p.childIds?.includes(this.id))
+  }
+
+  toJson(): ChangeTypeOfKeys<
+    ExcludeMethods<Page>,
+    'createdAt' | 'updatedAt' | 'publishedAt',
+    string
+  > {
+    return {
+      id: this.id,
+      emoji: this.emoji,
+      title: this.title,
+      layer: this.layer,
+      pageClass: this.pageClass,
+      content: this.content,
+      createdAt: this.createdAt.toLocaleString(),
+      updatedAt: this.updatedAt?.toLocaleString() || '',
+      publishedAt: this.publishedAt?.toLocaleString() || '',
+      childIds: this.childIds || [],
+    }
   }
 }

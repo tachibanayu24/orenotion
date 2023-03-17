@@ -18,3 +18,14 @@ declare type ChangeTypeOfKeys<T extends Record<string, any>, Keys extends keyof 
  * // => { name?: string, email: string, age?: number }
  */
 declare type OptionalByKey<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+/**
+ * classからMethodを取り除いた型を生成します
+ * @example
+ * class Hoge { prop: number; method(): void };
+ * type Props = ExcludeMethods<Hoge>;
+ * // => { prop: number }
+ */
+declare type ExcludeMethods<T> =
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  Pick<T, { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]>
