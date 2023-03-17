@@ -46,7 +46,7 @@ export class Page extends Entity {
     this.children = init.children
   }
 
-  static create(params: OptionalByKey<ExcludeMethods<Page>, 'id'>) {
+  static create(params: OptionalByKey<ExcludeMethods<Page>, 'id' | 'createdAt'>) {
     return new Page({
       ...params,
       id: uid(),
