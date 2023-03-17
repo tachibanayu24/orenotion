@@ -15,7 +15,7 @@ export default function Home() {
         description="tachibanayu24のドキュメント"
       />
 
-      <main className="px-4 lg:px-60 mt-1">
+      <main className="px-4 lg:px-40 mt-1">
         <h1 className="text-base lg:text-2xl font-extrabold ml-2 lg:ml-0 mb-4">
           最近更新したドキュメント
         </h1>
