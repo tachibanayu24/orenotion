@@ -36,8 +36,6 @@ export const PageContainer = ({ currentPageId }: Props) => {
   const getStructuredPages = (pages: Page[]) =>
     pages.map((p) => p.isPrimary() && p.nestChildren(pages)).filter((v): v is Page => Boolean(v))
 
-  console.log(pages && getStructuredPages(pages))
-
   const renderPageItemRecursive = (page: Page): JSX.Element => {
     return (
       <Fragment key={page.id}>

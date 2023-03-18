@@ -144,7 +144,12 @@ export default function PageDetail(data: { initialPage: ReturnType<Page['toJson'
 
 export async function getServerSideProps({ query }: { query: QueryType }) {
   const pageRepo = new PageRepository()
-  const page = (await pageRepo.get(query.pageId)).toJson()
+  try {
+    const page = (await pageRepo.get(query.pageId)).toJson()
 
-  return { props: { initialPage: page } }
+    return { props: { initialPage: page } }
+  } catch (e) {
+    console.warn(e)
+    return { props: { initialPage: {} } }
+  }
 }

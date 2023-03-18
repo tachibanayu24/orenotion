@@ -24,7 +24,7 @@ test('差が1ヶ月未満のとき、n日前で表示する', () => {
 })
 
 test('差が1ヶ月以上のとき、yyyy/MM/ddで表示する', () => {
-  console.log('OK')
+  expect(getRelativeTime(new Date('2022/10/10 12:00:00'))).toBe('2022/10/10')
 })
 
 test('差がマイナスとのき、エラーをスローする', () => {

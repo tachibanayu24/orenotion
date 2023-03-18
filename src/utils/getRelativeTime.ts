@@ -24,6 +24,6 @@ export const getRelativeTime = (target: Date) => {
   } else if (diffDays < 31) {
     return `${diffDays}日前`
   } else {
-    return format(now, 'yyyy/MM/dd')
+    return format(target, 'yyyy/MM/dd')
   }
 }

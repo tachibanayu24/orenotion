@@ -10,7 +10,8 @@
     "lint:eslint": "eslint  --max-warnings 0 --ext .ts,.tsx ./src",
     "lint:prettier": "prettier \"./src/**/*.{ts,tsx,js}\" --check",
     "lint:eslint:fix": "yarn lint:eslint --fix",
-    "lint:prettier:fix": "yarn lint:prettier --write"
+    "lint:prettier:fix": "yarn lint:prettier --write",
+    "test": "jest"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",

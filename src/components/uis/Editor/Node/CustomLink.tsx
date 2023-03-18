@@ -12,7 +12,6 @@ export const CustomLink = Link.extend({
     el.target = isInternal(HTMLAttributes.href) ? '_self' : '_blank'
     el.innerHTML = mark.attrs.html
     el.className = isInternal(HTMLAttributes.href) ? 'custom-link-internal' : 'custom-link-external'
-    console.log(el)
 
     return el
   },

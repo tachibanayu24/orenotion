@@ -39,10 +39,16 @@ export const PageHeader = ({
 
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [title, setTitle] = useState('')
+  const [isPublished, setIsPublished] = useState(Boolean(currentPage.publishedAt))
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
     onChangeTitle(e)
+  }
+
+  const handlePublish = (value: boolean) => {
+    setIsPublished(value)
+    onChangePublishedAt(value)
   }
 
   const handleShare = () => {
@@ -86,11 +92,7 @@ export const PageHeader = ({
             />
           </div>
           {currentUser?.isAdmin && (
-            <Toggle
-              checked={Boolean(currentPage.publishedAt)}
-              label={['公開中', '未公開']}
-              onChange={onChangePublishedAt}
-            />
+            <Toggle checked={isPublished} label={['公開中', '未公開']} onChange={handlePublish} />
           )}
         </div>
         <div className="text-sm text-slate-200 font-bold flex justify-between">
