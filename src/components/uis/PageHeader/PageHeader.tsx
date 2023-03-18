@@ -45,6 +45,13 @@ export const PageHeader = ({
     onChangeTitle(e)
   }
 
+  const handleShare = () => {
+    window.open(
+      `https://twitter.com/intent/tweet?text=${currentPage.title}%20%7C%20俺のNotion%0A&url=${location.href}&via=tachibanayu24&related=tachibanayu24`,
+      '_blank'
+    )
+  }
+
   useEffect(() => {
     setTitle(currentPage.title)
   }, [currentPage.title])
@@ -54,7 +61,7 @@ export const PageHeader = ({
       <div className={`flex justify-between items-center ${!isExpandedSidebar && 'ml-8'}`}>
         <Breadcrumbs currentPage={currentPage} pages={pages} />
         <Tooltip position="bottom-left" component="シェアする">
-          <IconButton icon="twitter" size="md" />
+          <IconButton icon="twitter" size="md" onClick={handleShare} />
         </Tooltip>
       </div>
       <div>
