@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays } from 'date-fns'
 
 import { getRelativeTime } from '@/utils'
 

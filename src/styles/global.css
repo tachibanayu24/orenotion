@@ -79,3 +79,12 @@ shadow domなので面倒なため仕方なくここで */
     'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-size: 12px;
 }
+
+/* Editor用のクラス */
+.custom-link-external::after {
+  content: ' ↗';
+  font-size: 14px;
+}
+.custom-link-internal::before {
+  /* nothing */
+}

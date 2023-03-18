@@ -11,7 +11,6 @@ import History from '@tiptap/extension-history'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Image from '@tiptap/extension-image'
 import Italic from '@tiptap/extension-italic'
-import Link from '@tiptap/extension-link'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -48,6 +47,8 @@ import yaml from 'highlight.js/lib/languages/yaml'
 import { lowlight } from 'lowlight'
 
 import { theme } from '@/config/theme'
+
+import { CustomLink } from './Node/CustomLink'
 
 lowlight.registerLanguage('c', c)
 lowlight.registerLanguage('cpp', cpp)
@@ -152,13 +153,12 @@ export const useEditor = ({ onUpdate, onSave, content, editable }: Props) => {
         Code,
         Italic,
         Strike,
-        Link.configure({
-          openOnClick: true,
-        }),
+        // Link.configure({
+        //   openOnClick: true,
+        // }),
+        CustomLink,
       ],
       content,
-      // TODO: どうしようかな
-      // autofocus: 'end',
     },
     [content]
   )

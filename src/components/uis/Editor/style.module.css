@@ -13,8 +13,10 @@
 
 .editor h1 {
   font-size: 1.875rem;
-  line-height: 3.75rem;
+  line-height: 1.2;
   font-weight: bold;
+  margin: 1rem 0;
+  border-bottom: 1px solid rgb(100 116 139);
 }
 
 .editor h2 {
@@ -52,12 +54,15 @@
 
 .editor a {
   cursor: pointer;
-  color: #38bdf8;
+  padding: 0 2px;
+  border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-color: rgb(100 116 139);
+  text-decoration-thickness: 1px;
 }
 
-.editor a:visited {
-  cursor: pointer;
-  color: #8b5cf6;
+.editor a:hover {
+  background-color: rgb(71 85 105);
 }
 
 .editor hr {
