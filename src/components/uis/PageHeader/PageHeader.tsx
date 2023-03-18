@@ -1,9 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
+
+import { getRelativeTime } from '@/utils'
 
 import { useLayout } from '@/hooks/useLayout'
-// import { useTraceUpdate } from '@/hooks/useTraceUpdate'
 
 import { Page } from '@/models/page'
 import { User } from '@/models/user'
@@ -48,11 +49,6 @@ export const PageHeader = ({
     setTitle(currentPage.title)
   }, [currentPage.title])
 
-  // useTraceUpdate(
-  //   { page, currentUser, onSelectEmoji, onChangeTitle, onChangePublishedAt, isUpdating },
-  //   'Header'
-  // )
-
   return (
     <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">
       <div className={`flex justify-between items-center ${!isExpandedSidebar && 'ml-8'}`}>
@@ -90,23 +86,20 @@ export const PageHeader = ({
             />
           )}
         </div>
-        <div className="text-xs text-slate-300 flex justify-between">
+        <div className="text-sm text-slate-200 font-bold flex justify-between">
           <div>
             {currentUser?.isAdmin && (
-              <span className="mr-4">
-                {format(currentPage.createdAt, 'yyyy/M/d(eee) H:m')} 作成
-              </span>
+              <span className="mr-4">{getRelativeTime(currentPage.createdAt)}に作成</span>
             )}
-            <span className="mr-4">
-              {currentPage.publishedAt
-                ? format(currentPage.publishedAt, 'yyyy/M/d(eee) H:m')
-                : '---'}{' '}
-              公開
-            </span>
-            <span>
-              {currentPage.updatedAt ? format(currentPage.updatedAt, 'yyyy/M/d(eee) H:m') : '---'}{' '}
-              更新
-            </span>
+            {currentPage.publishedAt && (
+              <span className="mr-4">{getRelativeTime(currentPage.publishedAt)}に公開</span>
+            )}
+            {currentPage.updatedAt &&
+              // 1日以上あとになって更新されていた場合のみ表示する
+              currentPage.publishedAt &&
+              differenceInDays(currentPage.updatedAt, currentPage.publishedAt) > 1 && (
+                <span className="mr-4">{getRelativeTime(currentPage.updatedAt)}に更新</span>
+              )}
           </div>
           {isUpdating && (
             <span>
