@@ -39,7 +39,7 @@ export const PageHeader = ({
 
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [title, setTitle] = useState('')
-  const [isPublished, setIsPublished] = useState(Boolean(currentPage.publishedAt))
+  const [isPublished, setIsPublished] = useState(false)
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
@@ -60,7 +60,8 @@ export const PageHeader = ({
 
   useEffect(() => {
     setTitle(currentPage.title)
-  }, [currentPage.title])
+    setIsPublished(Boolean(currentPage.publishedAt))
+  }, [currentPage.publishedAt, currentPage.title])
 
   return (
     <div className="sticky top-0 z-floating bg-slate-900 -mt-2 -mx-2 px-2 pt-2">
