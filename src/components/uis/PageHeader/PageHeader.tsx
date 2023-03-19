@@ -72,28 +72,31 @@ export const PageHeader = ({
         </Tooltip>
       </div>
       <div>
-        <div className="flex items-center gap-1 text-3xl">
-          <EmojiPicker
-            isOpen={emojiOpen}
-            onOpen={currentUser?.isAdmin ? () => setEmojiOpen(true) : undefined}
-            onClose={() => setEmojiOpen(false)}
-            onSelect={onSelectEmoji}
-          >
-            <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
-              {currentPage.emoji}
-            </button>
-          </EmojiPicker>
-          <div className="w-full my-2">
-            <input
-              value={title}
-              placeholder="Untitled"
-              onChange={handleChangeTitle}
-              className="w-full bg-transparent font-extrabold  outline-none"
-              readOnly={!currentUser?.isAdmin}
-            />
-          </div>
-          {currentUser?.isAdmin && (
-            <Toggle checked={isPublished} label={['公開中', '未公開']} onChange={handlePublish} />
+        <div className="flex items-center my-2 gap-1 text-3xl">
+          {currentUser?.isAdmin ? (
+            <>
+              <EmojiPicker
+                isOpen={emojiOpen}
+                onOpen={() => setEmojiOpen(true)}
+                onClose={() => setEmojiOpen(false)}
+                onSelect={onSelectEmoji}
+              >
+                <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
+                  {currentPage.emoji}
+                </button>
+              </EmojiPicker>
+              <div className="w-full my-2">
+                <input
+                  value={title}
+                  placeholder="Untitled"
+                  onChange={handleChangeTitle}
+                  className="w-full bg-transparent font-extrabold  outline-none"
+                />
+              </div>
+              <Toggle checked={isPublished} label={['公開中', '未公開']} onChange={handlePublish} />
+            </>
+          ) : (
+            <h1 className="font-bold">{currentPage.getTitle()}</h1>
           )}
         </div>
         <div className="text-sm text-slate-200 font-bold flex justify-between">
