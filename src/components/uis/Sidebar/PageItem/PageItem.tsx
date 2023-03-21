@@ -100,7 +100,7 @@ export const PageItem = ({ pageId, isActive }: Props) => {
       }}
       className={`${isActive && 'bg-slate-700'} ${
         page.isPrimary() && 'mt-2'
-      } py-1 px-2 text-base font-semibold rounded-lg  hover:bg-slate-600`}
+      } py-1 px-2 text-sm rounded-lg  hover:bg-slate-600`}
     >
       <Link
         href={page.id}

@@ -1,6 +1,6 @@
 import 'highlight.js/styles/github-dark-dimmed.css'
 
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useState } from 'react'
 
 import { EditorContent } from '@tiptap/react'
 
@@ -8,12 +8,16 @@ import { useCurrentUser } from '@/hooks'
 
 import style from './style.module.css'
 import { useEditor } from './useEditor'
+import { IconButton } from '../IconButton'
 
 type Props = Parameters<typeof useEditor>[0]
 
 export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
   const { currentUser } = useCurrentUser()
   const editor = useEditor({ onUpdate, onSave, content, editable })
+
+  const [isDisplayInsertContainer, setIsDisplayInsertContainer] = useState(true)
+
   const handleFocus = () => editor?.chain().focus().run()
 
   const handleAddImage = useCallback(() => {
@@ -28,13 +32,30 @@ export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
 
   return (
     <>
-      {currentUser?.isAdmin && (
-        <button
-          onClick={handleAddImage}
-          className="px-3 py-1 rounded-full border border-slate-400 bg-slate-700 text-sm font-semibold"
-        >
-          画像を貼り付ける
-        </button>
+      {currentUser?.isAdmin && isDisplayInsertContainer && (
+        <div className="sticky top-40  inline-flex float-right flex-col gap-2 z-floating p-2 pb-4 rounded-lg bg-slate-800 text-center">
+          <IconButton
+            icon="x"
+            size="xs"
+            onClick={() => setIsDisplayInsertContainer((prev) => !prev)}
+            variant="contained"
+            className="absolute -right-1 -top-1"
+          />
+          <span className="text-sm font-semibold">要素の挿入</span>
+          <button
+            onClick={handleAddImage}
+            className="px-3 py-0.5 rounded-full border border-slate-400 bg-slate-700 text-xs"
+          >
+            画像を挿入
+          </button>
+
+          <button
+            onClick={console.log}
+            className="px-3 py-0.5 rounded-full border border-slate-400 bg-slate-700 text-xs"
+          >
+            テーブルを挿入
+          </button>
+        </div>
       )}
 
       <EditorContent
