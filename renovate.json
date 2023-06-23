@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base", "group:definitelyTyped"],
-  "schedule": ["every weekend"],
+  "schedule": ["at 4:30am"],
   "timezone": "Asia/Tokyo",
   "prCreation": "not-pending",
   "prConcurrentLimit": 10,
