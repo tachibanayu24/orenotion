@@ -31,13 +31,16 @@
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
+    "blockquote",
     "Dropcursor",
     "elipsis",
+    "fontawesome",
     "fortawesome",
     "Gapcursor",
     "lowlight",
     "orenotion",
     "signin",
+    "tiptap",
     "unsub",
     "Webrtc",
     "ydoc"
