@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base", "group:definitelyTyped"],
+  "schedule": ["every weekend"],
+  "timezone": "Asia/Tokyo",
+  "prCreation": "not-pending",
+  "prConcurrentLimit": 10,
+  "reviewers": ["tachibanayu24"],
+  "assignees": ["tachibanayu24"],
+  "major": {
+    "stabilityDays": 14
+  },
+  "minor": {
+    "stabilityDays": 7
+  },
+  "patch": {
+    "stabilityDays": 5
+  },
+  "separateMinorPatch": true
+}
