@@ -6,7 +6,6 @@ import { useClipboard } from '@/hooks/useClipboard'
 import { useSnackbar } from '@/hooks/useSnackbar'
 
 import { Page } from '@/models/page'
-import { PAGE_CLASS } from '@/models/page/page'
 
 import { IconButton } from '../../IconButton'
 import { Menu } from '../../Menu'
@@ -71,7 +70,6 @@ export const PageItem = ({ pageId, isActive }: Props) => {
         emoji: '📝',
         title: '',
         layer: parentPage.layer + 1,
-        pageClass: PAGE_CLASS.TIER3,
         publishedAt: null,
       })
       await updatePage(parentPage.id, {

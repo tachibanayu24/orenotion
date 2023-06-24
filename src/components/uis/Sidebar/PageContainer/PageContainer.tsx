@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import { useCurrentUser, usePage, usePages } from '@/hooks'
 
-import { Page, PAGE_CLASS } from '@/models/page/page'
+import { Page } from '@/models/page/page'
 
 import { PageItem } from '../PageItem'
 
@@ -26,7 +26,6 @@ export const PageContainer = ({ currentPageId }: Props) => {
         emoji: '📝',
         title: '',
         layer: 1,
-        pageClass: PAGE_CLASS.TIER3,
         publishedAt: null,
       })
     )

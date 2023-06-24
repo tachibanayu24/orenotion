@@ -4,30 +4,10 @@ import { uid } from '@/libs/uniq-id'
 
 import { Entity } from '../__common__/entity'
 
-export const PAGE_CLASS = {
-  /**
-   * 管理者のみが閲覧・編集できる
-   */
-  TIER1: 'TIER1',
-  /**
-   * 管理者が閲覧・編集できる / トークンを所持している一般ユーザーが閲覧できる
-   */
-  TIER2: 'TIER2',
-  /**
-   *  管理者のみが閲覧・編集できる / 一般ユーザーが閲覧できる
-   */
-  TIER3: 'TIER3',
-  /**
-   * すべてのユーザーが閲覧・編集できる
-   */
-  TIER4: 'TIER4',
-} as const
-
 export class Page extends Entity {
   emoji: string
   title: string
   layer: number
-  pageClass: keyof typeof PAGE_CLASS
   content?: JSONContent
   publishedAt: Date | null
   childIds?: string[]
@@ -39,7 +19,6 @@ export class Page extends Entity {
     this.emoji = init.emoji
     this.title = init.title
     this.layer = init.layer
-    this.pageClass = init.pageClass
     this.content = init.content
     this.publishedAt = init.publishedAt
     this.childIds = init.childIds
@@ -90,7 +69,6 @@ export class Page extends Entity {
       emoji: this.emoji,
       title: this.title,
       layer: this.layer,
-      pageClass: this.pageClass,
       content: this.content,
       createdAt: this.createdAt.toLocaleString(),
       updatedAt: this.updatedAt?.toLocaleString() || '',
