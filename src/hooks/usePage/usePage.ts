@@ -33,8 +33,22 @@ export const usePage = () => {
     []
   )
 
-  const deletePage = useCallback(async (id: string) => {
+  const deletePage = useCallback(async (id: string, pages?: Page[]) => {
+    const page = await pageRepo.get(id)
+
     await pageRepo.delete(id).catch((e) => console.error(e))
+
+    // 小ページだった場合は、小ページ全てを削除して、親ベージのchildIdsから自信を取り出す
+    // NOTE: 小ページを保つ場合は、めんどくさいので削除できないようになっている
+    if (!page.isPrimary()) {
+      if (!pages) return
+      const parent = page.getParent(pages)
+      if (parent) {
+        await pageRepo.update(parent.id, {
+          childIds: parent.childIds?.filter((id) => id !== page.id),
+        })
+      }
+    }
   }, [])
 
   const listenPage = useCallback(

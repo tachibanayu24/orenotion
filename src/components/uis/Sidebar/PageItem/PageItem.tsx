@@ -52,7 +52,7 @@ export const PageItem = ({ pageId, isActive }: Props) => {
           message: `子ページを持つページは削除できません\n先にすべての小ページを削除してください`,
         })
       } else {
-        deletePage(page.id).then(() => {
+        deletePage(page.id, pages).then(() => {
           addSnack({
             type: 'success',
             message: `${page.getTitle()} を削除しました`,
@@ -61,7 +61,7 @@ export const PageItem = ({ pageId, isActive }: Props) => {
         })
       }
     },
-    [addSnack, deletePage, refetchPages]
+    [addSnack, deletePage, pages, refetchPages]
   )
 
   const handleAddPage = useCallback(

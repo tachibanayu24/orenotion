@@ -43,7 +43,10 @@ export class Page extends Entity {
     return this.layer === 1
   }
 
-  hasChildren(): this is Page & { children: NonNullable<Page['children']> } {
+  hasChildren(): this is Page & {
+    children: NonNullable<Page['children']>
+    childIds: NonNullable<Page['childIds']>
+  } {
     return this.children !== undefined && this.children.length > 0
   }
 
