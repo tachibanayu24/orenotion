@@ -1,3 +1,5 @@
+'use client'
+
 import useSWR from 'swr'
 
 type Release = Record<string, string> & { tag_name: string }

@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 
 import { signOut } from '@/libs/firebase'
 
@@ -17,7 +19,7 @@ export const SignInContainer = () => {
 
   const handleSignOut = () => {
     signOut(auth)
-    router.reload()
+    router.refresh()
   }
 
   return currentUser?.isAdmin ? (

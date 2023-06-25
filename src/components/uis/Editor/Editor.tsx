@@ -1,3 +1,5 @@
+'use client'
+
 import 'highlight.js/styles/github-dark-dimmed.css'
 
 import { memo, useCallback, useState } from 'react'
