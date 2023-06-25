@@ -14,7 +14,7 @@ export const usePages = () => {
 
   const refetchPages = useCallback(async () => {
     await pageRepo
-      .fetchAll({ publishedOnly: !currentUser?.isAdmin })
+      .fetchAll({ publishedOnly: !currentUser?.isAdmin, sortByOrder: true })
       .then((res) => setPages(res))
       .catch((e) => console.error(new Error(e)))
   }, [currentUser?.isAdmin])

@@ -23,10 +23,21 @@ import { DBRepository } from '../__common__/dbRepository'
 export class PageRepository extends DBRepository<Page> {
   private PATH = 'pages'
 
-  fetchAll = async ({ publishedOnly }: { publishedOnly: boolean }) => {
-    const q = publishedOnly
-      ? query(collection(db, this.PATH), where('publishedAt', '!=', null), orderBy('order', 'asc'))
-      : query(collection(db, this.PATH), orderBy('order', 'asc'))
+  fetchAll = async ({
+    publishedOnly,
+    sortByOrder,
+  }: {
+    publishedOnly: boolean
+    sortByOrder: boolean
+  }) => {
+    let q = query(collection(db, this.PATH))
+
+    if (publishedOnly) {
+      q = query(q, where('publishedAt', '!=', null), orderBy('publishedAt'))
+    }
+    if (sortByOrder) {
+      q = query(q, orderBy('order'))
+    }
 
     return await getDocs(q)
       .then((res) => res.docs)

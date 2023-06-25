@@ -70,7 +70,7 @@ export abstract class DBRepository<T extends Entity> {
       case 'unauthenticated':
         return new AuthError('認証エラーが発生しました', error)
       default:
-        return new Error('不明なエラーが発生しました', error)
+        return new Error(error)
     }
   }
 }

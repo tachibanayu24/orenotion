@@ -66,7 +66,7 @@ export const PageItem = ({ pageId, isActive }: Props) => {
 
   const handleAddPage = useCallback(
     async (parentPage: Page) => {
-      const order = parentPage.children ? parentPage.children.length + 1 : 1
+      const order = parentPage.childIds ? parentPage.childIds.length + 1 : 1
       const newPage = Page.create({
         emoji: '📝',
         title: '',
@@ -126,7 +126,6 @@ export const PageItem = ({ pageId, isActive }: Props) => {
                     title: 'リンクをコピー',
                     onClick: () => handleCopyLink(page),
                   },
-                  // { type: 'default', icon: 'clone', title: '複製', onClick: () => console.log('複製') },
                   ...(currentUser?.isAdmin
                     ? [
                         {
