@@ -66,10 +66,12 @@ export const PageItem = ({ pageId, isActive }: Props) => {
 
   const handleAddPage = useCallback(
     async (parentPage: Page) => {
+      const order = parentPage.children ? parentPage.children.length + 1 : 1
       const newPage = Page.create({
         emoji: '📝',
         title: '',
         layer: parentPage.layer + 1,
+        order,
         publishedAt: null,
       })
       await updatePage(parentPage.id, {

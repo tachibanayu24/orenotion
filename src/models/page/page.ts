@@ -8,6 +8,7 @@ export class Page extends Entity {
   emoji: string
   title: string
   layer: number
+  order: number
   content?: JSONContent
   publishedAt: Date | null
   childIds?: string[]
@@ -19,6 +20,7 @@ export class Page extends Entity {
     this.emoji = init.emoji
     this.title = init.title
     this.layer = init.layer
+    this.order = init.order
     this.content = init.content
     this.publishedAt = init.publishedAt
     this.childIds = init.childIds
@@ -72,6 +74,7 @@ export class Page extends Entity {
       emoji: this.emoji,
       title: this.title,
       layer: this.layer,
+      order: this.order,
       content: this.content,
       createdAt: this.createdAt.toLocaleString(),
       updatedAt: this.updatedAt?.toLocaleString() || '',

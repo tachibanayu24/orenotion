@@ -15,7 +15,7 @@ export const TimelineListItem = ({ page }: Props) => {
     <li className="my-4 ml-4">
       <div className="absolute w-3 h-3 bg-green-500 rounded-full mt-1.5 -left-1.5"></div>
       <time className="mb-1 text-sm leading-none text-slate-400">
-        {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd HH:mm') : '非'} 公開
+        {page.publishedAt ? format(page.publishedAt, 'yyyy/MM/dd HH:mm') : '非'}公開
       </time>
       <Link
         href={page.id}

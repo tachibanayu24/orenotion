@@ -21,11 +21,15 @@ export const PageContainer = ({ currentPageId }: Props) => {
   const { addPage } = usePage()
 
   const handleAddPage = async () => {
+    if (!pages) return
+
+    const primaries = pages.filter((p) => p.isPrimary())
     await addPage(
       Page.create({
         emoji: '📝',
         title: '',
         layer: 1,
+        order: primaries.length + 1 || 1,
         publishedAt: null,
       })
     )

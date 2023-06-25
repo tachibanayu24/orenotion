@@ -25,12 +25,8 @@ export class PageRepository extends DBRepository<Page> {
 
   fetchAll = async ({ publishedOnly }: { publishedOnly: boolean }) => {
     const q = publishedOnly
-      ? query(
-          collection(db, this.PATH),
-          where('publishedAt', '!=', null),
-          orderBy('publishedAt', 'desc')
-        )
-      : query(collection(db, this.PATH), orderBy('publishedAt', 'desc'))
+      ? query(collection(db, this.PATH), where('publishedAt', '!=', null), orderBy('order', 'asc'))
+      : query(collection(db, this.PATH), orderBy('order', 'asc'))
 
     return await getDocs(q)
       .then((res) => res.docs)
