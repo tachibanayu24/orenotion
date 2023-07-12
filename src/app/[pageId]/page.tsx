@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from 'next/router'
 import { ChangeEvent, ComponentProps, useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -18,7 +20,9 @@ type QueryType = {
   pageId: string
 }
 
-// TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootに理レンダリングすればいい気がする
+// TODO: ここからsubscribeして、ページがないエラーをキャッチしたらrootにリレンダリングすればいい気がする
+// TODO: getLayout
+// @see https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#migrating-the-getlayout-pattern-to-layouts-optional
 export default function PageDetail(data: { initialPage: ReturnType<Page['toJson']> }) {
   const router = useRouter()
   const { pages } = usePages()
@@ -142,14 +146,14 @@ export default function PageDetail(data: { initialPage: ReturnType<Page['toJson'
   )
 }
 
-export async function getServerSideProps({ query }: { query: QueryType }) {
-  const pageRepo = new PageRepository()
-  try {
-    const page = (await pageRepo.get(query.pageId)).toJson()
+// export async function getServerSideProps({ query }: { query: QueryType }) {
+//   const pageRepo = new PageRepository()
+//   try {
+//     const page = (await pageRepo.get(query.pageId)).toJson()
 
-    return { props: { initialPage: page } }
-  } catch (e) {
-    console.warn(e)
-    return { props: { initialPage: {} } }
-  }
-}
+//     return { props: { initialPage: page } }
+//   } catch (e) {
+//     console.warn(e)
+//     return { props: { initialPage: {} } }
+//   }
+// }

@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
 import { PageRepository } from '@/repository/db/page/page.repository'

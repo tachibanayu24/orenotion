@@ -1,3 +1,5 @@
+'use client'
+
 import { cloneElement, ComponentProps, ReactElement, SyntheticEvent, useState } from 'react'
 
 import { MenuItem } from './MenuItem'

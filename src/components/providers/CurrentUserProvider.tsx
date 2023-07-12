@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, ReactNode, useCallback, useEffect, useState } from 'react'
 
 import { onAuthStateChanged } from '@/libs/firebase'

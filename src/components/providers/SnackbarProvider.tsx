@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, createContext, ComponentProps, ReactNode } from 'react'
 
 import { Snackbar } from '../uis/Snackbar'
