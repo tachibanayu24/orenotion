@@ -22,9 +22,9 @@ type Props = {
   pages: Page[]
   currentPage: Page
   currentUser?: User
-  onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void
-  onSelectEmoji: (emoji: string) => Promise<void>
-  onChangePublishedAt: (value: boolean) => Promise<void>
+  // onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void
+  // onSelectEmoji: (emoji: string) => Promise<void>
+  // onChangePublishedAt: (value: boolean) => Promise<void>
   isUpdating: boolean
 }
 
@@ -32,9 +32,9 @@ export const PageHeader = ({
   pages,
   currentPage,
   currentUser,
-  onSelectEmoji,
-  onChangeTitle,
-  onChangePublishedAt,
+  // onSelectEmoji,
+  // onChangeTitle,
+  // onChangePublishedAt,
   isUpdating,
 }: Props) => {
   const { isExpandedSidebar } = useLayout()
@@ -45,12 +45,12 @@ export const PageHeader = ({
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
-    onChangeTitle(e)
+    // onChangeTitle(e)
   }
 
   const handlePublish = (value: boolean) => {
     setIsPublished(value)
-    onChangePublishedAt(value)
+    // onChangePublishedAt(value)
   }
 
   const handleShare = () => {
@@ -81,7 +81,8 @@ export const PageHeader = ({
                 isOpen={emojiOpen}
                 onOpen={() => setEmojiOpen(true)}
                 onClose={() => setEmojiOpen(false)}
-                onSelect={onSelectEmoji}
+                // onSelect={onSelectEmoji}
+                onSelect={() => void 0}
               >
                 <button className="w-11 h-11 text-3xl p-1 hover:bg-white hover:bg-opacity-10 rounded-md">
                   {currentPage.emoji}

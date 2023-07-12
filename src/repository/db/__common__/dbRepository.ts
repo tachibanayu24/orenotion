@@ -66,6 +66,7 @@ export abstract class DBRepository<T extends Entity> {
       case 'internal':
         return new DBError('不明な内部エラーが発生しました', error)
       case 'permission-denied':
+        console.error(error)
         return new DBError('ページが存在しないか、操作に必要な権限がありません', error)
       case 'unauthenticated':
         return new AuthError('認証エラーが発生しました', error)

@@ -6,17 +6,15 @@ import { memo, useCallback, useState } from 'react'
 
 import { EditorContent } from '@tiptap/react'
 
-import { useCurrentUser } from '@/hooks'
-
 import style from './style.module.css'
 import { useEditor } from './useEditor'
 import { IconButton } from '../IconButton'
 
-type Props = Parameters<typeof useEditor>[0]
+type Props = Pick<Parameters<typeof useEditor>[0], 'content' | 'editable'>
 
-export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
-  const { currentUser } = useCurrentUser()
-  const editor = useEditor({ onUpdate, onSave, content, editable })
+export const Editor = memo(({ content, editable }: Props) => {
+  // const { currentUser } = useCurrentUser()
+  const editor = useEditor({ onUpdate: () => void 0, onSave: () => void 0, content, editable })
 
   const [isDisplayInsertContainer, setIsDisplayInsertContainer] = useState(true)
 
@@ -34,7 +32,7 @@ export const Editor = memo(({ onUpdate, onSave, content, editable }: Props) => {
 
   return (
     <>
-      {currentUser?.isAdmin && isDisplayInsertContainer && (
+      {editable && isDisplayInsertContainer && (
         <div className="sticky top-40  inline-flex float-right flex-col gap-2 z-floating p-2 pb-4 rounded-lg bg-slate-800 text-center">
           <IconButton
             icon="x"
