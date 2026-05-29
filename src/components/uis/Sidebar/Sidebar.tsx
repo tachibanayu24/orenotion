@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { useLatestRelease } from '@/hooks'
 
@@ -18,8 +20,12 @@ type QueryType = {
 }
 
 export const Sidebar = ({ isExpanded, onToggle }: Props) => {
-  const router = useRouter()
-  const { pageId } = router.query as QueryType
+  // const router = useRouter()
+  const pageId = 'usePathname()'
+  // const search = useSearchParams()
+  // console.log('pageId', pageId)
+  // console.log('search', search.getAll)
+  // const { pageId } = router.query as QueryType
 
   const { version } = useLatestRelease()
 

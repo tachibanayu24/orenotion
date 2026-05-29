@@ -1,3 +1,5 @@
+'use client'
+
 export { Editor } from './Editor'
 export { EmojiPicker } from './EmojiPicker'
 export { Icon } from './Icon'

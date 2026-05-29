@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useEffect, useState } from 'react'
 
 import { PageRepository } from '@/repository/db/page/page.repository'
